@@ -22,3 +22,8 @@ group :development do
   gem 'better_errors'
   gem 'rails_layout'
 end
+
+gem 'trailblazer-cells'
+gem 'trailblazer-rails'
+gem 'cells-rails'
+gem 'cells-slim'
