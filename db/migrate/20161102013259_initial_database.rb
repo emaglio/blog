@@ -3,6 +3,7 @@ class InitialDatabase < ActiveRecord::Migration
     
     create_table :posts do |t|
       t.string :title
+      t.string :subtitle
       t.string :autor
       t.text :body
 
