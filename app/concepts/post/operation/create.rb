@@ -6,12 +6,12 @@ class Post < ActiveRecord::Base
     contract do
       property :title
       property :autor
-      property :post
+      property :body
 
-      validates :title, :autor, :post, presence: true
+      validates :title, :autor, :body, presence: true
     end
 
-    def process(params)
+    def process(params) 
       validate(params[:post]) do
         contract.save
       end

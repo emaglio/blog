@@ -4,7 +4,7 @@ class InitialDatabase < ActiveRecord::Migration
     create_table :posts do |t|
       t.string :title
       t.string :autor
-      t.text :post
+      t.text :body
 
       t.timestamps
     end
