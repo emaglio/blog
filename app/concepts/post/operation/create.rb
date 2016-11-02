@@ -5,10 +5,11 @@ class Post < ActiveRecord::Base
 
     contract do
       property :title
+      property :subtitle
       property :autor
       property :body
 
-      validates :title, :autor, :body, presence: true
+      validates :title, :subtitle, :autor, :body, presence: true
     end
 
     def process(params) 

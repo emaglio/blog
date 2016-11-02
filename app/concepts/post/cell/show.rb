@@ -1,7 +1,11 @@
 module Post::Cell
   class Show < Trailblazer::Cell
-    def show
-      render :show
-    end
+    property :title
+    property :subtitle
+    property :autor
+    property :body
+
+
+
   end
 end
