@@ -23,6 +23,13 @@ group :development do
   gem 'rails_layout'
 end
 
+group :test do
+  gem "memory_test_fix"
+  gem "minitest-rails-capybara"
+  gem "minitest-line"
+  gem "minitest-bang"
+end
+
 gem 'trailblazer-cells'
 gem 'trailblazer-rails'
 gem 'cells-rails'
