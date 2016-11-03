@@ -4,8 +4,5 @@ module Post::Cell
     property :subtitle
     property :autor
     property :body
-
-
-
   end
 end
