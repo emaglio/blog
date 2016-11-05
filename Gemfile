@@ -30,7 +30,9 @@ group :test do
   gem "minitest-bang"
 end
 
+gem 'formular', github:"trailblazer/formular"
 gem 'trailblazer-cells'
 gem 'trailblazer-rails'
 gem 'cells-rails'
 gem 'cells-slim'
+gem 'dry-validation'

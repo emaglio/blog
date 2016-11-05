@@ -3,7 +3,7 @@ require 'test_helper.rb'
 class PostOperationTest < MiniTest::Spec
 
   it "validate correct input" do
-    op = Post::Create.(post: {title: "Test", subtitle: "Subtitle", autor: "Nick", body: "whatever"})
+    op = Post::Create.(title: "Test", subtitle: "Subtitle", autor: "Nick", body: "whatever")
     op.model.persisted?.must_equal true
     op.model.title.must_equal "Test"
     op.model.subtitle.must_equal "Subtitle"
@@ -19,16 +19,16 @@ class PostOperationTest < MiniTest::Spec
 
 
   it "modify post" do
-    op = Post::Create.(post: {title: "Test", subtitle: "Subtitle", autor: "Nick", body: "whatever"})
+    op = Post::Create.(title: "Test", subtitle: "Subtitle", autor: "Nick", body: "whatever")
     op.model.title.must_equal "Test"
 
-    op = Post::Update.(id: op.model.id, post: {title: "newTitle"})
+    op = Post::Update.(id: op.model.id, title: "newTitle")
     op.model.persisted?.must_equal true
     op.model.title.must_equal "newTitle"
   end
 
   it "delete post" do
-    op = Post::Create.(post: {title: "Test", subtitle: "Subtitle", autor: "Nick", body: "whatever"})
+    op = Post::Create.(title: "Test", subtitle: "Subtitle", autor: "Nick", body: "whatever")
     op.model.persisted?.must_equal true
 
     op = Post::Delete.(id: op.model.id)

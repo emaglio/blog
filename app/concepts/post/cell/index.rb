@@ -5,11 +5,19 @@ module Post::Cell
 
   class Item < Trailblazer::Cell
     def title
-       model.title
+       link_to model.title, model
     end
 
     def subtitle
-      model.subtitle      
+      link_to model.subtitle, model      
+    end
+
+    def autor
+      link_to model.autor
+    end
+
+    def time
+      model.created_at
     end
   end
 
