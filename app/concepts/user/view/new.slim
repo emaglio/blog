@@ -1,0 +1,16 @@
+.row
+  h1 New User
+
+  = trb_form_for(model, "/users", method: :post, builder: :bootstrap4) do |f|
+    .row
+      .col-sm-12
+        = f.input :firstname, placeholder: "Firstname"
+    .row
+      .col-sm-12
+        = f.input :lastname, placeholder: "Lastname"
+    .row
+      .col-sm-12
+        = f.input :email, placeholder: "Email"
+    .row
+      .col-sm-12
+        = f.submit(value: "Create User")

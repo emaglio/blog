@@ -1,0 +1,33 @@
+class UsersController < ApplicationController
+  
+  def show
+    present User::Show
+    render User::Cell::Show
+  end
+  
+  def index
+    present User::Index
+    render User::Cell::Index
+  end
+
+  def create
+    run User::Create do |op|
+      return redirect_to "/user/new"
+    end
+    render User::Cell::New, model: @form
+  end
+
+  def new
+    form User::Create
+    render User::Cell::New, model: @form
+  end
+
+  def destroy
+    run User::Delete do |op|
+      return redirect_to "/users"
+    end
+
+    render User::Cell::Edit, model: @form
+  end
+  
+end

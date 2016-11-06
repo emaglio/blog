@@ -14,7 +14,7 @@ class PostOperationTest < MiniTest::Spec
   it "wrong input" do
     res, op = Post::Create.run(post: {})
     res.must_equal false
-    op.errors.to_s.must_equal "{:title=>[\"can't be blank\"], :subtitle=>[\"can't be blank\"], :autor=>[\"can't be blank\"], :body=>[\"can't be blank\"]}"
+    op.errors.to_s.must_equal "{:title=>[\"is missing\"], :subtitle=>[\"is missing\"], :autor=>[\"is missing\"], :body=>[\"is missing\"]}"
   end
 
 

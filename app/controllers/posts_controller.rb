@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  protect_from_forgery :except => [:create]
+  # protect_from_forgery :except => [:create]
 
   def show
     present Post::Show
