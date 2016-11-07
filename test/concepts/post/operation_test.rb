@@ -3,7 +3,7 @@ require 'test_helper.rb'
 class PostOperationTest < MiniTest::Spec
 
   it "validate correct input" do
-    op = Post::Create.(title: "Test", subtitle: "Subtitle", autor: "Nick", body: "whatever")
+    op = Post::Create.(title: "Test", slack: {subtitle: "Subtitle", autor: "Nick", body: "whatever"})
     op.model.persisted?.must_equal true
     op.model.title.must_equal "Test"
     op.model.subtitle.must_equal "Subtitle"

@@ -1,5 +1,6 @@
 require 'reform/form/dry'
-require 'disposable'
+require 'disposable/twin/property/hash'
+require 'disposable/twin/property/unnest'
 
 class Post < ActiveRecord::Base
   class Create < Trailblazer::Operation
@@ -8,7 +9,7 @@ class Post < ActiveRecord::Base
 
     contract do
       include Reform::Form::Dry
-      include Property::Hash
+      include Disposable::Twin::Property::Hash
       
       property :title
       property :content, field: :hash do
@@ -19,8 +20,7 @@ class Post < ActiveRecord::Base
         end
       end
 
-      unnet :slack, from: :content
-
+      unnest :slack, from: :content
 
       validation do
        required(:title).filled
