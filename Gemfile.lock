@@ -48,6 +48,7 @@ GEM
     arel (6.0.3)
     autoprefixer-rails (6.5.1.1)
       execjs
+    bcrypt (3.1.11)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -250,11 +251,19 @@ GEM
       reform-rails (>= 0.1.4)
       trailblazer (>= 1.0.4)
       trailblazer-loader (>= 0.1.0)
+    tyrant (0.0.3)
+      bcrypt
+      disposable (>= 0.1.11)
+      reform (~> 2.0)
+      trailblazer (~> 1.0)
+      warden
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uber (0.0.15)
     uglifier (3.0.3)
       execjs (>= 0.3.0, < 3)
+    warden (1.2.6)
+      rack (>= 1.0)
     web-console (2.3.0)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -291,6 +300,7 @@ DEPENDENCIES
   therubyracer
   trailblazer-cells
   trailblazer-rails
+  tyrant
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
 
