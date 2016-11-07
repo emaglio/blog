@@ -36,3 +36,4 @@ gem 'trailblazer-rails'
 gem 'cells-rails'
 gem 'cells-slim'
 gem 'dry-validation'
+gem 'disposable', ">= 0.3.2"

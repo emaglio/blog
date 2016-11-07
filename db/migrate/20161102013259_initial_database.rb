@@ -3,9 +3,15 @@ class InitialDatabase < ActiveRecord::Migration
     
     create_table :posts do |t|
       t.string :title
-      t.string :subtitle
-      t.string :autor
-      t.text :body
+      t.text :content
+
+      t.timestamps
+    end
+
+    create_table :users do |t|
+      t.string :email
+      t.text :auth_meta_data
+      t.text :content
 
       t.timestamps
     end
