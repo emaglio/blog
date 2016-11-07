@@ -1,0 +1,15 @@
+.row
+  h1 Sign In
+
+  = trb_form_for(model, "/posts", method: :post, builder: :bootstrap4) do |f|
+    .row
+      .col-sm-12
+        = f.input :email, placeholder: "Email"
+    .row
+      .col-sm-12
+        = f.input :password, placeholder: "Password"
+    .row
+      .col-sm-12
+        = f.input :confirm_password, placeholder: "Confirm Passowrd"
+        = f.submit(value: "Sign In")
+

@@ -3,4 +3,10 @@ Rails.application.routes.draw do
 
   resources :posts
   resources :users
+  
+  resources :sessions do
+    collection do
+      get 'sign_out'
+    end
+  end
 end
