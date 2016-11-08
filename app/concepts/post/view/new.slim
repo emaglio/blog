@@ -2,19 +2,17 @@
   h1 New Post
 
   = trb_form_for(model, "/posts", method: :post, builder: :bootstrap4) do |f|
-   .row
-    .col-sm-12
-      = f.input :title, placeholder: "Title"
-
-    = f.fields_for :slack do |s|
-      .row
-        .col-sm-12
-          = s.input :subtitle, placeholder: "Subtitle"
-      .row
-        .col-sm-12
-          = s.textarea :body, placeholder: "What do you wanna say?"
-      .row
-        .col-sm-12
-          = s.input :autor, placeholder: "Autor"
-          = s.submit(value: "Create Post")
+    .row
+      .col-sm-12
+        = f.input :title, placeholder: "Title"
+    .row
+      .col-sm-12
+        = f.input :subtitle, placeholder: "Subtitle"
+    .row
+      .col-sm-12
+        = f.textarea :body, placeholder: "What do you wanna say?"
+    .row
+      .col-sm-12
+        = f.input :author, placeholder: "author"
+        = f.submit(value: "Create Post")
 

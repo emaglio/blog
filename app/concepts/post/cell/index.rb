@@ -12,8 +12,8 @@ module Post::Cell
       link_to model.subtitle, model      
     end
 
-    def autor
-      link_to model.autor
+    def author
+      link_to model.author
     end
 
     def time

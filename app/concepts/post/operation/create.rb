@@ -8,25 +8,28 @@ class Post < ActiveRecord::Base
     model Post, :create
 
     contract do
-      include Reform::Form::Dry
+      feature Reform::Form::Dry
       include Disposable::Twin::Property::Hash
       
       property :title
       property :content, field: :hash do
-        property :slack do
-          property :subtitle
-          property :autor
-          property :body
+        property :subtitle
+        property :author
+        property :body
+
+        validation do
+          required(:subtitle).filled
+          required(:author).filled
+          required(:body).filled
         end
       end
 
-      unnest :slack, from: :content
+      unnest :subtitle, from: :content
+      unnest :author, from: :content
+      unnest :body, from: :content
 
       validation do
-       required(:title).filled
-       required(:subtitle).filled
-       required(:autor).filled
-       required(:body).filled
+        required(:title).filled
       end
     end
 
@@ -36,5 +39,4 @@ class Post < ActiveRecord::Base
       end
     end 
   end
-
 end

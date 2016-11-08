@@ -274,6 +274,7 @@ DEPENDENCIES
   cells-slim
   coffee-rails (~> 4.1.0)
   disposable (>= 0.3.2)
+  dry-types
   dry-validation
   formular!
   high_voltage
