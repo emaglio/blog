@@ -9,4 +9,13 @@ class ApplicationController < ActionController::Base
         context: { }
       }.merge( options)))   
   end
+
+  def tyrant
+    Tyrant::Session.new(request.env['warden'])
+  end
+
+  def process_params!(params)
+    params.merge!(current_user: tyrant.current_user)
+  end
+
 end

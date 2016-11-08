@@ -38,3 +38,4 @@ gem 'cells-slim'
 gem 'dry-validation'
 gem 'dry-types'
 gem 'disposable', ">= 0.3.2"
+gem 'tyrant'
