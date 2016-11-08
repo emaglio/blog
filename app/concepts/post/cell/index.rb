@@ -9,11 +9,11 @@ module Post::Cell
     end
 
     def subtitle
-      link_to model.subtitle, model      
+      link_to model.content["subtitle"], model      
     end
 
     def author
-      link_to model.author
+      link_to model.content["author"]
     end
 
     def time

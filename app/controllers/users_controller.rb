@@ -11,14 +11,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    run User::Create do |op|
+    run User::WebCreate do |op|
       return redirect_to "/user/new"
     end
     render User::Cell::New, model: @form
   end
 
   def new
-    form User::Create
+    form User::WebCreate
     render User::Cell::New, model: @form
   end
 

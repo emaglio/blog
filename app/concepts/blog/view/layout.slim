@@ -34,7 +34,7 @@
 
 <body>
 
-    = render 'navigation'
+    = cell "blog/cell/navigation", OpenStruct.new(real_user: params[:real_user], current_user: params[:current_user], "signed_in?" => tyrant.signed_in?)
 
     = render 'header'
 

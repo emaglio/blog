@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   def render(cell_constant, operation: @operation, model: @operation.model, options: {})
     super(html: cell(cell_constant, model,
       { layout: Blog::Cell::Layout,
-        context: { }
+        context: {tyrant: tyrant}
       }.merge( options)))   
   end
 

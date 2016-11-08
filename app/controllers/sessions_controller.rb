@@ -10,7 +10,6 @@ class SessionsController < ApplicationController
       tyrant.sign_in!(op.model)
       return redirect_to posts_path
     end
-
     render Session::Cell:SignIn, model: @form
   end
 
