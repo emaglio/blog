@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def create
     run Session::SignIn do |op|
       tyrant.sign_in!(op.model)
-      return redirect_to posts_path
+      return redirect_to "/posts"
     end
     render Session::Cell:SignIn, model: @form
   end
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
   def sing_out
     run Session::SignOut do
       tyrant.sign_out!
-      redirect_to posts_path
+      redirect_to "/posts"
     end
   end
 end

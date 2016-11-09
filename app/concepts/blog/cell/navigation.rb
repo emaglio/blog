@@ -2,7 +2,9 @@ module Blog::Cell
   class Navigation < Trailblazer::Cell
 
     def welcome
-      "Hi, " + tyrant.current_user.firstname
+      # raise tyrant.inspect
+
+      # "Hi, " + tyrant.current_user.firstname
     end
 
   private
