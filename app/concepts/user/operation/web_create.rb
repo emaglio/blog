@@ -7,13 +7,15 @@ class User < ActiveRecord::Base
       feature Reform::Form::Dry
       property :confirm_password, virtual: true
       
+      
       validation do
+        configure { config.messages_file = 'config/error_messages.yml' }
+        
         required(:confirm_password).filled
 
         rule(must_be_equal?: [:password, :confirm_password]) do |a, b|
           a.eql?(b) 
         end
-        configure { config.messages_file = 'config/error_messages.yml' }
       end
     end
 

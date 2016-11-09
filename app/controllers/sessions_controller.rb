@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       tyrant.sign_in!(op.model)
       return redirect_to "/posts"
     end
-    render Session::Cell:SignIn, model: @form
+    render Session::Cell::SignIn, model: @form
   end
 
   def sing_out

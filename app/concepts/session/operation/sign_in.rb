@@ -12,20 +12,25 @@ module Session
       property :email,    virtual: true
       property :password, virtual: true
 
-      validation do
-        configure do
-          messages_file = 'config/error_messages.yml'
+      validation :defaul do
 
-          def user_exists?(email)
-            User.find_by(email: email).size == (1)
+        configure do
+          config.messages_file = 'config/error_messages.yml'
+
+          def user(email)
+            return User.find_by(email: email)
           end
 
-          def password_ok?(password)
-            Tyrant::Authenticatable.new(@user).digest?(password) == ("True")
+          def user_exists?(email)
+            User.where(email: email).size == 1
+          end
+
+          def password_ok?(email,password)
+            Tyrant::Authenticatable.new(user(email)).digest?(password) == ("True")
           end
 
           def block?(email)
-            User.find_by(email: email).content("block") != ("True")
+            user(email).content("block") != ("True")
           end
         end
         
@@ -36,7 +41,7 @@ module Session
     end
 
     def process(params)
-      validate(params[:session]) do |contract|
+      validate(params) do |contract|
         @model = contract.user
       end
     end
