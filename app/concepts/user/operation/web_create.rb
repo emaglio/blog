@@ -9,7 +9,9 @@ class User < ActiveRecord::Base
       
       
       validation do
-        configure { config.messages_file = 'config/error_messages.yml' }
+        configure do
+          config.messages_file = 'config/error_messages.yml'
+        end
         
         required(:confirm_password).filled
 

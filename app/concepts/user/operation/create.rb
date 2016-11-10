@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
   private
     def update!
       auth = Tyrant::Authenticatable.new(contract.model)
-      puts auth.inspect
       auth.digest!(contract.password) # contract.auth_meta_data.password_digest = ..
       auth.confirmed!
       auth.sync

@@ -18,6 +18,10 @@ class Post < ActiveRecord::Base
         property :body
 
         validation do
+          configure do
+            config.messages_file = 'config/error_messages.yml'
+          end
+          
           required(:subtitle).filled
           required(:author).filled
           required(:body).filled
