@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     render Session::Cell::SignIn, model: @form
   end
 
-  def sing_out
+  def sign_out
     run Session::SignOut do
       tyrant.sign_out!
       redirect_to "/posts"
