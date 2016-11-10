@@ -15,7 +15,7 @@
             <ul class="nav navbar-nav navbar-right">
               - if tyrant.signed_in?
                 <li>
-                  = link_to welcome
+                  = link_to welcome, user_path(tyrant.current_user)
                 </li>
               <li>
                   = link_to "Home", posts_path
