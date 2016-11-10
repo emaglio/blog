@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
   def create
     run User::WebCreate do |op|
-      return redirect_to "/user/new"
+      return redirect_to "/posts"
     end
     render User::Cell::New, model: @form
   end
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
   def destroy
     run User::Delete do |op|
-      return redirect_to "/users"
+      return redirect_to "/posts"
     end
 
     render User::Cell::Edit, model: @form
