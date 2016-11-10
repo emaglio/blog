@@ -2,9 +2,13 @@ module Blog::Cell
   class Navigation < Trailblazer::Cell
 
     def welcome
-      # raise tyrant.inspect
+      @name = tyrant.current_user.content["firstname"]
 
-      # "Hi, " + tyrant.current_user.firstname
+      if @name == nil
+        @name = tyrant.current_user.email
+      end
+
+      "Hi, " + @name.to_s
     end
 
   private
