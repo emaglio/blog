@@ -42,5 +42,13 @@ class UsersController < ApplicationController
 
     render User::Cell::Edit, model: @form
   end
+
+  def reset_password
+    form User::ResetPassword do
+      redirect_to "session/new"
+    end
+
+    render User::Cell::ResetPassword, model: @form
+  end
   
 end

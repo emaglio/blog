@@ -135,8 +135,6 @@ GEM
       dry-types (~> 0.9, >= 0.9.0)
     erubis (2.7.0)
     execjs (2.7.0)
-    font-awesome-sass (4.7.0)
-      sass (>= 3.2)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     high_voltage (3.0.0)
@@ -294,7 +292,6 @@ DEPENDENCIES
   disposable (>= 0.3.2)
   dry-types
   dry-validation
-  font-awesome-sass
   formular!
   high_voltage
   jbuilder (~> 2.0)
