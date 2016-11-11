@@ -8,13 +8,14 @@ GIT
 
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: 4200b817a93039d9d338781d59af7b05f77c623d
-  branch: reset_password
+  revision: 0ca115f57d231a7ecccdfdd1b4a7949ae94aeb6c
+  ref: 0ca115f
   specs:
     tyrant (0.0.3)
       bcrypt
       disposable (>= 0.1.11)
       reform (~> 2.0)
+      reform-rails
       trailblazer (~> 1.0)
       warden (= 1.2.6)
 
@@ -134,6 +135,8 @@ GEM
       dry-types (~> 0.9, >= 0.9.0)
     erubis (2.7.0)
     execjs (2.7.0)
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     high_voltage (3.0.0)
@@ -291,6 +294,7 @@ DEPENDENCIES
   disposable (>= 0.3.2)
   dry-types
   dry-validation
+  font-awesome-sass
   formular!
   high_voltage
   jbuilder (~> 2.0)

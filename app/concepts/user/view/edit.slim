@@ -1,0 +1,20 @@
+.row
+  h1 Edit User
+
+  = trb_form_for(model, "/users", method: :get, builder: :bootstrap4) do |f|
+    .row
+      .col-sm-6
+        = f.input :firstname, placeholder: "Firstname"
+      .col-sm-6
+        = f.input :lastname, placeholder: "Lastname"
+    .row
+      .col-sm-12
+        = f.input :email, placeholder: "Email"
+    .row
+      .col-sm-6
+        = f.input :password, placeholder: "Password"
+      .col-sm-6
+        = f.input :confirm_password, placeholder: "Confirm Password"
+    .row
+      .col-sm-12
+        = f.submit(value: "Save User")

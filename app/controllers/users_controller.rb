@@ -11,15 +11,28 @@ class UsersController < ApplicationController
   end
 
   def create
-    run User::WebCreate do |op|
+    run User::Create do |op|
       return redirect_to "/posts"
     end
     render User::Cell::New, model: @form
   end
 
   def new
-    form User::WebCreate
+    form User::Create
     render User::Cell::New, model: @form
+  end
+
+  def edit
+    form User::Update
+    render User::Cell::Edit, model: @form
+  end
+
+  def update
+    form User::Update do |op|
+      redirect_to user_path(op.model)
+    end
+    
+    render User::Cell::Edit, model: @form
   end
 
   def destroy
