@@ -1,5 +1,5 @@
 module User::Cell
-  class ResetPassword
+  class GetEmail < Trailblazer::Cell
     include ActionView::RecordIdentifier
     include ActionView::Helpers::FormOptionsHelper
     include Formular::RailsHelper

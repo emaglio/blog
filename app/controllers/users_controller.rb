@@ -44,11 +44,16 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    form User::ResetPassword do
+    run User::ResetPassword do
       redirect_to "session/new"
     end
 
-    render User::Cell::ResetPassword, model: @form
+    render User::Cell::GetEmail
+  end
+
+  def get_email
+    present User::GetEmail
+    render User::Cell::GetEmail
   end
   
 end

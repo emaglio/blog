@@ -3,9 +3,13 @@ Rails.application.routes.draw do
 
   resources :posts
   
-  resources :users
-  get 'user/reset_password', controller: :user, action: :reset_password, as: "reset_password"
-  
+  resources :users do
+    collection do
+      post 'reset_password'
+      get 'get_email'
+    end
+  end
+
   resources :sessions do
     collection do
       get 'sign_out'
