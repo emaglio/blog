@@ -12,9 +12,9 @@
         = f.input :email, placeholder: "Email"
     .row
       .col-sm-6
-        = f.input :password, placeholder: "Password"
+        = f.input :password, placeholder: "Password", type: "password"
       .col-sm-6
-        = f.input :confirm_password, placeholder: "Confirm Password"
+        = f.input :confirm_password, placeholder: "Confirm Password", type: "password"
     .row
       .col-sm-12
         = f.submit(value: "Save User")
