@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
       property :email, virtual: true
       validation do
 
-
         configure do
           config.messages_file = 'config/error_messages.yml'
 
@@ -24,13 +23,15 @@ class User < ActiveRecord::Base
         required(:email).filled(:user_exists?)
       end
     end
-    
+
     def process(params)
       validate(params) do
-        reset = Tyrant::ResetPassword.new()
-        newModel = reset.new_authentication(params)
-        raise newModel.inspect
-        op = User::Update.(newModel)
+        Tyrant::ResetPassword.(model)
+        # user = User.find_by(email: params[:email])
+        # reset = Tyrant::ResetPassword.new()
+        # newModel = reset.new_authentication(user)
+        # op = User::Update.(id: newModel.id, auth_meta_data: newModel.auth_meta_data)
+        # contract.save
       end
     end
 
