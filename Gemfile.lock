@@ -8,12 +8,13 @@ GIT
 
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: 0ca115f57d231a7ecccdfdd1b4a7949ae94aeb6c
-  ref: 0ca115f
+  revision: 5c6836a8f53ded6ed830280c25940d6297070add
+  ref: 5c6836a
   specs:
     tyrant (0.0.3)
       bcrypt
       disposable (>= 0.1.11)
+      pony
       reform (~> 2.0)
       reform-rails
       trailblazer (~> 1.0)
@@ -182,6 +183,8 @@ GEM
     multi_json (1.12.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
+    pony (1.11)
+      mail (>= 2.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
