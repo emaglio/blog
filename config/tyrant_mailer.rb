@@ -10,6 +10,7 @@ Tyrant::Mailer.class_eval do
                               # ssl: true, 
                               user_name: "emanuele.magliozzi@gmail.com", 
                               password: "lfiwprrihduuivau",
+                              subject: "Reset password for TRB blog"
                               authentication: :plain} 
                       }
     end

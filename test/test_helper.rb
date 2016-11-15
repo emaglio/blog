@@ -4,6 +4,7 @@ require 'rails/test_help'
 require 'capybara/rails'
 require 'minitest/autorun'
 require "trailblazer/rails/test/integration"
+require 'tyrant'
 
 
 Minitest::Spec.class_eval do
@@ -22,4 +23,14 @@ Trailblazer::Test::Integration.class_eval do
     end
     click_button "Sign In"
   end
+end
+
+Tyrant::ResetPassword.class_eval do #thinking to override this to simply test this function
+#   def process(params) 
+#   end
+
+# private
+#   def new_auth(params)
+
+#   end
 end
