@@ -3,9 +3,6 @@ require 'reform/form/dry'
 
 class User < ActiveRecord::Base
   class ResetPassword < Trailblazer::Operation
-    include Model
-    
-    model User, :create
 
     contract do
       feature Reform::Form::Dry
@@ -26,12 +23,10 @@ class User < ActiveRecord::Base
 
     def process(params)
       validate(params) do
-        Tyrant::ResetPassword.(model)
-        # user = User.find_by(email: params[:email])
-        # reset = Tyrant::ResetPassword.new()
-        # newModel = reset.new_authentication(user)
-        # op = User::Update.(id: newModel.id, auth_meta_data: newModel.auth_meta_data)
-        # contract.save
+        reset = Tyrant::ResetPassword.new()
+        user = User.find_by(email: params[:email])
+        new_model = reset.new_authentication(user)
+        User::SavePassword.(id: user.id, auth_meta_data: new_model[:auth_meta_data]) 
       end
     end
 

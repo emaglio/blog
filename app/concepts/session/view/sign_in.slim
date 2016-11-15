@@ -6,12 +6,12 @@
       .col-sm-12
         = f.input :email, placeholder: "Email"
     .row
-      .col-sm-10
+      .col-sm-12
         = f.input :password, placeholder: "Password",  type: "password"
+    .row
+      .col-sm-10
+        = f.submit(value: "Sign In")
       .col-sm-2
         h6
           = link_to "Reset Password", get_email_users_path
-    .row
-      .col-sm-12
-        = f.submit(value: "Sign In")
 

@@ -38,4 +38,5 @@ gem 'cells-slim'
 gem 'dry-validation'
 gem 'dry-types'
 gem 'disposable', ">= 0.3.2"
-gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :ref => "5c6836a" #:branch => "reset_password@", 
+# gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :ref => "5c6836a" #:branch => "reset_password@", 
+gem 'tyrant', :git => "tyrant/tyrant", :branch => "reset_password_not_TRB"
