@@ -37,4 +37,22 @@ class UserOperationTest < MiniTest::Spec
     op.model.persisted?.must_equal false
   end
 
+  it "reset password" do 
+    op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
+    op.model.persisted?.must_equal true
+
+    User::ResetPassword.(email: op.model.email)
+
+    model = User.find_by(email: op.model.email)
+
+    assert Tyrant::Authenticatable.new(model).digest != "password"
+    assert Tyrant::Authenticatable.new(model).digest == "NewPassword"
+    Tyrant::Authenticatable.new(model).confirmed?.must_equal true
+    Tyrant::Authenticatable.new(model).confirmable?.must_equal false
+
+    Mail::TestMailer.deliveries.length.must_equal 1
+    Mail::TestMailer.deliveries.first.to.must_equal ["test@email.com"]
+    Mail::TestMailer.deliveries.first.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers" 
+  end
+
 end

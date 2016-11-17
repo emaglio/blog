@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: tyrant/tyrant
-  revision: 1818ced9c3812d8e0dec87a3584e226d00d46323
-  branch: reset_password_not_TRB
+  revision: abc88f1c17a3b3881a6876c8430757881192d03f
+  branch: reset_password
   specs:
     tyrant (0.0.3)
       bcrypt

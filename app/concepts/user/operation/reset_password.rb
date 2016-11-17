@@ -1,5 +1,6 @@
 require 'tyrant'
 require 'reform/form/dry'
+require 'trailblazer'
 
 class User < ActiveRecord::Base
   class ResetPassword < Trailblazer::Operation
@@ -22,12 +23,8 @@ class User < ActiveRecord::Base
     end
 
     def process(params)
-      validate(params) do
-        reset = Tyrant::ResetPassword.new()
-        user = User.find_by(email: params[:email])
-        new_model = reset.new_authentication(user)
-        User::SavePassword.(id: user.id, auth_meta_data: new_model[:auth_meta_data]) 
-      end
+      model = User.find_by(email: params[:email])
+      Tyrant::ResetPassword.(model: model)
     end
 
   end 

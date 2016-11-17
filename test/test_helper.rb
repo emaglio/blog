@@ -25,12 +25,17 @@ Trailblazer::Test::Integration.class_eval do
   end
 end
 
-Tyrant::ResetPassword.class_eval do #thinking to override this to simply test this function
-#   def process(params) 
-#   end
+#to test that a new password "NewPassword" is actually saved 
+#in the auth_meta_data in User
+Tyrant::ResetPassword.class_eval do 
+  def generate_password
+    return "NewPassword"
+  end
+end
 
-# private
-#   def new_auth(params)
-
-#   end
+#to test the email notification to the user for the ResetPassword
+Tyrant::Mailer.class_eval do 
+  def email_options
+    Pony.options = {via: :test}
+  end  
 end

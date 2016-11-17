@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    run User::ResetPassword do |op|
+    run User::ResetPassword do |op| 
       return redirect_to "/sessions/new"
     end
 
