@@ -2,6 +2,4 @@ en:
   errors:
     user_exists?: "User not found"
     password_ok?: "Wrong Password"
-
-  rules:
-    must_be_equal?: "fuck you"
+    must_be_equal?: "Passwords are not matching"

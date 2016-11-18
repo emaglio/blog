@@ -11,13 +11,13 @@ class UserOperationTest < MiniTest::Spec
   it "wrong input" do
     res, op = User::Create.run(user: {})
     res.must_equal false
-    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"is in invalid format\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\"]}"
+    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"is in invalid format\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\", \"Passwords are not matching\"]}"
   end
 
   it "passwords not matching" do
     res,op = User::Create.run(email: "test@email.com", password: "password", confirm_password: "notpassword")
-    res.must_equal true
-    op.errors.to_s.must_equal "{:must_be_equal=>[\"must be equal to notpassword\"]}"
+    res.must_equal false
+    op.errors.to_s.must_equal "{:confirm_password=>[\"Passwords are not matching\"]}"
   end
 
   it "modify user" do

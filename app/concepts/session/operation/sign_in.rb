@@ -1,58 +1,51 @@
 require 'reform/form/dry'
 
 module Session
-
   class SignIn < Trailblazer::Operation
 
     contract do
-      # feature Reform::Form::Dry
-      undef :persisted? # TODO: allow with trailblazer/reform.
+      feature Reform::Form::Dry
+      undef :persisted?
       attr_reader :user
       
       property :email,    virtual: true
       property :password, virtual: true
 
-    #   validation do
+      validation do
 
-    #     configure do
-    #       config.messages_file = 'config/error_messages.yml'
+        configure do
+          option :form
+          config.messages_file = 'config/error_messages.yml'
 
-    #       def user_exists?(email)
-    #         User.where(email: email).size >= 1
-    #       end
+          # change this in order to have variable (@user) in order to have it available in the contract and
+          # run just @model = contract.user instead of another find_by
+          def user 
+            return User.find_by(email: form.email)
+          end
 
-    #       def password_ok?(user)
-    #         user != nil and Tyrant::Authenticatable.new(user).digest?(user.password).eql?("True")
-    #       end
+          def user_exists?
+            return user != nil
+          end
 
-    #       # def block?(email)
-    #       #   user(email).content("block") != ("True")
-    #       # end
-    #     end
-        
-    #     required(:email).filled(:user_exists?)
-    #     required(:password).filled
-    #   end
-    # end
-
-      validates :email, :password, presence: true
-      validate :password_ok?
-
-    private
-      def password_ok?
-        @user = User.find_by(email: email)
-
-        if @user
-          Tyrant::Authenticatable.new(@user).digest?(password)
+          def password_ok? #change this in order to run this only if user exists
+            Tyrant::Authenticatable.new(user).digest?(form.password) == true
+          end
         end
+        
+        required(:email).filled(:user_exists?)
+        required(:password).filled(:password_ok?)
       end
     end
+
 
     def process(params)
-      validate(params) do |contract|
-        @model = contract.user
+      validate(params) do
+        @model = get_user(params)
       end
     end
-  
+  private
+    def get_user(params)
+      return User.find_by(email: params[:email])
+    end
   end
 end

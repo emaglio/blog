@@ -13,14 +13,16 @@ class User < ActiveRecord::Base
       
       validation do
         configure do
+          option :form
           config.messages_file = 'config/error_messages.yml'
+
+          def must_be_equal?
+            return form.password == form.confirm_password
+          end
         end
         
-        required(:confirm_password).filled
+        required(:confirm_password).filled(:must_be_equal?)
 
-        rule(must_be_equal?: [:password, :confirm_password]) do |a, b|
-          a.eql?(b) 
-        end
       end
     end
 
