@@ -10,7 +10,6 @@ module User::Contract
     include Disposable::Twin::Property::Hash
 
     property :email
-    property :password, virtual: true
 
     property :content, field: :hash do
       property :firstname
@@ -39,7 +38,6 @@ module User::Contract
       VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
       required(:email).filled
       required(:email).filled(format?: VALID_EMAIL_REGEX)
-      required(:password).filled
     end
   end
 end

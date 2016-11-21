@@ -8,7 +8,9 @@ class User < ActiveRecord::Base
 
     contract Contract::Create do
       feature Reform::Form::Dry
+      property :password, virtual: true
       property :confirm_password, virtual: true
+      
       
       
       validation do
@@ -21,6 +23,7 @@ class User < ActiveRecord::Base
           end
         end
         
+        required(:password).filled
         required(:confirm_password).filled(:must_be_equal?)
 
       end
