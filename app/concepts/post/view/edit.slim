@@ -1,7 +1,7 @@
 .row
-  h1 New Post
+  h1 Edit Post
 
-  = trb_form_for(model, "/posts", method: :post, builder: :bootstrap4) do |f|
+  = trb_form_for(model, "/posts", method: :get, builder: :bootstrap4) do |f|
     .row
       .col-sm-12
         = f.input :title, placeholder: "Title"
@@ -19,7 +19,11 @@
           = f.input :user_id, value: tyrant.current_user.id, type: "hidden"
         -else
           = f.input :author, placeholder: "author"
-      .col-sm-12  
-        .row
-          = f.submit(value: "Create Post")
+      .row
+        .col-sm-6  
+          = f.submit(value: "Save Post")
+        .col-sm-4
+          h6 = delete
+        .col-sm-2
+          h6 = back
 

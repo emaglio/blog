@@ -13,7 +13,11 @@ module Post::Cell
     end
 
     def author
-      link_to model.content["author"]
+      if model.content["user_id"] != nil and User.find(model.content["user_id"]) != nil
+        link_to model.content["author"], user_path(model.content["user_id"])
+      else
+        return model.content["author"].to_s
+      end   
     end
 
     def time

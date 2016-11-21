@@ -1,4 +1,13 @@
 .post-title
   = title
 .post-subtitle
-  = subtitle
+  = content["subtitle"]
+.post-subtitle
+  = content["body"]
+.row
+  .col-sm-2
+    h6 = edit
+  .col-sm-6
+    h6 = delete
+  .col-sm-4
+    h6 = back

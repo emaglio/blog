@@ -8,6 +8,13 @@
       .col-sm-6
         = f.input :lastname, placeholder: "Lastname"
     .row
+      .col-sm-4
+        = f.input :gender, placeholder: "Gender"
+      .col-sm-4
+        = f.input :phone, placeholder: "Phone"
+      .col-sm-4
+        = f.input :age, placeholder: "Age"
+    .row
       .col-sm-12
         = f.input :email, placeholder: "Email"
     .row
@@ -16,5 +23,7 @@
       .col-sm-6
         = f.input :confirm_password, placeholder: "Confirm Password", type: "password"
     .row
-      .col-sm-12
+      .col-sm-10
         = f.submit(value: "Save User")
+      .col-sm-2
+        h6 = back

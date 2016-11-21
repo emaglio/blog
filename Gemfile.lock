@@ -7,8 +7,8 @@ GIT
       uber (~> 0.0.11)
 
 GIT
-  remote: tyrant/tyrant
-  revision: abc88f1c17a3b3881a6876c8430757881192d03f
+  remote: https://github.com/emaglio/tyrant.git
+  revision: 2d3ff4e8b3438c013228eb1c3b4aae2f596a148b
   branch: reset_password
   specs:
     tyrant (0.0.3)

@@ -1,9 +1,19 @@
 h3
   .row
-    = email
+    .col-sm-1
+      h5 
+        = "email:  "
+    .col-sm-11  
+      h4
+        = email
   .row
     .col-sm-6
     = content["firstname"]
     .col-sm-6
     = content["lastname"]
-    = edit
+  .row
+    .col-sm-2
+      = edit
+    .col-sm-6
+    .col-sm-2
+      = delete
