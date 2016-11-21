@@ -23,6 +23,19 @@ class PostsController < ApplicationController
     render Post::Cell::New, model: @form
   end
 
+  def edit
+    form Post::Update
+    render Post::Cell::Edit, model: @form
+  end
+
+  def update
+    form Post::Update do |op|
+      return redirect_to "/posts"
+    end
+
+    render Post::Cell::Edit, model: @form
+  end
+
   def destroy
     run Post::Delete do |op|
       return redirect_to "/posts"

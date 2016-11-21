@@ -16,6 +16,7 @@ class Post < ActiveRecord::Base
         property :subtitle
         property :author
         property :body
+        property :user_id
 
         validation do
           configure do
@@ -31,6 +32,7 @@ class Post < ActiveRecord::Base
       unnest :subtitle, from: :content
       unnest :author, from: :content
       unnest :body, from: :content
+      unnest :user_id, from: :content
 
       validation do
         required(:title).filled
