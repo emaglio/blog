@@ -8,5 +8,10 @@ class Session::Policy
   def create?
     true
   end
+  
+  def current_user?
+    return unless @user
+    @user.email == @model.email
+  end
 
 end
