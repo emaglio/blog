@@ -12,9 +12,7 @@ class User < ActiveRecord::Base
       feature Reform::Form::Dry
       property :password, virtual: true
       property :confirm_password, virtual: true
-      
-      
-      
+
       validation do
         configure do
           option :form

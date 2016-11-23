@@ -28,8 +28,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    form User::Update do |op|
-      redirect_to user_path(op.model)
+    run User::Update do |op|
+      return redirect_to user_path(op.model.id)
     end
     
     render User::Cell::Edit, model: @form

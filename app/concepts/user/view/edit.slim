@@ -1,7 +1,8 @@
 .row
   h1 Edit User
 
-  = trb_form_for(model, "/users", method: :get, builder: :bootstrap4) do |f|
+  = trb_form_for(model, url_for(controller: "users", action: "update"), builder: :bootstrap4) do |f|
+    = f.input :id, type: "hidden", value: tyrant.current_user.id
     .row
       .col-sm-6
         = f.input :firstname, placeholder: "Firstname"
@@ -17,11 +18,6 @@
     .row
       .col-sm-12
         = f.input :email, placeholder: "Email"
-    .row
-      .col-sm-6
-        = f.input :password, placeholder: "Password", type: "password"
-      .col-sm-6
-        = f.input :confirm_password, placeholder: "Confirm Password", type: "password"
     .row
       .col-sm-10
         = f.submit(value: "Save User")

@@ -11,6 +11,10 @@ Trailblazer::Cell.class_eval do
   def policy
     context[:policy]
   end
+
+  def tyrant
+    context[:tyrant]
+  end
 end
 
 # require_dependency "session/policy"
