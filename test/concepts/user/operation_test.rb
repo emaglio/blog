@@ -24,7 +24,7 @@ class UserOperationTest < MiniTest::Spec
     op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
     op.model.email.must_equal "test@email.com"
 
-    op = User::Update.(id: op.model.id, email: "newtest@email.com", password: "password", confirm_password: "password")
+    op = User::Update.(id: op.model.id, email: "newtest@email.com")
     op.model.persisted?.must_equal true
     op.model.email.must_equal "newtest@email.com"
   end
