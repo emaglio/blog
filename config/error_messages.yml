@@ -3,3 +3,5 @@ en:
     user_exists?: "User not found"
     password_ok?: "Wrong Password"
     must_be_equal?: "Passwords are not matching"
+    new_must_match?: "New Password are not matching"
+    new_password_must_be_new?: "New password can't match the old one"

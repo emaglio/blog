@@ -10,5 +10,9 @@ module User::Cell
     def delete
       link_to "Delete", user_path(model), method: :delete
     end
+
+    def change_password
+      link_to "Change Password", get_new_password_users_path
+    end
   end
 end

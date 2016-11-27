@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     collection do
       post 'reset_password'
       get 'get_email'
+      get 'get_new_password'
+      post 'change_password'
     end
   end
 

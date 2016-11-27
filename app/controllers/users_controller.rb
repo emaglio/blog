@@ -47,13 +47,26 @@ class UsersController < ApplicationController
     run User::ResetPassword do |op| 
       return redirect_to "/sessions/new"
     end
-
+    raise
     render User::Cell::GetEmail
   end
 
   def get_email
     present User::GetEmail
     render User::Cell::GetEmail
+  end
+
+  def get_new_password
+    present User::GetNewPassword
+    render User::Cell::ChangePassword
+  end
+
+  def change_password
+    run User::ChangePassword do |op|
+      return redirect_to user_path(tyrant.current_user)
+    end
+
+    render User::Cell::ChangePassword
   end
   
 end

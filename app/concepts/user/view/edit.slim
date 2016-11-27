@@ -1,7 +1,7 @@
 .row
   h1 Edit User
 
-  = trb_form_for(model, url_for(controller: "users", action: "update"), builder: :bootstrap4) do |f|
+  = trb_form_for(model, "/users/#{tyrant.current_user.id}", method: :patch, builder: :bootstrap4) do |f|
     = f.input :id, type: "hidden", value: tyrant.current_user.id
     .row
       .col-sm-6
