@@ -12,7 +12,7 @@ module Post::Cell
     end
 
     def delete
-      link_to "Delete", post_path(model), method: :delete
+      link_to "Delete", post_path(model.id), method: :delete
     end
   end
 end
