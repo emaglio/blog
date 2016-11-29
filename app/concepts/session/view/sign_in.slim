@@ -1,7 +1,7 @@
 .row
   h1 Sign In
 
-  = trb_form_for(model, "/sessions", method: :post, builder: :bootstrap4) do |f|
+  = trb_form_for(model, "/sessions", method: :post, builder: :bootstrap4, id: :new_session) do |f|
     .row
       .col-sm-12
         = f.input :email, placeholder: "Email"

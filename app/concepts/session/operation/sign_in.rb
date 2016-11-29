@@ -28,7 +28,9 @@ module Session
           end
 
           def password_ok? #change this in order to run this only if user exists
-            Tyrant::Authenticatable.new(user).digest?(form.password) == true
+            if user != nil
+              Tyrant::Authenticatable.new(user).digest?(form.password) == true
+            end
           end
         end
         

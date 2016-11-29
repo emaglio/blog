@@ -11,13 +11,19 @@ Minitest::Spec.class_eval do
   after :each do
     # DatabaseCleaner.clean
     ::Post.delete_all
+    ::User.delete_all
   end
 end
 
+Cell::TestCase.class_eval do
+  include Capybara::DSL
+  include Capybara::Assertions
+end
+
 Trailblazer::Test::Integration.class_eval do
+  # puts page.body
   def submit!(email, password)
-    puts page.body
-    within(:xpath, "//form[@id='new_session']") do
+    within("//form[@id='new_session']") do
       fill_in 'Email',    with: email
       fill_in 'Password', with: password
     end

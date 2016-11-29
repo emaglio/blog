@@ -55,4 +55,29 @@ class UserOperationTest < MiniTest::Spec
     Mail::TestMailer.deliveries.first.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers" 
   end
 
+  it "can't change password" do 
+    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password").model
+    user.persisted?.must_equal true
+
+    res, op = User::ChangePassword.run(id: user.id, password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password")
+    res.must_equal false
+
+    op.errors.to_s.must_equal "{:password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"New Password are not matching\"]}"
+  end
+
+  it "change password" do 
+    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password").model
+    user.persisted?.must_equal true
+
+    op = User::ChangePassword.(id: user.id, password: "password", new_password: "new_password", confirm_new_password: "new_password")
+    op.model.persisted?.must_equal true
+
+    user = User.find_by(email: user.email)
+
+    assert Tyrant::Authenticatable.new(user).digest != "password"
+    assert Tyrant::Authenticatable.new(user).digest == "new_password"
+    Tyrant::Authenticatable.new(user).confirmed?.must_equal true
+    Tyrant::Authenticatable.new(user).confirmable?.must_equal false    
+  end
+
 end
