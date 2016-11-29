@@ -9,9 +9,19 @@ class Session::Policy
     true
   end
   
-  def current_user?
+  def post_owner?
     return unless @user
-    @user.email == @model.email
+    @user.id.to_s == @model.content["user_id"]
   end
+
+  def admin?
+    return unless @user
+    @user.email == "admin@email.com"
+  end
+
+  def update_delete_post?
+    post_owner? or admin?
+  end
+
 
 end

@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  # protect_from_forgery :except => [:create]
 
   def show
     present Post::Show
@@ -12,7 +11,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    run Post::Create do |op|
+    run Post::Create do
       return redirect_to "/posts"
     end
     render Post::Cell::New, model: @form
@@ -29,7 +28,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    form Post::Update do |op|
+    run Post::Update do
       return redirect_to "/posts"
     end
 

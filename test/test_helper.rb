@@ -13,6 +13,10 @@ Minitest::Spec.class_eval do
     ::Post.delete_all
     ::User.delete_all
   end
+
+  def admin_for
+    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password").model
+  end
 end
 
 Cell::TestCase.class_eval do

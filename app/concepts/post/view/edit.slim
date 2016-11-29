@@ -1,7 +1,8 @@
 .row
   h1 Edit Post
 
-  = trb_form_for(model, "/posts", method: :get, builder: :bootstrap4) do |f|
+  = trb_form_for(model, "/posts/#{model.id}", method: :patch, builder: :bootstrap4) do |f|
+    = f.input :id, value: model.id, type: "hidden"
     .row
       .col-sm-12
         = f.input :title, placeholder: "Title"
