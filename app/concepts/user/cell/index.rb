@@ -5,7 +5,7 @@ module User::Cell
 
   class Item < Trailblazer::Cell
     def link
-      link_to params["email"], user_path(params["id"])
+      link_to model.email, model
     end
   end
 end

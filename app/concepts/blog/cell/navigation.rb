@@ -11,9 +11,9 @@ module Blog::Cell
       "Hi, " + @name.to_s
     end
 
-  private
-    def tyrant
-      context[:tyrant]
+    def admin? #change in order to use policy.admin?
+      return tyrant.current_user.email == "admin@email.com"
     end
+
   end
 end

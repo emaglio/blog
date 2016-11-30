@@ -26,6 +26,10 @@
                 <li>
                   = link_to "Sign Out", sign_out_sessions_path
                 </li>
+                - if admin?
+                  <li>
+                    = link_to "All Users", users_path
+                  </li>
               -else
                 <li>
                     = link_to "New User", new_user_path
