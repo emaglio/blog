@@ -23,12 +23,4 @@ class Session::Policy
     return unless @user
     @user.email == @model.email
   end
-
-  def update_delete_user?
-    current_user? or admin?
-  end
-
-
-
-
 end

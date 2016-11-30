@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
     include Model
     model User, :find
 
-    policy Session::Policy, :update_delete_user?
+    policy Session::Policy, :current_user?
 
     def process(params)
       model.destroy

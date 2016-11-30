@@ -34,7 +34,7 @@ class UserOperationTest < MiniTest::Spec
     op.errors.to_s.must_equal "{:email=>[\"Another user has been created with this email address\"]}"
   end
 
-  it "only current_user or admin can modify user" do
+  it "only current_user can modify user" do
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"  
 
@@ -50,7 +50,7 @@ class UserOperationTest < MiniTest::Spec
     op.model.email.must_equal "newtest@email.com"
   end
 
-  it "only currebt_user or admin can delete user" do
+  it "only current_user can delete user" do
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"  
 
@@ -92,7 +92,7 @@ class UserOperationTest < MiniTest::Spec
     op.errors.to_s.must_equal "{:password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"New Password are not matching\"]}"
   end
 
-  it "only current_user or admin can change password" do 
+  it "only current_user can change password" do 
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"  
 
