@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def create
     run User::Create do |op|
+      tyrant.sign_in!(op.model)
       return redirect_to "/posts"
     end
     render User::Cell::New, model: @form
