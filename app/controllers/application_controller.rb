@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
     params.merge!(current_user: tyrant.current_user)
   end
 
+  rescue_from Trailblazer::NotAuthorizedError do |exception|
+    redirect_to posts_path
+  end
+
 end
