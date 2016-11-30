@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   class Update < Trailblazer::Operation
 
-    # policy Session::Policy, :current_user?
+    policy Session::Policy, :update_delete_user?
 
     include Model
     model User, :find    

@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
   class Index < Trailblazer::Operation
 
-    def process!(params)
+    policy Session::Policy, :admin?
+
+    def model!(params)
       User.all      
     end
     
