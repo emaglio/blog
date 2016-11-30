@@ -33,6 +33,36 @@ Trailblazer::Test::Integration.class_eval do
     end
     click_button "Sign In"
   end
+
+
+  def sign_up!(email, password)
+    within("//form[@id='new_user']") do
+      fill_in 'Firstname',    with: "UserFirstname"
+      fill_in 'Lastname',    with: "UserLastname"
+      fill_in 'Email',    with: email
+      fill_in 'Password', with: password
+      fill_in 'Confirm Password', with: password
+      select('Male', :from => 'gender')
+      fill_in 'Age', with: "31"
+      fill_in 'Phone', with: "32343211"
+    end
+    click_button "Create User"
+  end
+
+  def log_in_as_admin
+    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin").model unless User.find_by(email: "admin@email.com") != nil 
+    
+    visit "sessions/new"
+    submit!("admin@email.com", "Test1")
+  end
+
+  def log_in_as_user(email = "my@email.com", password = "password")
+    user = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname").model unless User.find_by(email: email) != nil
+
+    visit "sessions/new"
+    submit!(user.email, "password")
+  end
+
 end
 
 #to test that a new password "NewPassword" is actually saved 

@@ -1,7 +1,7 @@
 .row
   h1 Edit User
 
-  = trb_form_for(model, "/users/#{tyrant.current_user.id}", method: :patch, builder: :bootstrap4) do |f|
+  = trb_form_for(model, "/users/#{tyrant.current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
     = f.input :id, type: "hidden", value: tyrant.current_user.id
     .row
       .col-sm-6
@@ -20,6 +20,6 @@
         = f.input :email, placeholder: "Email"
     .row
       .col-sm-10
-        = f.submit(value: "Save User")
+        = f.submit(value: "Save")
       .col-sm-2
         h6 = back
