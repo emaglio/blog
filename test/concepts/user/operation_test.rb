@@ -3,8 +3,8 @@ require 'test_helper.rb'
 class UserOperationTest < MiniTest::Spec
 
   let(:admin) {admin_for}
-  let!(:user) {(User::Create.(email: "test@email.com", password: "password", confirm_password: "password")).model}
-  let!(:user2) {(User::Create.(email: "test2@email.com", password: "password", confirm_password: "password")).model}
+  let(:user) {(User::Create.(email: "test@email.com", password: "password", confirm_password: "password")).model}
+  let(:user2) {(User::Create.(email: "test2@email.com", password: "password", confirm_password: "password")).model}
 
   it "validate correct input" do
     op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
@@ -15,13 +15,23 @@ class UserOperationTest < MiniTest::Spec
   it "wrong input" do
     res, op = User::Create.run(user: {})
     res.must_equal false
-    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"is in invalid format\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\", \"Passwords are not matching\"]}"
+    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"Wrong format\", \"Another user has been created with this email address\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\", \"Passwords are not matching\"]}"
   end
 
   it "passwords not matching" do
     res,op = User::Create.run(email: "test@email.com", password: "password", confirm_password: "notpassword")
     res.must_equal false
     op.errors.to_s.must_equal "{:confirm_password=>[\"Passwords are not matching\"]}"
+  end
+
+  it "unique user" do
+    op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
+    op.model.persisted?.must_equal true
+    op.model.email.must_equal "test@email.com"
+
+    res,op = User::Create.run(email: "test@email.com", password: "password", confirm_password: "password")
+    res.must_equal false
+    op.errors.to_s.must_equal "{:email=>[\"Another user has been created with this email address\"]}"
   end
 
   it "only current_user or admin can modify user" do

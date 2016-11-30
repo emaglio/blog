@@ -35,9 +35,20 @@ module User::Contract
     unnest :block, from: :content
 
     validation do
-      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-      required(:email).filled
-      required(:email).filled(format?: VALID_EMAIL_REGEX)
+      configure do
+        option :form
+        config.messages_file = 'config/error_messages.yml'
+
+        def unique_email?
+          User.where("email = ?", form.email).size == 0
+        end
+
+        def email?(value)
+          ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(value).nil?
+        end
+      end
+
+      required(:email).filled(:email?, :unique_email?)
     end
   end
 end

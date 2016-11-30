@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
     include Model
     model User, :find
     
+    policy Session::Policy, :update_delete_user?
+    
     contract do
       feature Reform::Form::Dry
 

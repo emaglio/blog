@@ -15,7 +15,7 @@ Minitest::Spec.class_eval do
   end
 
   def admin_for
-    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password").model
+    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password").model unless User.find_by(email: "admin@email.com") != nil
   end
 end
 
