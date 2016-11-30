@@ -8,11 +8,11 @@
       .col-sm-6
         = f.input :lastname, placeholder: "Lastname"
     .row
-      .col-sm-4
-        = f.input :gender, placeholder: "Gender" 
-      .col-sm-4
+      .col-sm-2
+        = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"], ["You"]]
+      .col-sm-5
         = f.input :phone, placeholder: "Phone"
-      .col-sm-4
+      .col-sm-5
         = f.input :age, placeholder: "Age"
     .row
       .col-sm-12
