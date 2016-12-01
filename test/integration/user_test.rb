@@ -37,7 +37,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.current_path.must_equal "/users"
   end
 
-  it "update user" do
+  it "update" do
     log_in_as_user("my@email.com", "password")
 
     user = User.find_by(email: "my@email.com")
@@ -81,6 +81,24 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     visit "/users/#{user.id}/edit"
     page.current_path.must_equal "/posts"
     #test flash error
+  end
+
+  it "delete" do 
+    log_in_as_user("my@email.com", "password")
+    user = User.find_by(email: "my@email.com")
+
+    #user2 trying to delete user
+    click_link  "Sign Out"
+
+    visit 'sessions/new'
+    user2 = User.find_by(email: "test2@email.com")
+    submit!(user2.email, "password")
+    page.must_have_content "Hi, User2"
+
+    #delete is not working at the moment
+
+
+    
   end
 
 end

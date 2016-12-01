@@ -63,6 +63,18 @@ Trailblazer::Test::Integration.class_eval do
     submit!(user.email, "password")
   end
 
+  def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
+    within("//form[@id='new_post']") do
+      fill_in 'Title',    with: title
+      fill_in 'Subtitle',    with: subtitle
+      fill_in 'What do you wanna say?',    with: body
+      if !signed_in
+        fill_in 'Author',    with: author
+      end
+    end
+    click_button "Create Post"
+  end
+
 end
 
 #to test that a new password "NewPassword" is actually saved 

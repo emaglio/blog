@@ -11,7 +11,7 @@ module User::Cell
 
     def delete
       if tyrant.current_user.email.to_s == model.email or tyrant.current_user.email == "admin@email.com"
-        link_to "Delete", user_path(model), method: :delete
+        link_to "Delete", user_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
       end
     end
 
