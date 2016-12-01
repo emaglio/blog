@@ -1,22 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+doctype html
+html
+  head
+    title = "TRB Blog"
+    
+    <!-- Theme CSS -->
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    <!-- = csrf_meta_tags -->
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Emanuele">
 
-    <title>TRB Blog</title>
+    <!-- <title>TRB Blog</title> -->
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Theme CSS -->
-    <!-- == javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' -->
-    <!-- == stylesheet_link_tag "application", :media => 'all', 'data-turbolinks-track' => 'reload' -->
 
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -30,24 +31,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-</head>
-
-<body>
-
+  body
     = cell "blog/cell/navigation", OpenStruct.new(real_user: params[:real_user], current_user: params[:current_user], "signed_in?" => tyrant.signed_in?)
-
     = render 'header'
 
     <!-- Main Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-              == yield
-            </div>
-        </div>
-    </div>
-
-    <hr>
+    .container
+      .row
+        .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+          = yield
 
     <!-- Footer -->
     <footer>
@@ -98,7 +90,5 @@
 
     <!-- Theme JavaScript -->
     <script src="js/clean-blog.min.js"></script>
-
-</body>
 
 </html>
