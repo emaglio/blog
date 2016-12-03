@@ -6,7 +6,7 @@ html
     <!-- Theme CSS -->
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    <!-- = csrf_meta_tags -->
+    = csrf_meta_tags
 
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
@@ -30,6 +30,8 @@ html
 
   body
     = cell "blog/cell/navigation", OpenStruct.new(real_user: params[:real_user], current_user: params[:current_user], "signed_in?" => tyrant.signed_in?)
+
+    <!-- Header -->
     = render 'header'
 
     <!-- Main Content -->
