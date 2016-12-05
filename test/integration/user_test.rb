@@ -87,15 +87,26 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     log_in_as_user("my@email.com", "password")
     user = User.find_by(email: "my@email.com")
 
-    #user2 trying to delete user
-    click_link  "Sign Out"
+    User.all.size.must_equal 2
 
-    visit 'sessions/new'
-    user2 = User.find_by(email: "test2@email.com")
-    submit!(user2.email, "password")
-    page.must_have_content "Hi, User2"
+    page.must_have_link "Hi, UserFirstname"
 
-    #go ahead with this
+    click_link "Hi, UserFirstname"
+
+    page.must_have_link "Edit"
+    page.must_have_link "Delete"
+    page.must_have_link "Change Password"
+
+    click_link "Delete"
+
+    # test flash message
+
+    visit "/sessions/new"
+
+    submit!("my@email.com", "password")
+
+    page.must_have_content "User not found"
+
 
     
   end
