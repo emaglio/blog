@@ -95,8 +95,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     submit!(user2.email, "password")
     page.must_have_content "Hi, User2"
 
-    #delete is not working at the moment
-
+    #go ahead with this
 
     
   end

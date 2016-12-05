@@ -28,8 +28,8 @@ class PostsController < ApplicationController
   end
 
   def update
-    run Post::Update do
-      return redirect_to "/posts"
+    run Post::Update do |op|
+      return redirect_to "/posts/#{op.model.id}"
     end
 
     render Post::Cell::Edit, model: @form

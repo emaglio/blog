@@ -15,7 +15,7 @@ Minitest::Spec.class_eval do
   end
 
   def admin_for
-    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password").model unless User.find_by(email: "admin@email.com") != nil
+    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin").model unless User.find_by(email: "admin@email.com") != nil
   end
 end
 
@@ -53,7 +53,7 @@ Trailblazer::Test::Integration.class_eval do
     User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin").model unless User.find_by(email: "admin@email.com") != nil 
     
     visit "sessions/new"
-    submit!("admin@email.com", "Test1")
+    submit!("admin@email.com", "password")
   end
 
   def log_in_as_user(email = "my@email.com", password = "password")
@@ -65,11 +65,11 @@ Trailblazer::Test::Integration.class_eval do
 
   def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
     within("//form[@id='new_post']") do
-      fill_in 'Title',    with: title
-      fill_in 'Subtitle',    with: subtitle
-      fill_in 'What do you wanna say?',    with: body
+      fill_in 'Title', with: title
+      fill_in 'Subtitle', with: subtitle
+      fill_in 'What do you wanna say?', with: body
       if !signed_in
-        fill_in 'Author',    with: author
+        fill_in 'Author', with: author
       end
     end
     click_button "Create Post"
