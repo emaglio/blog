@@ -1,10 +1,10 @@
 .row
   h1 Reset Password
 
-  = trb_form_for(model, url_for(controller: "users", action: "reset_password"), builder: :bootstrap4) do |f|
+  = trb_form_for(model, url_for(controller: "users", action: "reset_password"), builder: :bootstrap4, id: :get_email) do |f|
     .row
       .col-sm-12
-        = f.input :email, placeholder: "email"
+        = f.input :email, placeholder: "Email"
     .row
       .col-sm-12
-        = f.submit(value: "Reset Passowrd")
+        = f.submit(value: "Reset Password")

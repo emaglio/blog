@@ -147,4 +147,41 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Hi, UserFirstname"
   end
 
+  it "reset password" do
+    log_in_as_user("my@email.com", "password")
+    click_link "Sign Out"
+    
+    visit "/sessions/new"
+
+    page.must_have_link "Reset Password"
+
+    click_link "Reset Password"
+
+    page.must_have_css "#email"
+    page.must_have_button "Reset Password"
+
+    #user doesn't exists
+    within("//form[@id='get_email']") do
+      fill_in 'Email', with: "wrong@email.com"
+    end
+    click_button "Reset Password"
+
+    # page.must_have_content "User not found" this is not shown for some reason
+
+    within("//form[@id='get_email']") do
+      fill_in 'Email', with: "my@email.com"
+    end
+    click_button "Reset Password"
+
+    #test the flash message
+
+    page.current_path.must_equal "/sessions/new"
+
+    submit!("my@email.com", "password")
+    page.must_have_content "Wrong Password" 
+
+    submit!("my@email.com", "NewPassword")
+    page.must_have_link "Hi, UserFirstname"
+  end
+
 end

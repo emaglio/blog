@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
     contract do
       feature Reform::Form::Dry
       property :email, virtual: true
+      
       validation do
-
         configure do
           config.messages_file = 'config/error_messages.yml'
 
@@ -23,8 +23,10 @@ class User < ActiveRecord::Base
     end
 
     def process(params)
-      model = User.find_by(email: params[:email])
-      Tyrant::ResetPassword.(model: model)
+      validate(params) do
+        model = User.find_by(email: params[:email])
+        Tyrant::ResetPassword.(model: model)
+      end
     end
 
   end 

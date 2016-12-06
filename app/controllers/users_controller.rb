@@ -48,7 +48,6 @@ class UsersController < ApplicationController
     run User::ResetPassword do |op| 
       return redirect_to "/sessions/new"
     end
-    raise
     render User::Cell::GetEmail
   end
 
