@@ -52,7 +52,12 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     #update user
     click_link "Edit"
-
+    page.must_have_css "#firstname"
+    page.must_have_css "#lastname"
+    page.must_have_selector ("#gender")
+    page.must_have_css "#phone"
+    page.must_have_css "#age"
+    page.must_have_css "#email"
     page.current_path.must_equal "/users/#{user.id}/edit"
     page.must_have_button "Save"
     
@@ -87,8 +92,6 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     log_in_as_user("my@email.com", "password")
     user = User.find_by(email: "my@email.com")
 
-    User.all.size.must_equal 2
-
     page.must_have_link "Hi, UserFirstname"
 
     click_link "Hi, UserFirstname"
@@ -106,9 +109,42 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     submit!("my@email.com", "password")
 
     page.must_have_content "User not found"
+  end
 
+  it "change password" do 
+    log_in_as_user("my@email.com", "password")
+    user = User.find_by(email: "my@email.com")
 
-    
+    page.must_have_link "Hi, UserFirstname"
+
+    click_link "Hi, UserFirstname"
+
+    page.must_have_link "Change Password"
+
+    click_link "Change Password"
+
+    page.must_have_css "#password"
+    page.must_have_css "#new_password"
+    page.must_have_css "#confirm_new_password"
+
+    within("//form[@id='change_password']") do
+      fill_in 'Password', with: "password"
+      fill_in 'New Password', with: "new_password"
+      fill_in 'Confirm New Password', with: "new_password"
+    end
+    click_button "Change Password"
+
+    # test flash message
+
+    click_link "Sign Out"
+
+    visit "/sessions/new"
+
+    submit!("my@email.com", "password")
+    page.must_have_content "Wrong Password"
+
+    submit!("my@email.com", "new_password")
+    page.must_have_link "Hi, UserFirstname"
   end
 
 end
