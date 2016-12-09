@@ -77,7 +77,6 @@ class UserOperationTest < MiniTest::Spec
     Tyrant::Authenticatable.new(model).confirmed?.must_equal true
     Tyrant::Authenticatable.new(model).confirmable?.must_equal false
 
-    Mail::TestMailer.deliveries.length.must_equal 1
     Mail::TestMailer.deliveries.first.to.must_equal ["test@email.com"]
     Mail::TestMailer.deliveries.first.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers" 
   end
@@ -114,6 +113,22 @@ class UserOperationTest < MiniTest::Spec
     assert Tyrant::Authenticatable.new(user_updated).digest == "new_password"
     Tyrant::Authenticatable.new(user_updated).confirmed?.must_equal true
     Tyrant::Authenticatable.new(user_updated).confirmable?.must_equal false    
+  end
+
+  it "only admin can block user" do
+    user.email.must_equal "test@email.com"
+    user2.email.must_equal "test2@email.com"  
+
+    assert_raises Trailblazer::NotAuthorizedError do
+      User::Block.(
+        id: user.id,
+        block: "true",
+        current_user: user2)
+    end
+
+    op = User::Block.(id: user.id, block: "true", current_user: admin)
+    op.model.persisted?.must_equal true 
+    op.model.content["block"].must_equal "true"
   end
 
 end

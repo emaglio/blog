@@ -184,4 +184,30 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Hi, UserFirstname"
   end
 
+  it "only admin can block user" do
+    log_in_as_user("my@email.com", "password")
+    click_link "Sign Out"
+
+    log_in_as_admin 
+    click_link "All Users"
+    page.must_have_link "my@email.com"
+    
+    click_link "my@email.com"
+
+    page.must_have_button "Block"
+    click_button "Block"
+
+    page.current_path.must_equal users_path
+
+    click_link "my@email.com"
+    page.must_have_button "Un-Block"
+
+    click_link "Sign Out"
+
+    visit "/sessions/new"
+    submit!("my@email.com", "password")
+
+    page.must_have_content "You have been blocked mate"
+  end
+
 end

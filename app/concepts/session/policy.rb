@@ -5,6 +5,10 @@ class Session::Policy
     @model = model
   end
 
+  def true?
+    true
+  end
+
   def post_owner?
     return unless @user
     @user.id.to_s == @model.content["user_id"]
@@ -22,5 +26,9 @@ class Session::Policy
   def current_user?
     return unless @user
     @user.email == @model.email
+  end
+
+  def show_block_user?
+    current_user? or admin?
   end
 end

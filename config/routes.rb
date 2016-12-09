@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'get_email'
       get 'get_new_password'
       post 'change_password'
+      post 'block'
     end
   end
 

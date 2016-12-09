@@ -68,5 +68,11 @@ class UsersController < ApplicationController
 
     render User::Cell::ChangePassword
   end
+
+  def block
+    run User::Block do |op| 
+      redirect_to users_path
+    end
+  end
   
 end

@@ -6,9 +6,19 @@
   .col-sm-6
     = content["lastname"]
 .row
-  .col-sm-4
-    h6 = edit
-  .col-sm-4
-    h6 = change_password
-  .col-sm-4
-    h6 = delete
+  - if policy.current_user?
+    .col-sm-4
+      h6 = edit
+    .col-sm-4
+      h6 = change_password
+    .col-sm-4
+      h6 = delete
+  - if policy.admin? 
+     = form_tag controller: :users, action: :block  do
+      = hidden_field_tag :id, model.id
+      - if model.content["block"] == "true"
+        = hidden_field_tag :block, "false"
+        h6 = submit_tag "Un-Block", data: {confirm: "Are you sure?"}
+      - else
+        = hidden_field_tag :block, "true"
+        h6 = submit_tag "Block", data: {confirm: "Are you sure?"}

@@ -3,6 +3,6 @@ class User < ActiveRecord::Base
     include Model
     model User, :find
 
-    policy Session::Policy, :current_user?
+    policy Session::Policy, :show_block_user?
   end
 end

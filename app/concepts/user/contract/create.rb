@@ -15,14 +15,7 @@ module User::Contract
       property :gender
       property :phone
       property :age
-      property :block#, type: Types::Form::Int
-      
-      # validation do
-      #   rule(not_block: [:block]) do |block|
-      #     block != true
-      #   end
-      # end
-
+      property :block#, type: Types::Form::Boolean
     end
     
     unnest :firstname, from: :content

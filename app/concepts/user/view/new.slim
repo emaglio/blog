@@ -2,6 +2,7 @@
   h1 New User
 
   = trb_form_for(model, "/users", method: :post, builder: :bootstrap4, id: :new_user) do |f|
+    = f.input :block, value: :false, type: "hidden"
     .row
       .col-sm-6
         = f.input :firstname, placeholder: "Firstname"

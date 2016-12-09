@@ -3,6 +3,8 @@ require 'reform/form/dry'
 module Session
   class SignIn < Trailblazer::Operation
 
+    policy Session::Policy, :true?
+
     contract do
       feature Reform::Form::Dry
       undef :persisted?
@@ -32,9 +34,13 @@ module Session
               Tyrant::Authenticatable.new(user).digest?(form.password) == true
             end
           end
+
+          def not_block?
+            user.content["block"] == "false" or user.content["block"] == nil 
+          end
         end
         
-        required(:email).filled(:user_exists?)
+        required(:email).filled(:user_exists?, :not_block?)
         required(:password).filled(:password_ok?)
       end
     end
