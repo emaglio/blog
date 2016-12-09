@@ -13,7 +13,7 @@
       h6 = change_password
     .col-sm-4
       h6 = delete
-  - if policy.admin? 
+  - if policy.admin? and email != "admin@email.com"
      = form_tag controller: :users, action: :block  do
       = hidden_field_tag :id, model.id
       - if model.content["block"] == "true"

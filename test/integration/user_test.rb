@@ -49,6 +49,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Edit"
     page.must_have_link "Delete"
     page.must_have_link "Change Password"
+    page.wont_have_button "Block"
 
     #update user
     click_link "Edit"
