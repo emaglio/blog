@@ -1,5 +1,14 @@
 module Post::Cell
+
+  module Tyrant
+    def tyrant 
+      context[:tyrant]
+    end
+  end
+
   class Show < Trailblazer::Cell
+    include Tyrant
+    
     property :title
     property :content
 

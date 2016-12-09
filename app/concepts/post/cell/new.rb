@@ -1,8 +1,15 @@
 module Post::Cell
+  module Tyrant
+    def tyrant
+      context[:tyrant]
+    end
+  end
+
   class New < Trailblazer::Cell
     include ActionView::RecordIdentifier
     include ActionView::Helpers::FormOptionsHelper
     include Formular::RailsHelper
+    include Tyrant
 
     def user_name
       @name = tyrant.current_user.content["firstname"]

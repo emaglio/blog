@@ -7,14 +7,4 @@ Trailblazer::Operation.class_eval do
   include Trailblazer::Operation::Policy
 end
 
-Trailblazer::Cell.class_eval do
-  def policy
-    context[:policy]
-  end
-
-  def tyrant
-    context[:tyrant]
-  end
-end
-
 require_dependency "session/policy"
