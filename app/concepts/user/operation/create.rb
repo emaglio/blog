@@ -34,7 +34,6 @@ class User < ActiveRecord::Base
         required(:email).filled(:email?, :unique_email?)
         required(:password).filled
         required(:confirm_password).filled(:must_be_equal?)
-
       end
     end
 

@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
   def create
     run Session::SignIn do |op|
       tyrant.sign_in!(op.model)
+      flash[:alert] = "Hey mate, welcome back!"
       return redirect_to "/posts"
     end
     render Session::Cell::SignIn, model: @form
