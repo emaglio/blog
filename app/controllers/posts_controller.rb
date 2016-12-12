@@ -11,7 +11,8 @@ class PostsController < ApplicationController
   end
 
   def create
-    run Post::Create do
+    run Post::Create do |op|
+      flash[:notice] = "#{op.model.title} has been created"
       return redirect_to "/posts"
     end
     render Post::Cell::New, model: @form
@@ -29,6 +30,7 @@ class PostsController < ApplicationController
 
   def update
     run Post::Update do |op|
+      flash[:notice] = "#{op.model.title} has been saved"
       return redirect_to "/posts/#{op.model.id}"
     end
 
@@ -37,6 +39,7 @@ class PostsController < ApplicationController
 
   def destroy
     run Post::Delete do |op|
+      flash[:alert] = "Post deleted"
       return redirect_to "/posts"
     end
 

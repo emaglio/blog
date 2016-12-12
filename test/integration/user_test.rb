@@ -23,7 +23,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.current_path.must_equal "/users"
 
     #successfully create user
-    sign_up!("test@email.com", "confirm_password")
+    sign_up!
     page.must_have_content "Hi, UserFirstname"
     page.must_have_content "Sign Out"
     page.current_path.must_equal "/posts"
@@ -32,7 +32,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     click_link "Sign Out"
 
     visit 'users/new'
-    sign_up!("test@email.com", "confirm_password")
+    sign_up!
     page.must_have_content "Another user has been created with this email address"
     page.current_path.must_equal "/users"
   end

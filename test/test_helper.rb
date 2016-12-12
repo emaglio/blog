@@ -35,7 +35,7 @@ Trailblazer::Test::Integration.class_eval do
   end
 
 
-  def sign_up!(email, password)
+  def sign_up!(email = "test@email.com", password = "password")
     within("//form[@id='new_user']") do
       fill_in 'Firstname',    with: "UserFirstname"
       fill_in 'Lastname',    with: "UserLastname"
@@ -65,7 +65,7 @@ Trailblazer::Test::Integration.class_eval do
 
   def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
     within("//form[@id='new_post']") do
-      fill_in 'Title', with: title
+      fill_in 'Title',  with: title
       fill_in 'Subtitle', with: subtitle
       fill_in 'What do you wanna say?', with: body
       if !signed_in
@@ -78,7 +78,7 @@ Trailblazer::Test::Integration.class_eval do
 end
 
 #to test that a new password "NewPassword" is actually saved 
-#in the auth_meta_data in User
+#in the auth_meta_data of User
 Tyrant::ResetPassword.class_eval do 
   def generate_password
     return "NewPassword"

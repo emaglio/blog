@@ -17,11 +17,13 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "must be filled"
 
     #create post without User as author
-    new_post!()
+    new_post!
 
     page.must_have_link "Title"
     page.must_have_link "Subtitle"
     page.must_have_content "Author" 
+    #flash message
+    page.must_have_content "Title has been created"
     # why created_at is set on another time?    
     # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
 
@@ -35,6 +37,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "User Title"
     page.must_have_link "User Subtitle"
     page.must_have_link "UserFirstname" #as set in the test_helper
+    #flash message
+    page.must_have_content "User Title has been created"
     # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
     
     Post.all.size.must_equal 2
@@ -44,7 +48,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     visit "posts/new"
 
     #create post without User as author
-    new_post!()
+    new_post!
 
     #create post with User as author
     log_in_as_user("edit_user@email.com", "password")
@@ -90,6 +94,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Save"
 
+    #flash message
+    page.must_have_content "New User Title has been saved"
     page.current_path.must_equal "/posts/#{user_post.id}"
     page.must_have_content "New User Title"
     page.must_have_content "New User Subtitle"
@@ -122,13 +128,15 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "Admin Title"
     page.must_have_content "Admin Subtitle"
     page.must_have_link "UserFirstname"
+    #flash message
+    page.must_have_content "Admin Title has been saved"
   end
 
   it "delete (only owner and admin)" do 
     visit "posts/new"
 
     #create post without User as author
-    new_post!()
+    new_post!
 
     #create post with User as author
     log_in_as_user("edit_user@email.com", "password")
@@ -160,7 +168,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     click_link "Delete"
 
-    #test flash message
+    #flash message
+    page.must_have_content "Post deleted"
 
     Post.all.size.must_equal 1
     page.must_have_link "Title"
@@ -180,7 +189,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     click_link "Delete"
 
-    #test flash message
+    #flash message
+    page.must_have_content "Post deleted"
 
     Post.all.size.must_equal 0
     page.wont_have_link "Title"
