@@ -37,8 +37,12 @@ html
     <!-- Main Content -->
     .container
       .row
-        .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+        .col-lg-2
+          = cell "blog/cell/search"
+        .col-lg-8
           = yield
+        .col-lg-2.text-center
+          = cell "blog/cell/news"
 
     <!-- Footer -->
     = render 'footer'
