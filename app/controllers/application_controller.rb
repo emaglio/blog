@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Trailblazer::NotAuthorizedError do |exception|
+    flash[:alert] = "You are not authorized mate!"
     redirect_to posts_path
   end
 

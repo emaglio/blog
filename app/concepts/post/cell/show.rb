@@ -30,7 +30,7 @@ module Post::Cell
     end
 
     def author
-      if model.content["user_id"] != nil and User.find(model.content["user_id"]) != nil
+      if model.content["user_id"] != nil and tyrant.current_user != nil and tyrant.current_user.email == User.find(model.content["user_id"]).email
         link_to model.content["author"], user_path(model.content["user_id"])
       else
         return model.content["author"].to_s

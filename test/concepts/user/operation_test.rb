@@ -15,7 +15,7 @@ class UserOperationTest < MiniTest::Spec
   it "wrong input" do
     res, op = User::Create.run(user: {})
     res.must_equal false
-    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"Wrong format\", \"Another user has been already created with this email address\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\", \"Passwords are not matching\"]}"
+    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"Wrong format\", \"This email has been already used\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\", \"Passwords are not matching\"]}"
   end
 
   it "passwords not matching" do
@@ -31,7 +31,7 @@ class UserOperationTest < MiniTest::Spec
 
     res,op = User::Create.run(email: "test@email.com", password: "password", confirm_password: "password")
     res.must_equal false
-    op.errors.to_s.must_equal "{:email=>[\"Another user has been already created with this email address\"]}"
+    op.errors.to_s.must_equal "{:email=>[\"This email has been already used\"]}"
   end
 
   it "only current_user can modify user" do
@@ -77,8 +77,8 @@ class UserOperationTest < MiniTest::Spec
     Tyrant::Authenticatable.new(model).confirmed?.must_equal true
     Tyrant::Authenticatable.new(model).confirmable?.must_equal false
 
-    Mail::TestMailer.deliveries.first.to.must_equal ["test@email.com"]
-    Mail::TestMailer.deliveries.first.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers" 
+    Mail::TestMailer.deliveries.last.to.must_equal ["test@email.com"]
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers" 
   end
 
   it "wrong input change password" do 

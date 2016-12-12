@@ -22,8 +22,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Title"
     page.must_have_link "Subtitle"
     page.must_have_content "Author" 
-    #flash message
-    page.must_have_content "Title has been created"
+    page.must_have_content "Title has been created" #flash message
     # why created_at is set on another time?    
     # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
 
@@ -37,14 +36,13 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "User Title"
     page.must_have_link "User Subtitle"
     page.must_have_link "UserFirstname" #as set in the test_helper
-    #flash message
-    page.must_have_content "User Title has been created"
+    page.must_have_content "User Title has been created" #flash message
     # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
     
     Post.all.size.must_equal 2
   end
 
-  it "edit (only owner and admin" do
+  it "edit (only owner and admin)" do
     visit "posts/new"
 
     #create post without User as author
@@ -69,7 +67,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     visit "/posts/#{not_user_post.id}/edit"
     page.current_path.must_equal "/posts"
-    #test flash message
+    page.must_have_content "You are not authorized mate!" #flash message
     
     #edit user_post
     page.must_have_link "User Title"
@@ -94,8 +92,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Save"
 
-    #flash message
-    page.must_have_content "New User Title has been saved"
+    page.must_have_content "New User Title has been saved" #flash message
     page.current_path.must_equal "/posts/#{user_post.id}"
     page.must_have_content "New User Title"
     page.must_have_content "New User Subtitle"
@@ -127,9 +124,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     page.must_have_content "Admin Title"
     page.must_have_content "Admin Subtitle"
-    page.must_have_link "UserFirstname"
-    #flash message
-    page.must_have_content "Admin Title has been saved"
+    page.must_have_content "by UserFirstname"
+    page.must_have_content "Admin Title has been saved" #flash message
   end
 
   it "delete (only owner and admin)" do 
@@ -146,7 +142,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     not_user_post = Post.first
     user_post = Post.last
 
-    #can't edit not user post
+    #random user can't delete a post
     page.must_have_link "Title"
 
     click_link "Title"
@@ -168,8 +164,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     click_link "Delete"
 
-    #flash message
-    page.must_have_content "Post deleted"
+    page.must_have_content "Post deleted" #flash message
 
     Post.all.size.must_equal 1
     page.must_have_link "Title"
@@ -189,8 +184,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     click_link "Delete"
 
-    #flash message
-    page.must_have_content "Post deleted"
+    page.must_have_content "Post deleted" #flash message
 
     Post.all.size.must_equal 0
     page.wont_have_link "Title"

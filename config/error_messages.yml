@@ -5,6 +5,6 @@ en:
     must_be_equal?: "Passwords are not matching"
     new_must_match?: "New Password are not matching"
     new_password_must_be_new?: "New password can't match the old one"
-    unique_email?: "Another user has been already created with this email address"
+    unique_email?: "This email has been already used"
     email?: "Wrong format"
     not_block?: "You have been blocked mate"

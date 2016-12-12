@@ -18,7 +18,7 @@ class PostOperationTest < MiniTest::Spec
   end
 
 
-  it "only post owner or can modify post" do
+  it "only post owner and admin can modify post" do
     user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password").model
     user.persisted?.must_equal true
     user2 = User::Create.(email: "user2@email.com", password: "password", confirm_password: "password").model

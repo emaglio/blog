@@ -27,15 +27,14 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "Hi, UserFirstname"
     page.must_have_content "Sign Out"
     page.current_path.must_equal "/posts"
-    #flash messages
-    page.must_have_content "Welcome UserFirstname!"
+    page.must_have_content "Welcome UserFirstname!"#flash message
 
     #sign_out and try to create user with the same email
     click_link "Sign Out"
 
     visit 'users/new'
     sign_up!
-    page.must_have_content "Another user has been already created with this email address"
+    page.must_have_content "This email has been already used" #flash message
     page.current_path.must_equal "/users"
   end
 
@@ -70,8 +69,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Save"
 
-    #flash messages
-    page.must_have_content "New details saved"
+    
+    page.must_have_content "New details saved" #flash message
     page.must_have_content "Hi, NewFirstname"
     page.current_path.must_equal "/users/#{user.id}"
 
@@ -84,13 +83,9 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     page.must_have_content "Hi, User2"
     
-    visit user_path(user.id)
-    page.current_path.must_equal "/posts"
-    #test flash error
-
     visit "/users/#{user.id}/edit"
     page.current_path.must_equal "/posts"
-    #test flash error
+    page.must_have_content "You are not authorized mate!" #flash message
   end
 
   it "delete" do 
@@ -107,7 +102,6 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     click_link "Delete"
 
-    #flash message
     page.must_have_content "User deleted"
 
     visit "/sessions/new"
@@ -140,8 +134,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Change Password"
 
-    #flash message
-    page.must_have_content "The new password has been saved"
+    page.must_have_content "The new password has been saved" #flash message
 
     click_link "Sign Out"
 
@@ -180,8 +173,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Reset Password"
 
-    #flash message
-    page.must_have_content "Your password has been reset"
+    page.must_have_content "Your password has been reset" #flash message
 
     page.current_path.must_equal "/sessions/new"
 
@@ -205,8 +197,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_button "Block"
     click_button "Block"
 
-    #flash message
-    page.must_have_content "UserFirstname has been blocked"
+    page.must_have_content "UserFirstname has been blocked" #flash message
     page.current_path.must_equal users_path
 
     click_link "my@email.com"
@@ -225,8 +216,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     click_link "my@email.com"
     click_button "Un-Block"
 
-    #flash message
-    page.must_have_content "UserFirstname has been un-blocked"
+    page.must_have_content "UserFirstname has been un-blocked" #flash message
 
     click_link "Sign Out"
 
