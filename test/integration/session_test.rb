@@ -34,5 +34,22 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
     page.wont_have_css "#password"
     page.wont_have_button "Sign In"
     page.current_path.must_equal posts_path
+
+    page.must_have_content "Hey mate, welcome back!"
+  end
+
+  it "succesfully log out" do
+    op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")
+    
+    visit "sessions/new"
+
+    submit!("#{op.model.email}", "password")
+
+    page.must_have_content "Hi, NewUser"
+    page.must_have_link "Sign Out"
+
+    click_link "Sign Out"
+    page.wont_have_content "Hi, NewUser"
+    page.must_have_content "See ya!"
   end
 end
