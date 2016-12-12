@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   def create
     run User::Create do |op|
       tyrant.sign_in!(op.model)
+      flash[:notice] = "Welcome #{get_name(op.model)}!"
       return redirect_to "/posts"
     end
     render User::Cell::New, model: @form
@@ -30,6 +31,7 @@ class UsersController < ApplicationController
 
   def update
     run User::Update do |op|
+      flash[:notice] = "New details saved"
       return redirect_to "/users/#{op.model.id}"
     end
     
@@ -38,6 +40,7 @@ class UsersController < ApplicationController
 
   def destroy
     run User::Delete do |op|
+      flash[:alert] = "User deleted"
       return redirect_to "/posts"
     end
 
@@ -46,6 +49,7 @@ class UsersController < ApplicationController
 
   def reset_password
     run User::ResetPassword do |op| 
+      flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
     render User::Cell::GetEmail
@@ -63,6 +67,7 @@ class UsersController < ApplicationController
 
   def change_password
     run User::ChangePassword do |op|
+      flash[:alert] = "The new password has been saved"
       return redirect_to user_path(tyrant.current_user)
     end
 
@@ -70,9 +75,23 @@ class UsersController < ApplicationController
   end
 
   def block
-    run User::Block do |op| 
+    run User::Block do |op|
+      if op.model.content["block"] == "true"
+        flash[:alert] = "#{get_name(op.model)} has been blocked"
+      else
+        flash[:alert] = "#{get_name(op.model)} has been un-blocked"
+      end
       redirect_to users_path
     end
+  end
+
+private
+  def get_name(model)
+    name = model.content["firstname"]
+    if name == nil
+      name = model.email
+    end
+    return name
   end
   
 end

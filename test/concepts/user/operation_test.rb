@@ -15,7 +15,7 @@ class UserOperationTest < MiniTest::Spec
   it "wrong input" do
     res, op = User::Create.run(user: {})
     res.must_equal false
-    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"Wrong format\", \"Another user has been created with this email address\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\", \"Passwords are not matching\"]}"
+    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"Wrong format\", \"Another user has been already created with this email address\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\", \"Passwords are not matching\"]}"
   end
 
   it "passwords not matching" do
@@ -31,7 +31,7 @@ class UserOperationTest < MiniTest::Spec
 
     res,op = User::Create.run(email: "test@email.com", password: "password", confirm_password: "password")
     res.must_equal false
-    op.errors.to_s.must_equal "{:email=>[\"Another user has been created with this email address\"]}"
+    op.errors.to_s.must_equal "{:email=>[\"Another user has been already created with this email address\"]}"
   end
 
   it "only current_user can modify user" do

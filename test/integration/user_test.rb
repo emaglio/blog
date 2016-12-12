@@ -27,13 +27,15 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "Hi, UserFirstname"
     page.must_have_content "Sign Out"
     page.current_path.must_equal "/posts"
+    #flash messages
+    page.must_have_content "Welcome UserFirstname!"
 
     #sign_out and try to create user with the same email
     click_link "Sign Out"
 
     visit 'users/new'
     sign_up!
-    page.must_have_content "Another user has been created with this email address"
+    page.must_have_content "Another user has been already created with this email address"
     page.current_path.must_equal "/users"
   end
 
@@ -68,6 +70,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Save"
 
+    #flash messages
+    page.must_have_content "New details saved"
     page.must_have_content "Hi, NewFirstname"
     page.current_path.must_equal "/users/#{user.id}"
 
@@ -103,7 +107,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     click_link "Delete"
 
-    # test flash message
+    #flash message
+    page.must_have_content "User deleted"
 
     visit "/sessions/new"
 
@@ -135,7 +140,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Change Password"
 
-    # test flash message
+    #flash message
+    page.must_have_content "The new password has been saved"
 
     click_link "Sign Out"
 
@@ -174,7 +180,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Reset Password"
 
-    #test the flash message
+    #flash message
+    page.must_have_content "Your password has been reset"
 
     page.current_path.must_equal "/sessions/new"
 
@@ -198,6 +205,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_button "Block"
     click_button "Block"
 
+    #flash message
+    page.must_have_content "UserFirstname has been blocked"
     page.current_path.must_equal users_path
 
     click_link "my@email.com"
@@ -209,6 +218,21 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     submit!("my@email.com", "password")
 
     page.must_have_content "You have been blocked mate"
-  end
 
+    log_in_as_admin 
+    click_link "All Users"
+    page.must_have_link "my@email.com"
+    click_link "my@email.com"
+    click_button "Un-Block"
+
+    #flash message
+    page.must_have_content "UserFirstname has been un-blocked"
+
+    click_link "Sign Out"
+
+    visit "/sessions/new"
+    submit!("my@email.com", "password")
+    page.must_have_content "Hi, UserFirstname"
+    page.must_have_link "Sign Out"
+  end
 end
