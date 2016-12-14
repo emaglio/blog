@@ -11,7 +11,7 @@ module Blog::Cell
         i = 0
         (1..3).each do
           dim = ::Post.all.size
-          while ::Post.where("id == ?",dim - i).size != 1 or dim-i != 0 do
+          while (::Post.where("id == ?",dim - i).size != 1 and dim-i != 0) do
             i =+1
           end
           post_array << ::Post.find(dim - i)
@@ -32,7 +32,6 @@ module Blog::Cell
   
     class Post < Trailblazer::Cell
       def link  
-        raise model.inspect
         link_to model.title, post_path(model)
       end
     end
