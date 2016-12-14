@@ -7,7 +7,12 @@ module Post::Cell
   end
 
   class Index < Trailblazer::Cell
-
+  private
+    def total
+      if model.size == 0
+        return "No posts"
+      end
+    end
   end
 
   class Item < Trailblazer::Cell
