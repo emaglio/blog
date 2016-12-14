@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   root to: 'posts#index'
 
-  resources :posts
+  resources :posts do
+    collection do
+      post 'search'
+    end
+  end
   
   resources :users do
     collection do

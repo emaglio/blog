@@ -46,4 +46,9 @@ class PostsController < ApplicationController
     render Post::Cell::Edit, model: @form
   end
 
+  def search
+    present Post::Search
+    render Post::Cell::Index
+  end
+
 end

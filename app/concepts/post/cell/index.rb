@@ -14,7 +14,11 @@ module Post::Cell
     include Tyrant
 
     def title
-       link_to model.title, model
+      if model == nil
+        return "No posts"
+      else
+        link_to model.title, model
+      end
     end
 
     def subtitle
