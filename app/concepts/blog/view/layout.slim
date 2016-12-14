@@ -35,15 +35,18 @@ html
     = render 'header'
 
     <!-- Main Content -->
-    .container
-      .row
-        .col-lg-2
-          = cell "blog/cell/search"
-        .col-lg-8
-          = yield
-        .col-lg-2.text-center
-          = cell "blog/cell/news"
-
+    .col-lg-1
+    .col-lg-10
+      .col-lg-2.text-left.search
+        h3 Search post:
+        = cell "post/cell/search"
+      .col-lg-8.text-center
+        = yield
+      .col-lg-2.text-right
+        h3 Latest posts:
+        = cell "blog/cell/news"
+    .col-lg-1
+    
     <!-- Footer -->
     = render 'footer'
 
