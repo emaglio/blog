@@ -190,4 +190,58 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.wont_have_link "Title"
     page.wont_have_link "User Title"
   end
+
+  it "search post" do
+    visit "posts/new"
+    new_post!("Post 1 search") 
+
+    visit "posts/new"
+    new_post!("Post 2 search")
+
+    page.must_have_css "#keynote"
+    page.must_have_button "Search" 
+    page.must_have_link "Post 1 search"
+    page.must_have_link "Post 2 search"
+
+    #searching nil return all posts
+    within("//form[@id='search']") do
+      fill_in :keynote, with: ""
+    end
+    click_button "Search"
+    page.must_have_link "Post 1 search"
+    page.must_have_link "Post 2 search"
+
+    #test only Post 1 is shown
+    within("//form[@id='search']") do
+      fill_in :keynote, with: "1"
+    end
+    click_button "Search"
+    page.must_have_link "Post 1 search"
+    page.wont_have_link "Post 2 search"
+
+    #test only Post 2 is shown
+    within("//form[@id='search']") do
+      fill_in :keynote, with: "2"
+    end
+    click_button "Search"
+    page.wont_have_link "Post 1 search"
+    page.must_have_link "Post 2 search"
+
+    #both posts are shown
+    within("//form[@id='search']") do
+      fill_in :keynote, with: "search"
+    end
+    click_button "Search"
+    page.must_have_link "Post 1 search"
+    page.must_have_link "Post 2 search"
+
+    #none shown
+    within("//form[@id='search']") do
+      fill_in :keynote, with: "not found"
+    end
+    click_button "Search"
+    page.wont_have_link "Post 1 search"
+    page.wont_have_link "Post 2 search"
+    page.must_have_content "No posts"
+  end
 end

@@ -1,4 +1,4 @@
 .row
-  = form_tag controller: :posts, action: :search do |f|
+  = form_tag search_posts_path, method: :post, id: "search" do |f|
     = text_field_tag :keynote
     = submit_tag "Search"

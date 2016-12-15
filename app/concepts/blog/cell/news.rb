@@ -27,7 +27,7 @@ module Blog::Cell
     include MyPosts
 
     def show
-      cell(Post, collection: posts)      
+      cell(Post, collection: posts) unless posts.size == 1
     end
   
     class Post < Trailblazer::Cell
