@@ -51,4 +51,9 @@ class PostsController < ApplicationController
     render Post::Cell::Index
   end
 
+  def advanced_search
+    present Post::AdvancedSearch
+    render Post::Cell::AdvancedSearch
+  end
+
 end
