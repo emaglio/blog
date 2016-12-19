@@ -4,42 +4,36 @@ h1 Advanced Search:
   = form_tag search_posts_path, method: :post, id: "search" do
     = hidden_field_tag :advance, "true"
     .p.row
-      .col-sm-1
-        = label_tag :title
-      .col-sm-1
-        = check_box_tag :title
-      .col-sm-1
+      .col-sm-2
+        = label_tag "Title:"
+      .col-sm-5.text-center 
         = text_field_tag :title
     .p.row
-      .col-sm-1
-        = label_tag :subtitle
-      .col-sm-1
-        = check_box_tag :subtitle_box
-      .col-sm-1
+      .col-sm-2
+        = label_tag "Subtitle:"
+      .col-sm-5.text-center
         = text_field_tag :subtitle
     .p.row
-      .col-sm-1
-        = label_tag :body
-      .col-sm-1  
-        = check_box_tag :body
-      .col-sm-1
+      .col-sm-2
+        = label_tag "Body:"
+      .col-sm-5.text-center 
         = text_field_tag :body
     .p.row
-      .col-sm-1  
-        = label_tag :author
-      .col-sm-1  
-        = check_box_tag :author
-      .col-sm-1
+      .col-sm-2  
+        = label_tag "Author:"
+      .col-sm-5.text-center 
         = text_field_tag :author
     .p.row
-      .col-sm-1
-        = label_tag :when
-      .col-sm-1
-        = check_box_tag :created_at
-      .col-sm-5
-        = label_tag :from
-        = datetime_field_tag :from 
-      .col-sm-5
-        = label_tag :to
-        = datetime_field_tag :to
+      .col-sm-2
+        = label_tag "When:"
+      .col-sm-5.text-center 
+        h6.row
+          = label_tag :from
+        .row.text-center  
+          = datetime_field_tag :from
+      .col-sm-5.text-center 
+        h6.row
+          = label_tag :to
+        .row
+          = datetime_field_tag :to
     = submit_tag "Search"
