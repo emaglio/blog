@@ -8,13 +8,15 @@ class PostOperationTest < MiniTest::Spec
     op = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever")
     op.model.persisted?.must_equal true
     op.model.title.must_equal "Test"
-    op.model.content.must_equal({"subtitle"=>"Subtitle", "author"=>"Nick", "body"=>"whatever"})
+    op.model.subtitle.must_equal "Subtitle"
+    op.model.author.must_equal "Nick"
+    op.model.body.must_equal "whatever"
   end
 
   it "wrong input" do
     res, op = Post::Create.run(post: {})
     res.must_equal false
-    op.errors.to_s.must_equal "{:title=>[\"is missing\"], :\"content.subtitle\"=>[\"is missing\"], :\"content.author\"=>[\"is missing\"], :\"content.body\"=>[\"is missing\"]}"
+    op.errors.to_s.must_equal "{:title=>[\"is missing\"], :subtitle=>[\"is missing\"], :author=>[\"is missing\"], :body=>[\"is missing\"]}"
   end
 
 

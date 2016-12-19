@@ -11,7 +11,7 @@ class Session::Policy
 
   def post_owner?
     return unless @user
-    @user.id.to_s == @model.content["user_id"]
+    @user.id == @model.user_id
   end
 
   def admin?
