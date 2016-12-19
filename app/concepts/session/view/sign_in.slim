@@ -1,4 +1,4 @@
-.row
+.row.new
   h1 Sign In
 
   = trb_form_for(model, "/sessions", method: :post, builder: :bootstrap4, id: :new_session) do |f|
@@ -9,9 +9,9 @@
       .col-sm-12
         = f.input :password, placeholder: "Password",  type: "password"
     .row
-      .col-sm-10
+      .col-sm-10.text-left
         = f.submit(value: "Sign In")
-      .col-sm-2
+      .col-sm-2.text-right
         h6
           = link_to "Reset Password", get_email_users_path
 

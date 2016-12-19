@@ -10,8 +10,8 @@ module Post::Cell
     include Tyrant
     
     property :title
-    property :content
-
+    property :subtitle
+    property :body
 
     def back
       link_to "Back to posts list", posts_path
@@ -19,7 +19,7 @@ module Post::Cell
 
     def edit
       unless tyrant.current_user == nil
-        if tyrant.current_user.id.to_s == model.content["user_id"] or tyrant.current_user.email == "admin@email.com" #change in order to have policy
+        if tyrant.current_user.id == model.user_id or tyrant.current_user.email == "admin@email.com" #change in order to have policy
           link_to "Edit", edit_post_path(model.id)
         end
       end
@@ -27,17 +27,17 @@ module Post::Cell
 
     def delete
       unless tyrant.current_user == nil
-        if tyrant.current_user.id.to_s == model.content["user_id"] or tyrant.current_user.email == "admin@email.com" #change in order to have policy
+        if tyrant.current_user.id == model.user_id or tyrant.current_user.email == "admin@email.com" #change in order to have policy
           link_to "Delete", post_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
         end
       end
     end
 
     def author
-      if model.content["user_id"] != nil and tyrant.current_user != nil and tyrant.current_user.email == User.find(model.content["user_id"]).email
-        link_to model.content["author"], user_path(model.content["user_id"])
+      if model.user_id != nil and tyrant.current_user != nil and tyrant.current_user.email == User.find(model.user_id).email
+        link_to model.author, user_path(model.user_id)
       else
-        return model.content["author"].to_s
+        return model.author
       end   
     end
 
