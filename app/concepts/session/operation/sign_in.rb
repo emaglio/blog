@@ -36,7 +36,7 @@ module Session
           end
 
           def not_block?
-            user.content["block"] == "false" or user.content["block"] == nil 
+            user.block == false or user.block == nil 
           end
         end
         

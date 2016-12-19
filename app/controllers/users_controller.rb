@@ -76,7 +76,7 @@ class UsersController < ApplicationController
 
   def block
     run User::Block do |op|
-      if op.model.content["block"] == "true"
+      if op.model.block == true
         flash[:alert] = "#{get_name(op.model)} has been blocked"
       else
         flash[:alert] = "#{get_name(op.model)} has been un-blocked"
@@ -87,7 +87,7 @@ class UsersController < ApplicationController
 
 private
   def get_name(model)
-    name = model.content["firstname"]
+    name = model.firstname
     if name == nil
       name = model.email
     end

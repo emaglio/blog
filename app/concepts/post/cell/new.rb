@@ -12,7 +12,7 @@ module Post::Cell
     include Tyrant
 
     def user_name
-      @name = tyrant.current_user.content["firstname"]
+      @name = tyrant.current_user.firstname
 
       if @name == nil
         @name = tyrant.current_user.email

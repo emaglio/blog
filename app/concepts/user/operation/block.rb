@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
     def process(params)
       validate(params) do
-        model.content["block"] = params[:block]
+        model.block = params[:block]
         model.save
       end
     end

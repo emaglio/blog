@@ -27,7 +27,7 @@ module Post::Cell
     end
 
     def subtitle
-      link_to model.subtitle, model      
+      link_to model.subtitle, model unless model == nil
     end
 
     def author

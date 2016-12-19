@@ -17,7 +17,7 @@ module Blog::Cell
     include Tyrant
 
     def welcome
-      @name = tyrant.current_user.content["firstname"]
+      @name = tyrant.current_user.firstname
 
       if @name == nil
         @name = tyrant.current_user.email

@@ -128,7 +128,7 @@ class UserOperationTest < MiniTest::Spec
 
     op = User::Block.(id: user.id, block: "true", current_user: admin)
     op.model.persisted?.must_equal true 
-    op.model.content["block"].must_equal "true"
+    op.model.block.must_equal true
   end
 
 end

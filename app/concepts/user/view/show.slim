@@ -2,9 +2,9 @@
   = email
 .row
   .col-sm-6
-    = content["firstname"]
+    = firstname
   .col-sm-6
-    = content["lastname"]
+    = lastname
 .row
   - if policy.current_user?
     .col-sm-4
@@ -16,7 +16,7 @@
   - if policy.admin? and email != "admin@email.com"
      = form_tag controller: :users, action: :block  do
       = hidden_field_tag :id, model.id
-      - if model.content["block"] == "true"
+      - if model.block == true
         = hidden_field_tag :block, "false"
         h6 = submit_tag "Un-Block", data: {confirm: "Are you sure?"}
       - else
