@@ -19,6 +19,7 @@ class Post < ActiveRecord::Base
     end
 
     def advanced_search(params)
+      #not the best but at the end of the day there is just one query to the database
       condition = ""
       wheres = []
       multiple_condition = false
@@ -35,22 +36,43 @@ class Post < ActiveRecord::Base
         multiple_condition = true
       end
       
-      if params[:body] != ""
+      if params["body"] != ""
         condition = getConditions("body", condition, multiple_condition)
         wheres << "%" + params["body"].to_s + "%"
         multiple_condition = true
       end
       
-      if params[:author] != ""
+      if params["author"] != ""
         condition = getConditions("author", condition, multiple_condition)
         wheres << "%" + params["author"].to_s + "%"
         multiple_condition = true
       end 
 
+      if params["from"] != ""
+        if multiple_condition == true
+          condition = condition + " AND "
+        end
+        
+        condition = condition + "DATE(created_at) >= ?"
+        wheres << params["from"].strftime("%F")
+        multiple_condition = true
+      end
+
+      if params["to"] != ""
+        if multiple_condition == true
+          condition = condition + " AND "
+        end
+        
+        condition = condition + "DATE(created_at) <= ?"
+        wheres << params["to"].strftime("%F")
+        multiple_condition = true
+      end
+
       if condition == ""
         return ::Post.all.reverse_order
       else
         wheres.insert(0, condition)
+        raise wheres.inspect
         return Post.where(wheres)
       end
     end
@@ -63,44 +85,6 @@ class Post < ActiveRecord::Base
       condition = condition + property.to_s + " like ?"
       return condition
     end
-
-    def getParams(value, multiple_condition)
-      params = ""
-      params = "%" + value.to_s + "%"
-      return params
-    end
-
-    # def search_for_title(model_array, keynote)
-    #   new_array = []
-    #   model_array.each do |model|
-    #     new_array << model if model.title.include? keynote
-    #   end
-    #   return new_array
-    # end
-    
-    # def search_for_subtitle(model_array, keynote)
-    #   new_array = []
-    #   model_array.each do |model|
-    #     new_array << model if model.content["subtitle"].include? keynote
-    #   end
-    #   return new_array
-    # end
-    
-    # def search_for_body(model_array, keynote)
-    #   new_array = []
-    #   model_array.each do |model|
-    #     new_array << model if model.content["body"].include? keynote
-    #   end
-    #   return new_array
-    # end
-    
-    # def search_for_author(model_array, keynote)
-    #   new_array = []
-    #   model_array.each do |model|
-    #     new_array << model if model.content["author"].include? keynote
-    #   end
-    #   return new_array
-    # end
 
 
   end
