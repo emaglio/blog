@@ -37,14 +37,17 @@ html
     <!-- Main Content -->
     .col-lg-1
     .col-lg-10
-      .col-lg-2.text-left.search
-        h3 Search post:
-        = cell "post/cell/search"
-      .col-lg-8.text-center
-        = yield
-      .col-lg-2.text-right
-        h3 Latest posts:
-        = cell "blog/cell/news"
+      .left-bar
+        .col-lg-2.text-left
+          h3 Search post:
+          = cell "post/cell/search"
+      .main
+        .col-lg-8.text-center
+          = yield
+      .right-bar
+        .col-lg-2.text-right
+          h3 Latest posts:
+          = cell "blog/cell/news"
     .col-lg-1
     
     <!-- Footer -->

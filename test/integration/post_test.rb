@@ -54,13 +54,14 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     click_link "New Post"
     new_post!("User Title", "User Subtitle", "User Body", "", true)
     Post.all.size.must_equal 2
-    not_user_post = Post.first
-    user_post = Post.last
+    not_user_post = Post.find_by(title: "Title")
+    user_post = Post.find_by(title: "User Title")
 
     #can't edit not user post
     page.must_have_link "Title"
+    page.must_have_link "User Title"
 
-    click_link "Title"
+    first('.main').click_link "Title"
 
     page.wont_have_link "Edit"
     page.wont_have_link "Delete"
@@ -73,7 +74,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     #edit user_post
     page.must_have_link "User Title"
 
-    click_link "User Title"
+    first('.main').click_link "User Title"
 
     page.must_have_link "Edit"
     page.must_have_link "Delete"
@@ -107,7 +108,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "Hi, Admin"
     page.must_have_link "New User Title"
 
-    click_link "New User Title"
+    first('.main').click_link "New User Title"
 
     page.must_have_link "Edit"
     page.must_have_link "Delete"
@@ -146,7 +147,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     #random user can't delete a post
     page.must_have_link "Title"
 
-    click_link "Title"
+    first('.main').click_link "Title"
 
     page.wont_have_link "Edit"
     page.wont_have_link "Delete"
@@ -157,7 +158,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     #edit user_post
     page.must_have_link "User Title"
 
-    click_link "User Title"
+    first('.main').click_link "User Title"
 
     page.must_have_link "Edit"
     page.must_have_link "Delete"
@@ -177,7 +178,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     log_in_as_admin
     visit "/posts"
 
-    click_link "Title"
+    first('.main').click_link "Title"
 
     page.must_have_link "Edit"
     page.must_have_link "Delete"
@@ -209,40 +210,40 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
       fill_in :keynote, with: ""
     end
     click_button "Search"
-    page.must_have_link "Post 1 search"
-    page.must_have_link "Post 2 search"
+    find('.main').must_have_link "Post 1 search"
+    find('.main').must_have_link "Post 2 search"
 
     #test only Post 1 is shown
     within("//form[@id='search']") do
       fill_in :keynote, with: "1"
     end
     click_button "Search"
-    page.must_have_link "Post 1 search"
-    page.wont_have_link "Post 2 search"
+    find('.main').must_have_link "Post 1 search"
+    find('.main').wont_have_link "Post 2 search"
 
     #test only Post 2 is shown
     within("//form[@id='search']") do
       fill_in :keynote, with: "2"
     end
     click_button "Search"
-    page.wont_have_link "Post 1 search"
-    page.must_have_link "Post 2 search"
+    find('.main').wont_have_link "Post 1 search"
+    find('.main').must_have_link "Post 2 search"
 
     #both posts are shown
     within("//form[@id='search']") do
       fill_in :keynote, with: "search"
     end
     click_button "Search"
-    page.must_have_link "Post 1 search"
-    page.must_have_link "Post 2 search"
+    find('.main').must_have_link "Post 1 search"
+    find('.main').must_have_link "Post 2 search"
 
     #none shown
     within("//form[@id='search']") do
       fill_in :keynote, with: "not found"
     end
     click_button "Search"
-    page.wont_have_link "Post 1 search"
-    page.wont_have_link "Post 2 search"
-    page.must_have_content "No posts"
+    find('.main').wont_have_link "Post 1 search"
+    find('.main').wont_have_link "Post 2 search"
+    find('.main').must_have_content "No posts"
   end
 end
