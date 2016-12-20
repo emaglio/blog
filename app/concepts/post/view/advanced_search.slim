@@ -1,7 +1,7 @@
 h1 Advanced Search:
 .text-left.new
   h3 Select the searching criteria:
-  = form_tag search_posts_path, method: :post, id: "search" do
+  = form_tag search_posts_path, method: :post, id: "advanced_search" do
     = hidden_field_tag :advance, "true"
     .p.row
       .col-sm-2

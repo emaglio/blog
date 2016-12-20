@@ -246,4 +246,89 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     find('.main').wont_have_link "Post 2 search"
     find('.main').must_have_content "No posts"
   end
+
+  it "advanced search" do #needs to add the "when" option
+    visit "posts/new"
+    new_post!("Title 1", "Subtitle 1", "Body1", "User1", false)
+
+    visit "posts/new"
+    new_post!("Title 2", "Subtitle 1", "Body2", "User1", false)
+
+    visit "posts/new"
+    new_post!("Title 3", "Subtitle 1", "Body2", "User2", false) 
+
+    visit root_path
+    page.must_have_link "Advanced" 
+
+    click_link "Advanced"
+
+    page.must_have_css "#title"
+    page.must_have_css "#subtitle"
+    page.must_have_css "#body"
+    page.must_have_css "#author"
+    page.must_have_css "#from"
+    page.must_have_css "#to"
+
+    #only Title 1 will be shown
+    within("//form[@id='advanced_search']") do
+      fill_in :title, with: "Title 1"
+      fill_in :subtitle, with: "Subtitle 1"
+      fill_in :author, with: "User1"
+    end
+    find('.main').click_button "Search"
+
+    find('.main').must_have_link "Title 1"
+    find('.main').must_have_link "Subtitle 1"
+    find('.main').must_have_content "by User1"
+
+    click_link "Advanced"
+    #none
+    within("//form[@id='advanced_search']") do
+      fill_in :title, with: "Title 1"
+      fill_in :subtitle, with: "Subtitle 1"
+      fill_in :author, with: "User2"
+    end
+    find('.main').click_button "Search"
+
+    find('.main').wont_have_link "Title 1"
+    find('.main').wont_have_link "Subtitle 1"
+    find('.main').wont_have_content "by User1"
+    find('.main').must_have_content "No posts"
+
+    click_link "Advanced"
+    #all
+    within("//form[@id='advanced_search']") do
+      fill_in :subtitle, with: "Subtitle 1"
+    end
+    find('.main').click_button "Search"
+
+    find('.main').must_have_link "Title 1"
+    find('.main').must_have_link "Title 2"
+    find('.main').must_have_link "Title 3"
+  end
+
+  it "latest 3 posts" do
+    visit "posts/new"
+    new_post!("Title 1")
+
+    find('.right-bar').must_have_link "Title 1"
+
+    visit "posts/new"
+    new_post!("Title 2")
+    find('.right-bar').must_have_link "Title 1"
+    find('.right-bar').must_have_link "Title 2"
+
+    visit "posts/new"
+    new_post!("Title 3")
+    find('.right-bar').must_have_link "Title 1"
+    find('.right-bar').must_have_link "Title 2"
+    find('.right-bar').must_have_link "Title 3"
+
+    visit "posts/new"
+    new_post!("Title 4") 
+    find('.right-bar').must_have_link "Title 2"
+    find('.right-bar').must_have_link "Title 3"
+    find('.right-bar').must_have_link "Title 4"
+    find('.right-bar').wont_have_link "Title 1"
+  end
 end
