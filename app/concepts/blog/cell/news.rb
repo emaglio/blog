@@ -6,7 +6,7 @@ module Blog::Cell
       #get the last 3 posts 
       # in case there are more than 3
       if ::Post.all.size < 3
-        post_array << Post.all
+        post_array = Post.all
       else
         i = 0
         (1..3).each do
@@ -27,7 +27,11 @@ module Blog::Cell
     include MyPosts
 
     def show
-      cell(Post, collection: posts) unless posts.size == 1
+      if posts.size == 1
+        cell(Post, posts.first)
+      else
+        cell(Post, collection: posts)
+      end
     end
   
     class Post < Trailblazer::Cell
