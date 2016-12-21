@@ -21,6 +21,8 @@ class Post < ActiveRecord::Base
     def advanced_search(params)
       #not the best but at the end of the day there is just one query to the database
       condition = ""
+      date = ""
+      new_date = ""
       wheres = []
       multiple_condition = false
 
@@ -49,22 +51,30 @@ class Post < ActiveRecord::Base
       end 
 
       if params["from"] != ""
+        #change date format to have the correct query for SQlite
+        #using datetime to use a sencond as sensibility in the search
+        date = params["from"]
+        new_date = date.slice(6,4) + "-" + date.slice(3,2) + "-" + date.slice(0,2) + " 00:00:00"
         if multiple_condition == true
           condition = condition + " AND "
         end
         
-        condition = condition + "DATE(created_at) >= ?"
-        wheres << params["from"]
+        condition = condition + "datetime(created_at) > ?"
+        wheres << new_date
         multiple_condition = true
       end
 
       if params["to"] != ""
+        #change date format to have the correct query for SQlite
+        #using datetime to use a sencond as sensibility in the search
+        mydate = params["to"]
+        new_date = mydate.slice(6,4) + "-" + mydate.slice(3,2) + "-" + mydate.slice(0,2) + " 23:59:59"
         if multiple_condition == true
           condition = condition + " AND "
         end
         
-        condition = condition + "DATE(created_at) <= ?"
-        wheres << params["to"]
+        condition = condition + "datetime(created_at) < ?"
+        wheres << new_date
         multiple_condition = true
       end
 
