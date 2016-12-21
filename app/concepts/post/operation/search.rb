@@ -53,10 +53,8 @@ class Post < ActiveRecord::Base
           condition = condition + " AND "
         end
         
-        # condition = condition + "DATE(created_at) >= ?"
-        # wheres << params["from"].strftime("%F")
-        condition = condition + "created_at >= ?"
-        wheres << "%" + params["from"].to_s + "%" 
+        condition = condition + "DATE(created_at) >= ?"
+        wheres << params["from"]
         multiple_condition = true
       end
 
@@ -65,10 +63,8 @@ class Post < ActiveRecord::Base
           condition = condition + " AND "
         end
         
-        # condition = condition + "DATE(created_at) <= ?"
-        # wheres << params["to"].strftime("%F")
-        condition = condition + "created_at <= ?"
-        wheres << "%" + params["to"].to_s + "%"
+        condition = condition + "DATE(created_at) <= ?"
+        wheres << params["to"]
         multiple_condition = true
       end
 
@@ -76,8 +72,7 @@ class Post < ActiveRecord::Base
         return ::Post.all.reverse_order
       else
         wheres.insert(0, condition)
-        raise wheres.inspect
-        return Post.where(wheres)
+        return Post.where(wheres).reverse_order
       end
     end
 
