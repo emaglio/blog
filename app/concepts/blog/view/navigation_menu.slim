@@ -1,0 +1,22 @@
+- if tyrant.signed_in?
+  li
+    = link_to welcome, user_path(tyrant.current_user)
+li
+    = link_to "Home", posts_path
+li
+    = link_to "New Post", new_post_path
+- if tyrant.signed_in?
+  li
+    = link_to "Sign Out", sign_out_sessions_path
+  - if admin?
+    li
+      = link_to "All Users", users_path
+-else
+  li
+      = link_to "New User", new_user_path
+  li
+      = link_to "Sign In", new_session_path
+li
+  <a href="about.html">About</a>
+li
+  <a href="contact.html">Contact</a>

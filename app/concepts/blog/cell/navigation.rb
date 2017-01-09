@@ -12,7 +12,7 @@ module Blog::Cell
     end
   end
 
-  class Navigation < Trailblazer::Cell
+  class NavigationMenu < Trailblazer::Cell
     include Policy
     include Tyrant
 
@@ -29,5 +29,9 @@ module Blog::Cell
     def admin?
       return tyrant.current_user.email = "admin@email.com"
     end
+  end
+
+  class Navigation < Trailblazer::Cell
+    
   end
 end
