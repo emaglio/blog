@@ -32,7 +32,7 @@ html
     = cell "blog/cell/navigation", OpenStruct.new(real_user: params[:real_user], current_user: params[:current_user], "signed_in?" => tyrant.signed_in?)
 
     <!-- Header -->
-    = render 'header'
+    = cell "blog/cell/header", OpenStruct.new(show_post: show_post)
 
     <!-- Main Content -->
     .col-lg-1

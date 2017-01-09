@@ -1,11 +1,12 @@
-.post-title
-  = title
-.post-subtitle
-  = subtitle
-.post-subtitle
-  = body
-p.post_meta
-  Posted by #{author} on #{time.strftime("%d %A, %Y")}
+.post-preview
+  .post-title
+    = title
+  .post-subtitle
+    = subtitle
+  .post-subtitle
+    = body
+  p.post-meta
+    = "Posted by #{author} on #{time.strftime("%d %A, %Y")}"
 .row
   .col-sm-3.text-center
     h6 = edit

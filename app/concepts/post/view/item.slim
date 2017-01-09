@@ -1,8 +1,8 @@
-.post-previuew
+.post-preview
   h2.post-title
-      = title
+    = title
   h3.post-subtitle
-      = subtitle
-  p.post_meta
-    Posted by #{author} on #{time.strftime("%d %B %Y")}
+    = subtitle
+  p.post-meta
+    = "Posted by #{author} on #{time.strftime("%d %B %Y")}"
 hr  
