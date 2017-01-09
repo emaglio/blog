@@ -111,16 +111,16 @@
     this.title = typeof options.title === 'undefined' ? false : options.title;
     this.timezone = options.timezone || timeZoneAbbreviation();
 
-    this.icons = {
-      leftArrow: this.fontAwesome ? 'fa-arrow-left' : (this.bootcssVer === 3 ? 'glyphicon-arrow-left' : 'icon-arrow-left'),
-      rightArrow: this.fontAwesome ? 'fa-arrow-right' : (this.bootcssVer === 3 ? 'glyphicon-arrow-right' : 'icon-arrow-right')
-    }
     // this.icons = {
-    //   leftArrow: 'fa-arrow-left',
-    //   rightArrow: 'fa-arrow-right'
+    //   leftArrow: this.fontAwesome ? 'fa-arrow-left' : (this.bootcssVer === 3 ? 'glyphicon-arrow-left' : 'icon-arrow-left'),
+    //   rightArrow: this.fontAwesome ? 'fa-arrow-right' : (this.bootcssVer === 3 ? 'glyphicon-arrow-right' : 'icon-arrow-right')
     // }
+    this.icons = {
+      leftArrow: "fa-arrow-left",
+      rightArrow: "fa-arrow-right"
+    }
 
-    this.icontype = this.fontAwesome ? 'fa' : 'glyphicon';
+    this.icontype = 'fa'
 
     this._attachEvents();
 
