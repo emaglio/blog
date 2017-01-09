@@ -19,9 +19,13 @@ module Blog::Cell
 
     def show_post
       path = request.path
-      if path[0..6] == "/posts/" and is_number?(path[-1]) 
+      if path[0..6] == "/posts/" and is_number?(path[-1])
         return true
       end
+    end
+
+    def show_id
+      return request.path[-1]
     end
     
   end
