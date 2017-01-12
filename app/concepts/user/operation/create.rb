@@ -31,9 +31,17 @@ class User < ActiveRecord::Base
           end
         end
         
-        required(:email).filled(:email?, :unique_email?)
+        required(:email).filled(:email?)
         required(:password).filled
-        required(:confirm_password).filled(:must_be_equal?)
+        required(:confirm_password).filled
+
+        validate(unique_email?: :email) do
+          unique_email?
+        end
+
+        validate(must_be_equal?: :confirm_password) do
+          must_be_equal?
+        end
       end
     end
 

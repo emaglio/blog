@@ -35,13 +35,23 @@ module Session
             end
           end
 
-          def not_block?
+          def not_blocked?
             user.block == false or user.block == nil 
           end
         end
         
-        required(:email).filled(:user_exists?, :not_block?)
-        required(:password).filled(:password_ok?)
+        required(:email).filled(:user_exists?)
+        required(:password).filled
+
+        #check if user is blocked only if email is filled and user exists
+        validate(not_blocked?: :email) do
+          not_blocked?
+        end
+
+        #verify password only if filled first
+        validate(password_ok?: :password) do
+          password_ok?
+        end
       end
     end
 

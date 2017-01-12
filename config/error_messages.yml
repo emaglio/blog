@@ -7,4 +7,4 @@ en:
     new_password_must_be_new?: "New password can't match the old one"
     unique_email?: "This email has been already used"
     email?: "Wrong format"
-    not_block?: "You have been blocked mate"
+    not_blocked?: "You have been blocked mate"

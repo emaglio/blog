@@ -34,9 +34,13 @@ class User < ActiveRecord::Base
 
         end
 
-        required(:password).filled(:password_ok?)
+        required(:password).filled
         required(:new_password).filled(:new_password_must_be_new?)
         required(:confirm_new_password).filled(:new_must_match?)
+
+        validate(password_ok?: :password) do
+          password_ok?
+        end
       end
     end
 

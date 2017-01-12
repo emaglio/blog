@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
           config.messages_file = 'config/error_messages.yml'
 
           def user_exists?(email)
-            User.where(email: email).size >= 1
+            User.where(email: email).size == 1
           end
         end
           
