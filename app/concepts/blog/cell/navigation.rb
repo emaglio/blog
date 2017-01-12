@@ -27,7 +27,7 @@ module Blog::Cell
     end
 
     def admin?
-      return tyrant.current_user.email = "admin@email.com"
+      return tyrant.current_user.email == "admin@email.com"
     end
   end
 

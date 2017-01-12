@@ -63,13 +63,11 @@ module Blog::Cell
     
     def author
       if show_post and post_exist?
-        if post.user_id != nil and tyrant.current_user != nil and tyrant.current_user.email == User.find(model.user_id).email
-          link_to post.author, user_path(post.user_id)
+        if tyrant.current_user != nil and post.user_id != nil and tyrant.current_user.email == User.find(post.user_id).email
+          return "Me"
         else
           return post.author
         end
-      else
-        return ""
       end   
     end
 

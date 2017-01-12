@@ -75,10 +75,11 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "User Title"
 
     first('.main').click_link "User Title"
-
+    
     page.must_have_link "Edit"
     page.must_have_link "Delete"
     page.must_have_link "Back"
+    page.must_have_content "Posted by Me"
 
     click_link "Edit"
 
