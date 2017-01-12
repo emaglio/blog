@@ -8,13 +8,10 @@ module Blog::Cell
       if ::Post.all.size < 3
         post_array = Post.all
       else
-        i = 0
+        i = 1
         (1..3).each do
-          dim = ::Post.all.size
-          while (::Post.where("id == ?",dim - i).size != 1 and dim-i != 0) do
-            i =+1
-          end
-          post_array << ::Post.find(dim - i)
+          all_posts = ::Post.all
+          post_array << all_posts[-i]
           i += 1
         end
       end
