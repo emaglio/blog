@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
     policy Session::Policy, :current_user?
 
     def process(params)
+      Notification::User.(email: model.email, type: "delete")
       model.destroy
     end
 

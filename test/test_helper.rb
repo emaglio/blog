@@ -91,3 +91,11 @@ Tyrant::Mailer.class_eval do
     Pony.options = {via: :test}
   end  
 end
+
+#to test the notification for User
+Notification::User.class_eval do 
+  def email_options
+    Pony.options = {via: :test}
+  end  
+end
+

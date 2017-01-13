@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   class Create < Trailblazer::Operation
 
     include Model
+    include Mailer
 
     model User, :create
 
@@ -49,6 +50,7 @@ class User < ActiveRecord::Base
       validate(params) do
         update!
         contract.save
+        Notification::User.(email: contract.email, type: "welcome")
       end
     end
 
@@ -59,6 +61,5 @@ class User < ActiveRecord::Base
       auth.confirmed!
       auth.sync
     end
-
   end
 end

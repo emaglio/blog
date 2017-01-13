@@ -40,3 +40,5 @@ gem 'dry-validation'
 gem 'dry-types'
 gem 'disposable', ">= 0.3.2"
 gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :branch => "reset_password"
+
+gem 'pony'

@@ -17,17 +17,24 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_css "#confirm_password"
     page.must_have_button "Create User"
 
+    num_email = Mail::TestMailer.deliveries.length
     #empty
     sign_up!("","")
     page.must_have_content "must be filled"
     page.current_path.must_equal "/users"
+    Mail::TestMailer.deliveries.length.must_equal num_email #no notification
 
+    num_email = Mail::TestMailer.deliveries.length
     #successfully create user
     sign_up!
     page.must_have_content "Hi, UserFirstname"
     page.must_have_content "Sign Out"
     page.current_path.must_equal "/posts"
     page.must_have_content "Welcome UserFirstname!"#flash message
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.last.to.must_equal ["test@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "Welcome in TRB Blog"
 
     #sign_out and try to create user with the same email
     click_link "Sign Out"
@@ -100,7 +107,13 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Delete"
     page.must_have_link "Change Password"
 
+    num_email = Mail::TestMailer.deliveries.length
     click_link "Delete"
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Your account has been deleted"
+
 
     page.must_have_content "User deleted"
 
@@ -127,6 +140,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_css "#new_password"
     page.must_have_css "#confirm_new_password"
 
+    num_email = Mail::TestMailer.deliveries.length
+
     within("//form[@id='change_password']") do
       fill_in 'Password', with: "password"
       fill_in 'New Password', with: "new_password"
@@ -135,6 +150,10 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     click_button "Change Password"
 
     page.must_have_content "The new password has been saved" #flash message
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Your password has been changed"    
 
     click_link "Sign Out"
 
@@ -195,10 +214,15 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     click_link "my@email.com"
 
     page.must_have_button "Block"
+    num_email = Mail::TestMailer.deliveries.length
     click_button "Block"
 
     page.must_have_content "UserFirstname has been blocked" #flash message
     page.current_path.must_equal users_path
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - You have been blocked"
 
     click_link "my@email.com"
     page.must_have_button "Un-Block"

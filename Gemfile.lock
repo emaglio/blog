@@ -305,6 +305,7 @@ DEPENDENCIES
   minitest-bang
   minitest-line
   minitest-rails-capybara
+  pony
   rails (= 4.2.6)
   rails_layout
   sass-rails (~> 5.0)

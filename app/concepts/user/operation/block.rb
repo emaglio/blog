@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
       validate(params) do
         model.block = params[:block]
         model.save
+        Notification::User.(email: model.email, type: "block")
       end
     end
 

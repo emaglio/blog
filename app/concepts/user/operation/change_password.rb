@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
       validate(params)do
         update!
         model.save
+        Notification::User.(email: model.email, type: "change_password")
       end
     end
 
