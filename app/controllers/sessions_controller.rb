@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
-    form Session::SignIn
+    run Session::SignIn
     render Session::Cell::SignIn
   end
 

@@ -1,7 +1,10 @@
 module Post::Lib 
-  class ExceptionThrower 
+  class ExceptionThrower < Trailblazer::Operation
     extend Uber::Callable
-    def self.call(options, *)
+
+    step :exception!
+
+    def exception!(options, params:, *)
       raise NotAuthorizedError
     end
   end

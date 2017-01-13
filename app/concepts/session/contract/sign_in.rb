@@ -1,10 +1,7 @@
 require 'reform/form/dry'
 
-module Session
-  class SignIn < Trailblazer::Operation
-
-    policy Session::Policy, :true?
-
+module Session::Contract 
+  class SignIn < Reform::Form
     contract do
       feature Reform::Form::Dry
       undef :persisted?
@@ -53,17 +50,6 @@ module Session
           password_ok?
         end
       end
-    end
-
-
-    def process(params)
-      validate(params) do
-        @model = get_user(params)
-      end
-    end
-  private
-    def get_user(params)
-      return User.find_by(email: params[:email])
     end
   end
 end
