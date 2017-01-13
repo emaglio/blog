@@ -28,6 +28,7 @@ class Post < ActiveRecord::Base
     def process(params) 
       validate(params) do
         contract.save
+        Notification::Post.(post: contract.model, type: "create")
       end
     end 
   end

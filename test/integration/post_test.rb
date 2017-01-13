@@ -16,6 +16,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     page.must_have_content "must be filled"
 
+    num_email = Mail::TestMailer.deliveries.length
     #create post without User as author
     new_post!
 
@@ -23,10 +24,13 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Subtitle"
     page.must_have_content "Author" 
     page.must_have_content "Title has been created" #flash message
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email
     
     # why created_at is set on another time?    
     # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
 
+    num_email = Mail::TestMailer.deliveries.length
     #create post with User as author
     log_in_as_user
 
@@ -39,7 +43,11 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "UserFirstname" #as set in the test_helper
     page.must_have_content "User Title has been created" #flash message
     # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
-    
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been published"
+
     Post.all.size.must_equal 2
   end
 
@@ -165,9 +173,14 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Delete"
     page.must_have_link "Back"
 
+    num_email = Mail::TestMailer.deliveries.length
     click_link "Delete"
 
     page.must_have_content "Post deleted" #flash message
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.last.to.must_equal ["edit_user@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been deleted"
 
     Post.all.size.must_equal 1
     page.must_have_link "Title"

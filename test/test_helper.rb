@@ -99,3 +99,9 @@ Notification::User.class_eval do
   end  
 end
 
+Notification::Post.class_eval do 
+  def email_options
+    Pony.options = {via: :test}
+  end  
+end
+

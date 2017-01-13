@@ -1,7 +1,7 @@
 require 'pony'
 
 module Notification
-  class User < Trailblazer::Operation
+  class Post < Trailblazer::Operation
 
     def model!(params)
       params[:model]
@@ -9,7 +9,7 @@ module Notification
 
     def process(params)
       email_options
-      notify_user(params[:email], params[:type])
+      notify_user(params[:post], params[:type]) unless ::User.where('id like ?', params[:post].user_id).size != 1
     end
 
   private
@@ -29,21 +29,19 @@ module Notification
                       }
     end
     
-    def notify_user(email, type)
+    def notify_user(post, type)
       
       subjects = {
-        "welcome" => "Welcome in TRB Blog",
-        "block" => "TRB Blog Notification - You have been blocked",
-        "delete" => "TRB Blog Notification - Your account has been deleted",
-        "change_password" => "TRB Blog Notification - Your password has been changed",
+        "create" => "TRB Blog Notification - #{post.title} has been published",
+        "delete" => "TRB Blog Notification - #{post.title} has been deleted",
       }
 
       bodies = {
-        "welcome" => "Hey mate, thank you for joining us....it's gonna be fun!! :)",
-        "block" => "Hey bro, I'm sorry but you have said or done something wrong and you have been blocked! :(",
-        "delete" => "Noooooo bro, why???? You have deleted your account! :(",
-        "change_password" => "Hi, your password has been changed. In case this doesn't sound familiar contact the Blog admin ASAP!!",
+        "create" => "Congratulation, your post has been published successfully. Thank you!",
+        "delete" => "#{post.title} has been delete.",
       } 
+
+      email = ::User.find(post.user_id).email
 
       Pony.mail({ 
                   to: email,
