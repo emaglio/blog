@@ -5,11 +5,7 @@ module Session
     step :model!    
 
     def model!(options, *)
-      result["model"] = get_user(params)
+      result["model"] = User.find_by(email: params[:email])
     end 
-  private
-    def get_user(params)
-      return User.find_by(email: params[:email])
-    end
   end
 end

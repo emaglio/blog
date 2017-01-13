@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    form User::Create
+    run User::New
     render User::Cell::New, model: @form
   end
 

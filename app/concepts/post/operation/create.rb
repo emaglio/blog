@@ -1,4 +1,3 @@
-require 'reform/form/dry'
 require 'post/operation/new'
 
 class Post::Create < Trailblazer::Operation
