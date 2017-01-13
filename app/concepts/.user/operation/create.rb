@@ -2,7 +2,6 @@ require 'reform/form/dry'
 
 class User < ActiveRecord::Base
   class Create < Trailblazer::Operation
-
     include Model
 
     model User, :create

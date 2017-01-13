@@ -1,14 +1,9 @@
-class Post < ActiveRecord::Base
-  class Delete < Trailblazer::Operation
-    
-    policy Session::Policy, :update_delete_post?
+class Post::Delete < Trailblazer::Operation
+  step Model(Post, :find_by)
+  step Policy::Pundit( ::Session::Policy, :update_delete_post?)
+  step :delete!
 
-    include Model
-    model Post, :find
-
-    def process(params) 
-      model.destroy
-    end 
-  end
-
+  def delete!(options, model:, **) 
+    model.destroy
+  end 
 end

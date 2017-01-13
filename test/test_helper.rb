@@ -4,7 +4,7 @@ require 'rails/test_help'
 require 'capybara/rails'
 require 'minitest/autorun'
 require "trailblazer/rails/test/integration"
-require 'tyrant'
+# require 'tyrant'
 
 
 Minitest::Spec.class_eval do
@@ -78,16 +78,16 @@ Trailblazer::Test::Integration.class_eval do
 end
 
 #to test that a new password "NewPassword" is actually saved 
-#in the auth_meta_data of User
-Tyrant::ResetPassword.class_eval do 
-  def generate_password
-    return "NewPassword"
-  end
-end
+# #in the auth_meta_data of User
+# Tyrant::ResetPassword.class_eval do 
+#   def generate_password
+#     return "NewPassword"
+#   end
+# end
 
-#to test the email notification to the user for the ResetPassword
-Tyrant::Mailer.class_eval do 
-  def email_options
-    Pony.options = {via: :test}
-  end  
-end
+# #to test the email notification to the user for the ResetPassword
+# Tyrant::Mailer.class_eval do 
+#   def email_options
+#     Pony.options = {via: :test}
+#   end  
+# end

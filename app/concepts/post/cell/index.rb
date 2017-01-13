@@ -9,7 +9,7 @@ module Post::Cell
   class Index < Trailblazer::Cell
   private
     def total
-      if model.size == 0
+      if result["model"].size == 0
         return "No posts"
       end
     end

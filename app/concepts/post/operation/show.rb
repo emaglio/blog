@@ -1,8 +1,6 @@
-class Post < ActiveRecord::Base
-  class Show < Create
+require 'post/lib/error_handler'
 
-    include Model
-    model Post, :find
-
-  end
+class Post::Show < Trailblazer::Operation
+  step Model(Post, :find_by)
+  failure Post::Lib::Error
 end

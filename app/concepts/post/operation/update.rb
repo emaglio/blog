@@ -1,9 +1,8 @@
-class Post < ActiveRecord::Base
-  class Update < Create
+require 'post/lib/error_handler'
 
-    include Model
-    model Post, :find
-
-    policy Session::Policy, :update_delete_post?
-  end
+class Post::Update < Trailblazer::Operation
+  step Model(Post, :find_by)
+  failure Post::Lib::Error
+  step Policy::Pundit( ::Session::Policy, :update_delete_post? )
+  failure Post::Lib::ExceptionThrower
 end

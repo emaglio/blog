@@ -1,9 +1,7 @@
-class Post < ActiveRecord::Base
-  class Index < Trailblazer::Operation
+class Post::Index < Trailblazer::Operation
+  step :model!
 
-    def model!(params)
-      Post.all.reverse_order
-    end 
-    
-  end
+  def model!(options, *)
+    result["model"] = Post.all.reverse_order
+  end 
 end
