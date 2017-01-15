@@ -1,11 +1,11 @@
-class User < ActiveRecord::Base
-  class Index < Trailblazer::Operation
+require 'session/lib/exception_thrower'
 
-    policy Session::Policy, :admin?
+class User::Index < Trailblazer::Operation
+  step Policy::Pundit( ::Session::Policy, :admin?)
+  failure ::Session::Lib::ExceptionThrower.()
+  stpe :model!
 
-    def model!(params)
-      User.all      
-    end
-    
+  def model!(options, *)
+    result["model"] = User.all      
   end
 end

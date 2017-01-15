@@ -4,7 +4,7 @@ module Session::Lib
 
     step :exception!
 
-    def exception!(options, params:, **)
+    def exception!(options, *)
       # raise NotAuthorizedError
     end
   end

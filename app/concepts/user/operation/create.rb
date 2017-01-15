@@ -6,7 +6,7 @@ class User::Create < Trailblazer::Operation
   step :update!
   step Contract::Persist(method: :sync)
 
-  def update!(options, contract:, *)
+  def update!(options, contract:, **)
     auth = Tyrant::Authenticatable.new(contract.model)
     auth.digest!(contract.password) # contract.auth_meta_data.password_digest = ..
     auth.confirmed!
