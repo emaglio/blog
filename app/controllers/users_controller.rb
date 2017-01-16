@@ -2,12 +2,12 @@ class UsersController < ApplicationController
   
   def show
     run User::Show
-    render cell(User::Cell::Show)
+    render cell(User::Cell::Show, current_user: tyrant.current_user)
   end
   
   def index
     run User::Index
-    render cell(User::Cell::Index)
+    render cell(User::Cell::Index, current_user: tyrant.current_user)
   end
 
   def create
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def edit
     run User::Update
-    render cell(User::Cell::Edit, @model)
+    render cell(User::Cell::Edit, @model, current_user: tyrant.current_user)
   end
 
   def update
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       return redirect_to "/users/#{result["model".id}"
     end
     
-    render cell(User::Cell::Edit, @model)
+    render cell(User::Cell::Edit, @model, current_user: tyrant.current_user)
   end
 
   def destroy
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       return redirect_to "/posts"
     end
 
-    render cell(User::Cell::Edit, @model)
+    render cell(User::Cell::Edit, @model, current_user: tyrant.current_user)
   end
 
   def reset_password
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render cell(User::Cell::ChangePassword)
+    render cell(User::Cell::ChangePassword, current_user: tyrant.current_user)
   end
 
   def block

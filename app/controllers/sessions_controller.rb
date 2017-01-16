@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "Hey mate, welcome back!"
       return redirect_to "/posts"
     end
-    render cell(Session::Cell::SignIn, @model)
+    render cell(Session::Cell::SignIn, @model, current_user: tyrant.current_user)
   end
 
   def sign_out
