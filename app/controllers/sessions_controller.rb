@@ -6,8 +6,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    run Session::SignIn do |op|
-      tyrant.sign_in!(op.model)
+    run Session::SignIn do |result|
+      tyrant.sign_in!(result["model"])
       flash[:notice] = "Hey mate, welcome back!"
       return redirect_to "/posts"
     end

@@ -1,9 +1,9 @@
-require 'session/lib/exception_thrower'
+require 'session/lib/throw_exception'
 
 class User::Block < Trailblazer::Operation
   step Model(User, :find_by)
   step Policy::Pundit( ::Session::Policy, :admin?)
-  failure Session::Lib::ExceptionThrower.()
+  failure Session::Lib::ThrowException.()
   step Contract::Build(constant: User::Contract::Block)
   step Contract::Validate()
   step :model!

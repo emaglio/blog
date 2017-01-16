@@ -1,11 +1,11 @@
-require 'session/lib/exception_thrower'
+require 'session/lib/throw_exception'
 
 class User::Index < Trailblazer::Operation
   step Policy::Pundit( ::Session::Policy, :admin?)
-  failure ::Session::Lib::ExceptionThrower.()
-  stpe :model!
+  failure ::Session::Lib::ThrowException.()
+  step :model!
 
   def model!(options, *)
-    result["model"] = User.all      
+    options["model"] = User.all      
   end
 end

@@ -22,11 +22,11 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
   end
 
   it "successfully log in" do
-    op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")
+    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")["model"]
     
     visit "sessions/new"
 
-    submit!("#{op.model.email}", "password")
+    submit!("#{user.email}", "password")
 
     page.must_have_content "Hi, NewUser"
     page.must_have_link "Sign Out"
@@ -39,11 +39,11 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
   end
 
   it "succesfully log out" do
-    op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")
+    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")["model"]
     
     visit "sessions/new"
 
-    submit!("#{op.model.email}", "password")
+    submit!("#{user.email}", "password")
 
     page.must_have_content "Hi, NewUser"
     page.must_have_link "Sign Out"

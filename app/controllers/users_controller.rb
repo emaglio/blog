@@ -1,19 +1,19 @@
 class UsersController < ApplicationController
   
   def show
-    present User::Show
+    run User::Show
     render User::Cell::Show
   end
   
   def index
-    present User::Index
+    run User::Index
     render User::Cell::Index
   end
 
   def create
     run User::Create do |op|
       tyrant.sign_in!(op.model)
-      flash[:notice] = "Welcome #{get_name(op.model)}!"
+      flash[:notice] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/posts"
     end
     render User::Cell::New, model: @form
@@ -25,14 +25,14 @@ class UsersController < ApplicationController
   end
 
   def edit
-    form User::Update
+    run User::Update
     render User::Cell::Edit, model: @form
   end
 
   def update
     run User::Update do |op|
       flash[:notice] = "New details saved"
-      return redirect_to "/users/#{op.model.id}"
+      return redirect_to "/users/#{result["model".id}"
     end
     
     render User::Cell::Edit, model: @form
@@ -56,12 +56,12 @@ class UsersController < ApplicationController
   end
 
   def get_email
-    present User::GetEmail
+    run User::GetEmail
     render User::Cell::GetEmail
   end
 
   def get_new_password
-    present User::GetNewPassword
+    run User::GetNewPassword
     render User::Cell::ChangePassword
   end
 
@@ -77,9 +77,9 @@ class UsersController < ApplicationController
   def block
     run User::Block do |op|
       if op.model.block == true
-        flash[:alert] = "#{get_name(op.model)} has been blocked"
+        flash[:alert] = "#{get_name(result["model")} has been blocked"
       else
-        flash[:alert] = "#{get_name(op.model)} has been un-blocked"
+        flash[:alert] = "#{get_name(result["model")} has been un-blocked"
       end
       redirect_to users_path
     end

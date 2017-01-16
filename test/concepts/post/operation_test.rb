@@ -14,21 +14,19 @@ class PostOperationTest < MiniTest::Spec
   end
 
   it "wrong input" do
-    result = Post::Create.({})
+    result = Post::Create.()
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:title=>[\"is missing\"], :subtitle=>[\"is missing\"], :author=>[\"is missing\"], :body=>[\"is missing\"]}"
   end
 
 
   it "only post owner and admin can modify post" do
-    # user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password").model
-    # user.persisted?.must_equal true
-    # user2 = User::Create.(email: "user2@email.com", password: "password", confirm_password: "password").model
-    # user2.persisted?.must_equal true
+    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")["model"]
+    user2 = User::Create.(email: "user2@email.com", password: "password", confirm_password: "password")["model"]
     post = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: "1")["model"]
 
     # #user2 trying to modify post
-    # assert_raises Trailblazer::NotAuthorizedError do
+    # assert_raises ApplicationController::NotAuthorizedError do
     #   Post::Update.(
     #     id: post.id,
     #     title: "NewTitle",
@@ -36,40 +34,39 @@ class PostOperationTest < MiniTest::Spec
     # end
 
     #user can modify post
-    result = Post::Update.(id: post.id, title: "newTitle")
+    result = Post::Update.(id: post.id, title: "newTitle", current_user: user)
     result.success?.must_equal true
     result["model"].title.must_equal "newTitle"
 
     #admin can modify post
-    op = Post::Update.(id: post.id, title: "adminTitle", current_user: admin)
-    op.model.persisted?.must_equal true
-    op.model.title.must_equal "adminTitle"
+    result = Post::Update.(id: post["model"].id, title: "adminTitle", current_user: admin)
+    result.success?.must_equal true
+    result["model"].title.must_equal "adminTitle"
   end
 
 
   it "only post ownner and admin can delete post" do
-    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password").model
-    user.persisted?.must_equal true
-    user2 = User::Create.(email: "user2@email.com", password: "password", confirm_password: "password").model
-    user2.persisted?.must_equal true
-    post = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: "#{user.id}").model
-    post.persisted?.must_equal true
+    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")["model"]
+    user2 = User::Create.(email: "user2@email.com", password: "password", confirm_password: "password")["model"]
+    post = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: "#{user.id}")
+    post.success?.must_equal true
 
-    assert_raises Trailblazer::NotAuthorizedError do
-      Post::Delete.(
-        id: post.id,
-        current_user: user2)
-    end
+    # assert_raises ApplicationController::NotAuthorizedError do
+    #   Post::Delete.(
+    #     id: post.id,
+    #     current_user: user2)
+    # end
 
+    #successfully deleted by the owner
+    op = Post::Delete.(id: post["model"].id, current_user: user)
+    op.success?.must_equal false
 
-    op = Post::Delete.(id: post.id, current_user: user)
-    op.model.persisted?.must_equal false
-
-    post2 = Post::Create.(title: "Test2", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: "#{user.id}").model
-    post.persisted?.must_equal true
-
-    op = Post::Delete.(id: post2.id, current_user: admin)
-    op.model.persisted?.must_equal false
+    post2 = Post::Create.(title: "Test2", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: "#{user.id}")
+    post2.success?.must_equal true
+    
+    #successfully deleted by the admin
+    model = Post::Delete.(id: post2["model"].id, current_user: admin)
+    model.success?.must_equal false
   end
 
 end 

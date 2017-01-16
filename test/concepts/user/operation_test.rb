@@ -7,19 +7,19 @@ class UserOperationTest < MiniTest::Spec
   let(:user2) {(User::Create.(email: "test2@email.com", password: "password", confirm_password: "password")).model}
 
   it "validate correct input" do
-    op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
-    op.model.persisted?.must_equal true
-    op.model.email.must_equal "test@email.com"
+    result = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
+    result.success?.must_equal true
+    result["model"].email.must_equal "test@email.com"
   end
 
   it "wrong input" do
-    res, op = User::Create.run(user: {})
-    res.must_equal false
-    op.errors.to_s.must_equal "{:email=>[\"is missing\", \"Wrong format\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\"]}"
+    res, op = User::Create.(user: {})
+    result.success?.must_equal false
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"is missing\", \"Wrong format\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\"]}"
   end
 
   it "passwords not matching" do
-    res,op = User::Create.run(email: "test@email.com", password: "password", confirm_password: "notpassword")
+    res,op = User::Create.(email: "test@email.com", password: "password", confirm_password: "notpassword")
     res.must_equal false
     op.errors.to_s.must_equal "{:confirm_password=>[\"Passwords are not matching\"]}"
   end
@@ -29,7 +29,7 @@ class UserOperationTest < MiniTest::Spec
     op.model.persisted?.must_equal true
     op.model.email.must_equal "test@email.com"
 
-    res,op = User::Create.run(email: "test@email.com", password: "password", confirm_password: "password")
+    res,op = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
     res.must_equal false
     op.errors.to_s.must_equal "{:email=>[\"This email has been already used\"]}"
   end
@@ -85,7 +85,7 @@ class UserOperationTest < MiniTest::Spec
     user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password").model
     user.persisted?.must_equal true
 
-    res, op = User::ChangePassword.run(id: user.id, password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password", current_user: user)
+    res, op = User::ChangePassword.(id: user.id, password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password", current_user: user)
     res.must_equal false
 
     op.errors.to_s.must_equal "{:password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"New Password are not matching\"]}"

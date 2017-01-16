@@ -1,15 +1,16 @@
-require 'reform/form/dry'
+require 'user/operation/new'
 
 class User::Create < Trailblazer::Operation
-  step Nested(User::New)
+  step Nested(::User::New)
   step Contract::Validate()
-  step :update!
   step Contract::Persist(method: :sync)
+  step :create!
 
-  def update!(options, contract:, **)
-    auth = Tyrant::Authenticatable.new(contract.model)
-    auth.digest!(contract.password) # contract.auth_meta_data.password_digest = ..
+  def create!(options, model:, params:, **)
+    auth = Tyrant::Authenticatable.new(model)
+    auth.digest!(params[:password]) # contract.auth_meta_data.password_digest = ..
     auth.confirmed!
     auth.sync
+    model.save
   end
 end

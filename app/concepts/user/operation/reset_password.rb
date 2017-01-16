@@ -7,7 +7,7 @@ class User::ResetPassword < Trailblazer::Operation
 
   def reset!(options, *)
     user = User.find_by(email: params[:email])
-    # Tyrant::ResetPassword.(model: user)
+    Tyrant::ResetPassword.(model: user)
   end
 end
 

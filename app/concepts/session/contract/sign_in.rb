@@ -26,9 +26,7 @@ module Session::Contract
         end
 
         def password_ok? #change this in order to run this only if user exists
-          if user != nil
-            Tyrant::Authenticatable.new(user).digest?(form.password) == true
-          end
+          Tyrant::Authenticatable.new(user).digest?(form.password) == true if user != nil
         end
 
         def not_blocked?
