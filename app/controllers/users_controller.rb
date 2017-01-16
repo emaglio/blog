@@ -2,12 +2,12 @@ class UsersController < ApplicationController
   
   def show
     run User::Show
-    render User::Cell::Show
+    render cell(User::Cell::Show)
   end
   
   def index
     run User::Index
-    render User::Cell::Index
+    render cell(User::Cell::Index)
   end
 
   def create
@@ -16,17 +16,17 @@ class UsersController < ApplicationController
       flash[:notice] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/posts"
     end
-    render User::Cell::New, model: @form
+    render cell(User::Cell::New, @model)
   end
 
   def new
     run User::New
-    render User::Cell::New, model: @form
+    render cell(User::Cell::New, @model)
   end
 
   def edit
     run User::Update
-    render User::Cell::Edit, model: @form
+    render cell(User::Cell::Edit, @model)
   end
 
   def update
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       return redirect_to "/users/#{result["model".id}"
     end
     
-    render User::Cell::Edit, model: @form
+    render cell(User::Cell::Edit, @model)
   end
 
   def destroy
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       return redirect_to "/posts"
     end
 
-    render User::Cell::Edit, model: @form
+    render cell(User::Cell::Edit, @model)
   end
 
   def reset_password
@@ -52,17 +52,17 @@ class UsersController < ApplicationController
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
-    render User::Cell::GetEmail
+    render cell(User::Cell::GetEmail)
   end
 
   def get_email
     run User::GetEmail
-    render User::Cell::GetEmail
+    render cell(User::Cell::GetEmail)
   end
 
   def get_new_password
     run User::GetNewPassword
-    render User::Cell::ChangePassword
+    render cell(User::Cell::ChangePassword)
   end
 
   def change_password
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render User::Cell::ChangePassword
+    render cell(User::Cell::ChangePassword)
   end
 
   def block

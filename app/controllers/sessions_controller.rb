@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 
   def new
     run Session::SignIn
-    render Session::Cell::SignIn
+    render cell(Session::Cell::SignIn)
   end
 
   def create
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "Hey mate, welcome back!"
       return redirect_to "/posts"
     end
-    render Session::Cell::SignIn, model: @form
+    render cell(Session::Cell::SignIn, @model)
   end
 
   def sign_out
