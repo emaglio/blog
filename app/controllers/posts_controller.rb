@@ -2,12 +2,12 @@ class PostsController < ApplicationController
 
   def show
     run Post::Show
-    render Post::Cell::Show
+    render cell(Post::Cell::Show,  current_user: tyrant.current_user)
   end
   
   def index
     run Post::Index
-    render Post::Cell::Index
+    render cell(Post::Cell::Index, result, current_user: tyrant.current_user)
   end
 
   def create
@@ -15,17 +15,17 @@ class PostsController < ApplicationController
       flash[:notice] = "#{result["model"].title} has been created"
       return redirect_to "/posts"
     end
-    render Post::Cell::New, model: @form
+    render cell(Post::Cell::New, @model)
   end
 
   def new
     run Post::New
-    render Post::Cell::New, model: @form
+    render cell(Post::Cell::New, @model)
   end
 
   def edit
     run Post::Edit
-    render Post::Cell::Edit, model: @form
+    render cell(Post::Cell::Edit, @model)
   end
 
   def update
@@ -34,7 +34,7 @@ class PostsController < ApplicationController
       return redirect_to "/posts/#{result["model"].id}"
     end
 
-    render Post::Cell::Edit, model: @form
+    render cell(Post::Cell::Edit, @model)
   end
 
   def destroy
@@ -43,12 +43,12 @@ class PostsController < ApplicationController
       return redirect_to "/posts"
     end
 
-    render Post::Cell::Edit, model: @form
+    render cell(Post::Cell::Edit, @model)
   end
 
   def search
     run Post::Search
-    render Post::Cell::Index
+    render cell(Post::Cell::Index)
   end
 
   # def advanced_search
