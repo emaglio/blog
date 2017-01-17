@@ -4,6 +4,7 @@ class PostOperationTest < MiniTest::Spec
 
   let(:admin) {admin_for}
 
+
   it "validate correct input" do
     result = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever")
     result.success?.must_equal true
@@ -11,6 +12,11 @@ class PostOperationTest < MiniTest::Spec
     result["model"].subtitle.must_equal "Subtitle"
     result["model"].author.must_equal "Nick"
     result["model"].body.must_equal "whatever"
+  end
+  
+  it "show" do
+    result = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever")
+    result.success?.must_equal true
   end
 
   it "wrong input" do
@@ -36,6 +42,7 @@ class PostOperationTest < MiniTest::Spec
     #user can modify post
     result = Post::Update.(id: post.id, title: "newTitle", current_user: user)
     result.success?.must_equal true
+    result["result.policy.default"].must_equal true
     result["model"].title.must_equal "newTitle"
 
     #admin can modify post

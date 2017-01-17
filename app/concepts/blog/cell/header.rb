@@ -1,13 +1,6 @@
 module Blog::Cell
 
-  module Tyrant
-    def tyrant
-      context[:tyrant]
-    end
-  end
-
   class Header < Trailblazer::Cell
-    include Tyrant
     def show_post
       return model.show_post
     end
@@ -63,7 +56,7 @@ module Blog::Cell
     
     def author
       if show_post and post_exist?
-        if tyrant.current_user != nil and post.user_id != nil and tyrant.current_user.email == User.find(post.user_id).email
+        if options["current_user"] != nil and post.user_id != nil and options["current_user"].email == User.find(post.user_id).email
           return "Me"
         else
           return post.author

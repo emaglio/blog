@@ -25,5 +25,4 @@ class ApplicationController < ActionController::Base
     flash[:alert] = "You are not authorized mate!"
     redirect_to posts_path
   end
-
 end
