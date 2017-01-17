@@ -6,14 +6,14 @@
   .col-sm-6
     = lastname
 .row
-  - if policy.current_user?
+  - if current_user != nil
     .col-sm-4
       h6 = edit
     .col-sm-4
       h6 = change_password
     .col-sm-4
       h6 = delete
-  - if policy.admin? and email != "admin@email.com"
+  - if current_user.email == "admin@email.com"
      = form_tag controller: :users, action: :block  do
       = hidden_field_tag :id, model.id
       - if model.block == true

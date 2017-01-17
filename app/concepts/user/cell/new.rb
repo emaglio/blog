@@ -1,16 +1,12 @@
 module User::Cell
-
-  module Tyrant
-    def tyrant
-      context[:tyrant]
-    end  
-  end 
-
   class New < Trailblazer::Cell
     include ActionView::RecordIdentifier
     include ActionView::Helpers::FormOptionsHelper
     include Formular::RailsHelper
     include Formular::Helper
-    include Tyrant
+
+    def current_user
+      return options["current_user"]
+    end
   end
 end

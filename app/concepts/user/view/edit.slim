@@ -1,8 +1,8 @@
 .row
   h1 Edit User
 
-  = trb_form_for(model, "/users/#{tyrant.current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
-    = f.input :id, type: "hidden", value: tyrant.current_user.id
+  = trb_form_for(model, "/users/#{current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
+    = f.input :id, type: "hidden", value: current_user.id
     .row
       .col-sm-6
         = f.input :firstname, placeholder: "Firstname"
