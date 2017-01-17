@@ -14,9 +14,9 @@ class ApplicationController < ActionController::Base
     Tyrant::Session.new(request.env['warden'])
   end
 
-  def process_params!(params)
-    params.merge!(current_user: tyrant.current_user)
-  end
+  # def process_params!(params)
+  #   params.merge!(current_user: tyrant.current_user)
+  # end
 
   class NotAuthorizedError < RuntimeError
   end

@@ -2,13 +2,9 @@ module Post::Cell
   class Index < Trailblazer::Cell
   private
     def total
-      if model["model"].size == 0
+      if model.size == 0
         return "No posts"
       end
-    end
-
-    def current_user
-      return model["current_user"]
     end
   end
 

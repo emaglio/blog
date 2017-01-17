@@ -2,12 +2,14 @@ class PostsController < ApplicationController
 
   def show
     run Post::Show
-    render cell(Post::Cell::Show,  current_user: tyrant.current_user)
+    render cell(Post::Cell::Show)
   end
   
   def index
     run Post::Index
-    render cell(Post::Cell::Index, result, current_user: tyrant.current_user)
+    puts result["model"].inspect
+    puts tyrant.current_user.inspect
+    render cell(Post::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def create
@@ -25,7 +27,7 @@ class PostsController < ApplicationController
 
   def edit
     run Post::Edit
-    render cell(Post::Cell::Edit, @model)
+    render cell(Post::Cell::Edit, @model, context: { current_user: tyrant.current_user }, layout: Blog::Cell::Layout)
   end
 
   def update
@@ -34,7 +36,7 @@ class PostsController < ApplicationController
       return redirect_to "/posts/#{result["model"].id}"
     end
 
-    render cell(Post::Cell::Edit, @model)
+    render cell(Post::Cell::Edit, @model, context: { current_user: tyrant.current_user }, layout: Blog::Cell::Layout)
   end
 
   def destroy

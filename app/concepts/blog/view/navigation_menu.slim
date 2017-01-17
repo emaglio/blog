@@ -1,11 +1,11 @@
-- if tyrant.signed_in?
+- if signed_in?
   li
     = link_to welcome, user_path(tyrant.current_user)
 li
     = link_to "Home", posts_path
 li
     = link_to "New Post", new_post_path
-- if tyrant.signed_in?
+- if signed_in?
   li
     = link_to "Sign Out", sign_out_sessions_path
   - if admin?
