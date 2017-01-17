@@ -6,12 +6,16 @@ module Post::Cell
     include Formular::RailsHelper
 
     def user_name
-      @name = current_user.firstname
+      @name = options["current_user"].firstname
 
       if @name == nil
-        @name = tyrant.current_user.email
+        @name = options["current_user"].email
       end
       return @name
+    end
+
+    def current_user
+      return options["current_user"]
     end
   end
 end
