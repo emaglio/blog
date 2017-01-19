@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 
   def new
     run Session::SignIn
-    render cell(Session::Cell::SignIn, layout: Blog::Cell::Layout)
+    render cell(Session::Cell::SignIn, result, layout: Blog::Cell::Layout)
   end
 
   def create

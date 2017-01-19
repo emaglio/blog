@@ -42,7 +42,7 @@ module Session::Contract
         not_blocked?
       end
 
-      #verify password only if filled first
+      #verify password only if it has been filled first
       validate(password_ok?: :password) do
         password_ok?
       end
