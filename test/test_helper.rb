@@ -81,7 +81,7 @@ end
 #in the auth_meta_data of User
 Tyrant::ResetPassword.class_eval do 
   def generate_password!(options, *)
-    return "NewPassword"
+    options["new_password"] = "NewPassword"
   end
 end
 

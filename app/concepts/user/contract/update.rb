@@ -1,7 +1,7 @@
 require 'reform/form/dry'
 
 module User::Contract 
-  class New < Reform::Form 
+  class Update < Reform::Form 
     feature Reform::Form::Dry
 
     property :email

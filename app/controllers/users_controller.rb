@@ -2,49 +2,49 @@ class UsersController < ApplicationController
   
   def show
     run User::Show
-    render cell(User::Cell::Show, current_user: tyrant.current_user)
+    render cell(User::Cell::Show, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
   
   def index
     run User::Index
-    render cell(User::Cell::Index, current_user: tyrant.current_user)
+    render cell(User::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def create
-    run User::Create do |op|
-      tyrant.sign_in!(op.model)
+    run User::Create do |result|
+      tyrant.sign_in!(result["model"])
       flash[:notice] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/posts"
     end
-    render cell(User::Cell::New, @model)
+    render cell(User::Cell::New, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def new
     run User::New
-    render cell(User::Cell::New, @model)
+    render cell(User::Cell::New, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def edit
-    run User::Update
-    render cell(User::Cell::Edit, @model, current_user: tyrant.current_user)
+    run User::Edit
+    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def update
     run User::Update do |op|
       flash[:notice] = "New details saved"
-      return redirect_to "/users/#{result["model".id}"
+      return redirect_to "/users/#{result["model"].id}"
     end
     
-    render cell(User::Cell::Edit, @model, current_user: tyrant.current_user)
+    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def destroy
-    run User::Delete do |op|
+    run User::Delete do
       flash[:alert] = "User deleted"
       return redirect_to "/posts"
     end
 
-    render cell(User::Cell::Edit, @model, current_user: tyrant.current_user)
+    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def reset_password
@@ -52,17 +52,17 @@ class UsersController < ApplicationController
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
-    render cell(User::Cell::GetEmail)
+    render cell(User::Cell::GetEmail, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_email
     run User::GetEmail
-    render cell(User::Cell::GetEmail)
+    render cell(User::Cell::GetEmail, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_new_password
     run User::GetNewPassword
-    render cell(User::Cell::ChangePassword)
+    render cell(User::Cell::ChangePassword, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def change_password
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render cell(User::Cell::ChangePassword, current_user: tyrant.current_user)
+    render cell(User::Cell::GetEmail, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def block

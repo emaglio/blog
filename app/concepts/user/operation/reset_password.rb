@@ -1,13 +1,13 @@
-# require 'tyrant'
+require_dependency 'tyrant'
 
 class User::ResetPassword < Trailblazer::Operation
   step Contract.Build(constant: ::User::Contract::ResetPassword)
   step Contract.Validate()
   step :reset!
 
-  def reset!(options, *)
+  def reset!(options, params:, **)
     user = User.find_by(email: params[:email])
-    Tyrant::ResetPassword.(model: user)
+    Tyrant::ResetPassword.({model: user})
   end
 end
 

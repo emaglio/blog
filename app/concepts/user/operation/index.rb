@@ -1,4 +1,4 @@
-require 'session/lib/throw_exception'
+require_dependency 'session/lib/throw_exception'
 
 class User::Index < Trailblazer::Operation
   step Policy::Pundit( ::Session::Policy, :admin?)

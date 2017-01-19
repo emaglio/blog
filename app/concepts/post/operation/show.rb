@@ -1,4 +1,4 @@
-require 'post/lib/error_handler'
+require_dependency 'post/lib/error_handler'
 
 class Post::Show < Trailblazer::Operation
   step Model(Post, :find_by)

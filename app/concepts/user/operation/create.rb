@@ -1,4 +1,4 @@
-require 'user/operation/new'
+require_dependency 'user/operation/new'
 
 class User::Create < Trailblazer::Operation
   step Nested(::User::New)

@@ -1,4 +1,4 @@
-require 'post/operation/new'
+require_dependency 'post/operation/new'
 
 class Post::Create < Trailblazer::Operation
   step Nested(::Post::New)

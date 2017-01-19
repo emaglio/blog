@@ -13,7 +13,7 @@ class UserOperationTest < MiniTest::Spec
   end
 
   it "wrong input" do
-    res, op = User::Create.({})
+    result = User::Create.({})
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"is missing\", \"Wrong format\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\"]}"
   end
@@ -21,7 +21,7 @@ class UserOperationTest < MiniTest::Spec
   it "passwords not matching" do
     res = User::Create.({email: "test@email.com", password: "password", confirm_password: "notpassword"})
     res.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:confirm_password=>[\"Passwords are not matching\"]}"
+    res["result.contract.default"].errors.messages.inspect.must_equal "{:confirm_password=>[\"Passwords are not matching\"]}"
   end
 
   it "unique user" do
@@ -30,9 +30,9 @@ class UserOperationTest < MiniTest::Spec
     res["model"].email.must_equal "test@email.com"
 
 
-    res = User::Create.({email: "test@email.com", password: "password", confirm_password: "notpassword"})
+    res = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     res.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:confirm_password=>[\"Passwords are not matching\"]}"
+    res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"This email has been already used\"]}"
   end
 
   it "only current_user can modify user" do
@@ -62,7 +62,7 @@ class UserOperationTest < MiniTest::Spec
     # end
 
     res = User::Delete.({id: user.id}, "current_user" => user)
-    res.success?.must_equal false
+    res.success?.must_equal true
   end
 
   it "reset password" do 
@@ -73,10 +73,10 @@ class UserOperationTest < MiniTest::Spec
 
     user = User.find_by(email: res["model"].email)
 
-    assert Tyrant::Authenticatable.new(user["model"]).digest != "password"
-    assert Tyrant::Authenticatable.new(user["model"]).digest == "NewPassword"
-    Tyrant::Authenticatable.new(user["model"]).confirmed?.must_equal true
-    Tyrant::Authenticatable.new(user["model"]).confirmable?.must_equal false
+    assert Tyrant::Authenticatable.new(user).digest != "password"
+    assert Tyrant::Authenticatable.new(user).digest == "NewPassword"
+    Tyrant::Authenticatable.new(user).confirmed?.must_equal true
+    Tyrant::Authenticatable.new(user).confirmable?.must_equal false
 
     Mail::TestMailer.deliveries.last.to.must_equal ["test@email.com"]
     Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers" 
@@ -86,9 +86,9 @@ class UserOperationTest < MiniTest::Spec
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     user.success?.must_equal true
 
-    res = User::ChangePassword.({id: user["model"].id, password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user)
+    res = User::ChangePassword.({id: user["model"].id, password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
     res.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"New Password are not matching\"]}"
+    res["result.contract.default"].errors.messages.inspect.must_equal "{:password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"New Password are not matching\"]}"
   end
 
   it "only current_user can change password" do 
@@ -103,16 +103,15 @@ class UserOperationTest < MiniTest::Spec
     #     confirm_new_password: "new_password",
     #     current_user: user2)
     # end
-
     op = User::ChangePassword.({id: user.id, password: "password", new_password: "new_password", confirm_new_password: "new_password"}, "current_user" => user)
     op.success?.must_equal true
 
     user_updated = User.find_by(email: user.email)
 
-    assert Tyrant::Authenticatable.new(user_updated["model"]).digest != "password"
-    assert Tyrant::Authenticatable.new(user_updated["model"]).digest == "new_password"
-    Tyrant::Authenticatable.new(user_updated["model"]).confirmed?.must_equal true
-    Tyrant::Authenticatable.new(user_updated["model"]).confirmable?.must_equal false    
+    assert Tyrant::Authenticatable.new(user_updated).digest != "password"
+    assert Tyrant::Authenticatable.new(user_updated).digest == "new_password"
+    Tyrant::Authenticatable.new(user_updated).confirmed?.must_equal true
+    Tyrant::Authenticatable.new(user_updated).confirmable?.must_equal false    
   end
 
   it "only admin can block user" do
