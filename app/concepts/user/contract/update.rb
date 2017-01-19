@@ -25,7 +25,8 @@ module User::Contract
         end
       end
       
-      required(:email).filled(:email?)
+      #if present must have the correct format and must be unique
+      optional(:email).filled(:email?)
 
       validate(unique_email?: :email) do
         unique_email?
