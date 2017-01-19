@@ -14,11 +14,6 @@ class PostOperationTest < MiniTest::Spec
     result["model"].body.must_equal "whatever"
   end
   
-  it "show" do
-    result = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever")
-    result.success?.must_equal true
-  end
-
   it "wrong input" do
     result = Post::Create.()
     result.failure?.must_equal true
@@ -27,7 +22,7 @@ class PostOperationTest < MiniTest::Spec
 
 
   it "only post owner and admin can modify post" do
-    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")["model"]
+    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
     user2 = User::Create.(email: "user2@email.com", password: "password", confirm_password: "password")["model"]
     post = Post::Create.(title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: "1")["model"]
 
@@ -40,7 +35,7 @@ class PostOperationTest < MiniTest::Spec
     # end
 
     #user can modify post
-    result = Post::Update.(id: post.id, title: "newTitle", current_user: user)
+    result = Post::Update.({id: post.id, title: "newTitle", current_user: user})
     result.success?.must_equal true
     result["result.policy.default"].must_equal true
     result["model"].title.must_equal "newTitle"
