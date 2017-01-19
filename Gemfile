@@ -31,7 +31,7 @@ group :test do
 end
 
 gem 'formular', github:"trailblazer/formular"
-gem 'trailblazer', '>= 2.0.0'
+gem 'trailblazer', '>= 2.0.1'
 gem 'trailblazer-cells'
 gem 'trailblazer-rails'
 gem 'cells-rails'
