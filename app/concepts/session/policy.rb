@@ -20,8 +20,6 @@ class Session::Policy
   end
 
   def update_delete_post?
-    puts @user.inspect
-    puts @model.inspect
     post_owner? or admin?
   end
 
