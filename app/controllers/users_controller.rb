@@ -77,9 +77,9 @@ class UsersController < ApplicationController
   def block
     run User::Block do |op|
       if op.model.block == true
-        flash[:alert] = "#{get_name(result["model")} has been blocked"
+        flash[:alert] = "#{get_name(result["model"])} has been blocked"
       else
-        flash[:alert] = "#{get_name(result["model")} has been un-blocked"
+        flash[:alert] = "#{get_name(result["model"])} has been un-blocked"
       end
       redirect_to users_path
     end
