@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: 40b4c9918bcfa894b3116a100b3c2f34b63ecbcf
+  revision: 76d82444bb0d0380878019f32fb92f210fbea191
   branch: to_TRB2
   specs:
     tyrant (0.0.3)
@@ -18,7 +18,7 @@ GIT
       pony
       reform (~> 2.0)
       reform-rails
-      trailblazer (>= 2.0.0)
+      trailblazer (>= 2.0.1)
       warden (= 1.2.6)
 
 GEM
