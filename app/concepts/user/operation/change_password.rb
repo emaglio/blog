@@ -3,7 +3,7 @@ require_dependency 'session/lib/throw_exception'
 class User::ChangePassword < Trailblazer::Operation
   step Model(User, :find_by)
   step Policy::Pundit(::Session::Policy, :current_user?)   
-  failure Session::Lib::ThrowException.()
+  failure Session::Lib::ThrowException
   step Contract::Build(constant: User::Contract::ChangePassword) 
   step Contract::Validate()
   step :update!   

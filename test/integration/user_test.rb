@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UsersIntegrationTest < Trailblazer::Test::Integration
 
-  let!(:user2) {(User::Create.(email: "test2@email.com", password: "password", confirm_password: "password", firstname: "User2")).model}
+  let!(:user2) {(User::Create.(email: "test2@email.com", password: "password", confirm_password: "password", firstname: "User2"))["model"]}
 
   it "create user" do 
     visit 'users/new'

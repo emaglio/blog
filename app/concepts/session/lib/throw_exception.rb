@@ -1,11 +1,8 @@
 module Session::Lib 
-  class ThrowException < Trailblazer::Operation
+  class ThrowException 
     extend Uber::Callable
-
-    step :exception!
-
-    def exception!(options, *)
-      # raise ApplicationController::NotAuthorizedError
+    def self.call(options, *)
+      raise ApplicationController::NotAuthorizedError
     end
   end
-end
+end 
