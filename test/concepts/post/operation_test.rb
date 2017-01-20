@@ -27,12 +27,12 @@ class PostOperationTest < MiniTest::Spec
     post = Post::Create.({title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: user.id})["model"]
 
     # #user2 trying to modify post
-    # assert_raises ApplicationController::NotAuthorizedError do
-    #   Post::Update.(
-    #     id: post.id,
-    #     title: "NewTitle",
-    #     current_user: user2)
-    # end
+    assert_raises ApplicationController::NotAuthorizedError do
+      Post::Update.(
+        {id: post.id,
+        title: "NewTitle"},
+        "current_user" => user2)
+    end
 
     #user can modify post
     result = Post::Update.({id: post.id, title: "newTitle"}, "current_user" => user)
@@ -48,15 +48,17 @@ class PostOperationTest < MiniTest::Spec
 
   it "only post ownner and admin can delete post" do
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
+    user.email.must_equal "test@email.com"
     user2 = User::Create.({email: "user2@email.com", password: "password", confirm_password: "password"})["model"]
+    user2.email.must_equal "user2@email.com"
     post = Post::Create.({title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: user.id})
     post.success?.must_equal true
 
-    # assert_raises ApplicationController::NotAuthorizedError do
-    #   Post::Delete.(
-    #     id: post.id,
-    #     current_user: user2)
-    # end
+    assert_raises ApplicationController::NotAuthorizedError do
+      Post::Delete.(
+        {id: post["model"].id},
+        "current_user" => user2)
+    end
 
     #successfully deleted by the owner
     result = Post::Delete.({id: post["model"].id}, "current_user" => user)

@@ -39,12 +39,12 @@ class UserOperationTest < MiniTest::Spec
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"  
 
-    # assert_raises Trailblazer::NotAuthorizedError do
-    #   User::Update.(
-    #     id: user.id,
-    #     email: "newtest@email.com",
-    #     current_user: user2)
-    # end
+    assert_raises ApplicationController::NotAuthorizedError do
+      User::Update.(
+        {id: user.id,
+        email: "newtest@email.com"},
+        "current_user" => user2)
+    end
 
     res = User::Update.({id: user.id, email: "newtest@email.com"}, "current_user" => user)
     res.success?.must_equal true
@@ -55,11 +55,11 @@ class UserOperationTest < MiniTest::Spec
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"  
 
-    # assert_raises Trailblazer::NotAuthorizedError do
-    #   User::Delete.(
-    #     id: user.id,
-    #     current_user: user2)
-    # end
+    assert_raises ApplicationController::NotAuthorizedError do
+      User::Delete.(
+        {id: user.id},
+        "current_user" => user2)
+    end
 
     res = User::Delete.({id: user.id}, "current_user" => user)
     res.success?.must_equal true
@@ -95,14 +95,15 @@ class UserOperationTest < MiniTest::Spec
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"  
 
-    # assert_raises Trailblazer::NotAuthorizedError do
-    #   User::ChangePassword.(
-    #     id: user.id,
-    #     email: "password",
-    #     new_password: "new_password",
-    #     confirm_new_password: "new_password",
-    #     current_user: user2)
-    # end
+    assert_raises ApplicationController::NotAuthorizedError do
+      User::ChangePassword.(
+        {id: user.id,
+        email: "password",
+        new_password: "new_password",
+        confirm_new_password: "new_password"},
+        "current_user" => user2)
+    end
+
     op = User::ChangePassword.({id: user.id, password: "password", new_password: "new_password", confirm_new_password: "new_password"}, "current_user" => user)
     op.success?.must_equal true
 
@@ -118,12 +119,12 @@ class UserOperationTest < MiniTest::Spec
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"  
 
-    # assert_raises Trailblazer::NotAuthorizedError do
-    #   User::Block.(
-    #     id: user.id,
-    #     block: "true",
-    #     current_user: user2)
-    # end
+    assert_raises ApplicationController::NotAuthorizedError do
+      User::Block.(
+        {id: user.id,
+        block: "true"},
+        "current_user" => user2)
+    end
 
     op = User::Block.({id: user.id, block: "true"}, "current_user" => admin)
     op.success?.must_equal true 
