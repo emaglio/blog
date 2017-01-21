@@ -2,7 +2,7 @@ class Post::Search < Trailblazer::Operation
   step :model!
 
   def model!(options, params:, **)
-    if params[:advance].include? "true"
+    if params["advance"].include? "true"
       options["model"] = advanced_search(params)
     else
       options["model"] = search(params)
@@ -95,6 +95,8 @@ private
     return condition
   end
 
-  class AdvancedSearch < Trailblazer::Operation
-  end
+end
+
+
+class Post::AdvancedSearch < Trailblazer::Operation
 end

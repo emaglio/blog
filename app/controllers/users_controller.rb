@@ -16,17 +16,17 @@ class UsersController < ApplicationController
       flash[:notice] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/posts"
     end
-    render cell(User::Cell::New, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def new
     run User::New
-    render cell(User::Cell::New, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def edit
     run User::Edit
-    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def update
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       return redirect_to "/users/#{result["model"].id}"
     end
     
-    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def destroy
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       return redirect_to "/posts"
     end
 
-    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def reset_password
@@ -52,17 +52,17 @@ class UsersController < ApplicationController
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
-    render cell(User::Cell::GetEmail, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_email
     run User::GetEmail
-    render cell(User::Cell::GetEmail, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_new_password
     run User::GetNewPassword
-    render cell(User::Cell::ChangePassword, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::ChangePassword, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def change_password
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render cell(User::Cell::GetEmail, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def block
