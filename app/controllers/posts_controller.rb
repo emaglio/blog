@@ -48,12 +48,12 @@ class PostsController < ApplicationController
 
   def search
     run Post::Search
-    render cell(Post::Cell::Index)
+    render cell(Post::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
-  # def advanced_search
-  #   run Post::AdvancedSearch
-  #   render Post::Cell::AdvancedSearch
-  # end
+  def advanced_search
+    run Post::AdvancedSearch
+    render cell(Post::Cell::AdvancedSearch, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+  end
 
 end

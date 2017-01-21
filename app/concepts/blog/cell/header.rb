@@ -56,7 +56,7 @@ module Blog::Cell
     
     def author
       if show_post and post_exist?
-        if options["current_user"] != nil and post.user_id != nil and options["current_user"].email == User.find(post.user_id).email
+        if options[:context][:current_user] != nil and post.user_id != nil and options[:context][:current_user].email == User.find(post.user_id).email
           return "Me"
         else
           return post.author
