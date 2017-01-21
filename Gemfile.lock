@@ -1,6 +1,7 @@
 GIT
-  remote: git://github.com/trailblazer/formular.git
+  remote: https://github.com/emaglio/formular.git
   revision: ee6fe2a18751ed56caf94ab8b8c96df44a220367
+  branch: error_trb_2.0.1
   specs:
     formular (0.2.1)
       declarative (~> 0.0.4)
@@ -8,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: 76d82444bb0d0380878019f32fb92f210fbea191
+  revision: a5ea4b0044555b27d7a179cf79ce6ce77b644cd8
   branch: to_TRB2
   specs:
     tyrant (0.0.3)
