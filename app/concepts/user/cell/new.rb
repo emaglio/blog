@@ -6,7 +6,7 @@ module User::Cell
     include Formular::Helper
 
     def current_user
-      return options["current_user"]
+      return options[:context][:current_user]
     end
   end
 end

@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def edit
     run User::Edit
-    render cell(User::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def update
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       return redirect_to "/users/#{result["model"].id}"
     end
     
-    render cell(User::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def destroy
