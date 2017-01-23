@@ -30,7 +30,7 @@ group :test do
   gem "minitest-bang"
 end
 
-gem 'formular', github:"trailblazer/formular"
+gem 'formular', :git => "https://github.com/emaglio/formular.git", :branch => "error_trb_2.0.1"
 gem 'trailblazer', '>= 2.0.1'
 gem 'trailblazer-cells'
 gem 'trailblazer-rails'

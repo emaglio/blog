@@ -1,12 +1,7 @@
 GIT
-<<<<<<< HEAD
-  remote: git://github.com/trailblazer/formular.git
-  revision: ee6fe2a18751ed56caf94ab8b8c96df44a220367
-=======
   remote: https://github.com/emaglio/formular.git
   revision: ee6fe2a18751ed56caf94ab8b8c96df44a220367
   branch: error_trb_2.0.1
->>>>>>> to_TRB2
   specs:
     formular (0.2.1)
       declarative (~> 0.0.4)
@@ -134,16 +129,9 @@ GEM
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.4, >= 0.4.0)
       inflecto (~> 0.0.0, >= 0.0.2)
-<<<<<<< HEAD
-    dry-validation (0.10.4)
-      concurrent-ruby (~> 1.0)
-      dry-configurable (~> 0.1, >= 0.1.3)
-      dry-container (~> 0.2, >= 0.2.8)
-=======
     dry-validation (0.10.5)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.1, >= 0.1.3)
->>>>>>> to_TRB2
       dry-core (~> 0.2, >= 0.2.1)
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.4, >= 0.4.0)
@@ -162,11 +150,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-<<<<<<< HEAD
-    json (1.8.3)
-=======
     json (1.8.6)
->>>>>>> to_TRB2
     libv8 (3.16.14.17)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -276,17 +260,10 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
-<<<<<<< HEAD
-    trailblazer (1.1.2)
-      declarative
-      reform (>= 2.0.0, < 3.0.0)
-      uber (>= 0.0.15, < 0.1.0)
-=======
     trailblazer (2.0.2)
       declarative
       reform (>= 2.2.0, < 3.0.0)
       trailblazer-operation (>= 0.0.12, < 0.1.0)
->>>>>>> to_TRB2
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
     trailblazer-loader (0.1.0)
@@ -300,11 +277,7 @@ GEM
       trailblazer-loader (>= 0.1.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-<<<<<<< HEAD
-    uber (0.0.15)
-=======
     uber (0.1.0)
->>>>>>> to_TRB2
     uglifier (3.0.4)
       execjs (>= 0.3.0, < 3)
     warden (1.2.6)
@@ -345,11 +318,7 @@ DEPENDENCIES
   spring
   sqlite3
   therubyracer
-<<<<<<< HEAD
-  trailblazer
-=======
   trailblazer (>= 2.0.1)
->>>>>>> to_TRB2
   trailblazer-cells
   trailblazer-rails
   tyrant!
