@@ -11,23 +11,23 @@ module Post::Cell
     end
 
     def edit
-      unless options["current_user"] == nil
-        if options["current_user"].id == model.user_id or options["current_user"].email == "admin@email.com" #change in order to have policy
+      unless options[:context][:current_user] == nil
+        if options[:context][:current_user].id == model.user_id or options[:context][:current_user].email == "admin@email.com" #change in order to have policy
           link_to "Edit", edit_post_path(model.id)
         end
       end
     end
 
     def delete
-      unless options["current_user"] == nil
-        if options["current_user"].id == model.user_id or options["current_user"].email == "admin@email.com" #change in order to have policy
+      unless options[:context][:current_user] == nil
+        if options[:context][:current_user].id == model.user_id or options[:context][:current_user].email == "admin@email.com" #change in order to have policy
           link_to "Delete", post_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
         end
       end
     end
 
     def author
-      if model.user_id != nil and options["current_user"] != nil and options["current_user"].email == User.find(model.user_id).email
+      if model.user_id != nil and options[:context][:current_user] != nil and options[:context][:current_user].email == User.find(model.user_id).email
         link_to model.author, user_path(model.user_id)
       else
         return model.author

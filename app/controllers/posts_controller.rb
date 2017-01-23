@@ -25,7 +25,7 @@ class PostsController < ApplicationController
 
   def edit
     run Post::Edit
-    render cell(Post::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(Post::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def update
@@ -43,7 +43,7 @@ class PostsController < ApplicationController
       return redirect_to "/posts"
     end
 
-    render cell(Post::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(Post::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def search

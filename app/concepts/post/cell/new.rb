@@ -6,16 +6,16 @@ module Post::Cell
     include Formular::RailsHelper
 
     def user_name
-      @name = options["current_user"].firstname
+      @name = options[:context][:current_user].firstname
 
       if @name == nil
-        @name = options["current_user"].email
+        @name = options[:context][:current_user].email
       end
       return @name
     end
 
     def current_user
-      return options["current_user"]
+      return options[:context][:current_user]
     end
   end
 end
