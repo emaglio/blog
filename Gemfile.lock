@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: a5ea4b0044555b27d7a179cf79ce6ce77b644cd8
+  revision: eaab60f996766c1437c54218556b4ddb352d416a
   branch: to_TRB2
   specs:
     tyrant (0.0.3)
@@ -185,8 +185,7 @@ GEM
     multi_json (1.12.1)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
-    pipetree (0.1.0)
-      uber
+    pipetree (0.1.1)
     pony (1.11)
       mail (>= 2.0)
     public_suffix (2.0.5)
@@ -261,18 +260,17 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    trailblazer (2.0.1)
+    trailblazer (2.0.2)
       declarative
       reform (>= 2.2.0, < 3.0.0)
-      trailblazer-operation (>= 0.0.10, < 0.1.0)
-      uber (>= 0.1.0, < 0.2.0)
+      trailblazer-operation (>= 0.0.12, < 0.1.0)
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
     trailblazer-loader (0.1.0)
-    trailblazer-operation (0.0.10)
+    trailblazer-operation (0.0.12)
       declarative
-      pipetree (>= 0.1.0, < 0.2.0)
-      uber (>= 0.1.0, < 0.2.0)
+      pipetree (>= 0.1.1, < 0.2.0)
+      uber
     trailblazer-rails (1.0.2)
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (>= 2.0.0, < 2.1.0)

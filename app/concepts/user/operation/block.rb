@@ -9,7 +9,7 @@ class User::Block < Trailblazer::Operation
   step :model!
 
   def model!(options, params:, model:, **)
-    model.block = params[:block]
+    model[:block] = params[:block]
     model.save
   end
 

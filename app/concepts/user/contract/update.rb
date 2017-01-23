@@ -10,6 +10,7 @@ module User::Contract
     property :gender
     property :phone
     property :age
+    property :id
 
     validation do
       configure do
@@ -17,7 +18,8 @@ module User::Contract
         config.messages_file = 'config/error_messages.yml'
         
         def unique_email?
-          User.where("email = ?", form.email).size == 0
+          return true if User.find(form.id).email == form.email
+          User.where("email = ?", form.email).size == 0 
         end
 
         def email?(value)

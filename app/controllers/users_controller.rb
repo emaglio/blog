@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    run User::Update do |op|
+    run User::Update do |result|
       flash[:notice] = "New details saved"
       return redirect_to "/users/#{result["model"].id}"
     end
@@ -75,8 +75,8 @@ class UsersController < ApplicationController
   end
 
   def block
-    run User::Block do |op|
-      if op.model.block == true
+    run User::Block do |result|
+      if result["model"]["block"] == true
         flash[:alert] = "#{get_name(result["model"])} has been blocked"
       else
         flash[:alert] = "#{get_name(result["model"])} has been un-blocked"
