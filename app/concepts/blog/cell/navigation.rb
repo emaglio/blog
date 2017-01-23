@@ -7,7 +7,7 @@ module Blog::Cell
     end
 
     def welcome
-      return "Hi, " + current_user.firstname if current_user.firstname != ""
+      return "Hi, " + current_user.firstname if current_user.firstname != nil and current_user.firstname != ""
 
       "Hi, " + current_user.email
     end
