@@ -1,59 +1,59 @@
 class PostsController < ApplicationController
 
   def show
-    present Post::Show
-    render Post::Cell::Show
+    run Post::Show
+    render cell(Post::Cell::Show, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
   
   def index
-    present Post::Index
-    render Post::Cell::Index
+    run Post::Index
+    render cell(Post::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def create
-    run Post::Create do |op|
-      flash[:notice] = "#{op.model.title} has been created"
+    run Post::Create do |result|
+      flash[:notice] = "#{result["model"].title} has been created"
       return redirect_to "/posts"
     end
-    render Post::Cell::New, model: @form
+    render cell(Post::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def new
-    form Post::Create
-    render Post::Cell::New, model: @form
+    run Post::New
+    render cell(Post::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def edit
-    form Post::Update
-    render Post::Cell::Edit, model: @form
+    run Post::Edit
+    render cell(Post::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def update
-    run Post::Update do |op|
-      flash[:notice] = "#{op.model.title} has been saved"
-      return redirect_to "/posts/#{op.model.id}"
+    run Post::Update do |result|
+      flash[:notice] = "#{result["model"].title} has been saved"
+      return redirect_to "/posts/#{result["model"].id}"
     end
 
-    render Post::Cell::Edit, model: @form
+    render cell(Post::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def destroy
-    run Post::Delete do |op|
+    run Post::Delete do
       flash[:alert] = "Post deleted"
       return redirect_to "/posts"
     end
 
-    render Post::Cell::Edit, model: @form
+    render cell(Post::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def search
-    present Post::Search
-    render Post::Cell::Index
+    run Post::Search
+    render cell(Post::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def advanced_search
-    present Post::AdvancedSearch
-    render Post::Cell::AdvancedSearch
+    run Post::AdvancedSearch
+    render cell(Post::Cell::AdvancedSearch, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
 end

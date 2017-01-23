@@ -13,10 +13,10 @@
         = f.textarea :body, placeholder: "What do you wanna say?"
     .row
       .col-sm-12
-        - if tyrant.signed_in?
+        - if current_user != nil
           = "by " + user_name
           = f.input :author, value: user_name, type: "hidden"
-          = f.input :user_id, value: tyrant.current_user.id, type: "hidden"
+          = f.input :user_id, value: current_user.id, type: "hidden"
         -else
           = f.input :author, placeholder: "Author"
       .col-sm-12  

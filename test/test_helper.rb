@@ -15,7 +15,7 @@ Minitest::Spec.class_eval do
   end
 
   def admin_for
-    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin").model unless User.find_by(email: "admin@email.com") != nil
+    User::Create.({email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin"})["model"] unless User.find_by(email: "admin@email.com") != nil
   end
 end
 
@@ -50,14 +50,14 @@ Trailblazer::Test::Integration.class_eval do
   end
 
   def log_in_as_admin
-    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin").model unless User.find_by(email: "admin@email.com") != nil 
+    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin")["model"] unless User.find_by(email: "admin@email.com") != nil 
     
     visit "sessions/new"
     submit!("admin@email.com", "password")
   end
 
   def log_in_as_user(email = "my@email.com", password = "password")
-    user = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname").model unless User.find_by(email: email) != nil
+    user = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname")["model"] unless User.find_by(email: email) != nil
 
     visit "sessions/new"
     submit!(user.email, "password")
@@ -77,17 +77,17 @@ Trailblazer::Test::Integration.class_eval do
 
 end
 
-#to test that a new password "NewPassword" is actually saved 
+# to test that a new password "NewPassword" is actually saved 
 #in the auth_meta_data of User
 Tyrant::ResetPassword.class_eval do 
-  def generate_password
-    return "NewPassword"
+  def generate_password!(options, *)
+    options["new_password"] = "NewPassword"
   end
 end
 
 #to test the email notification to the user for the ResetPassword
 Tyrant::Mailer.class_eval do 
-  def email_options
+  def email_options!(options, *)
     Pony.options = {via: :test}
   end  
 end

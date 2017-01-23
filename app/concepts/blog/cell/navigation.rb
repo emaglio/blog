@@ -1,34 +1,25 @@
 module Blog::Cell
   
-  module Tyrant
-    def tyrant
-      context[:tyrant]
-    end
-  end
-
-  module Policy
-    def policy
-      context[:policy]
-    end
-  end
-
   class NavigationMenu < Trailblazer::Cell
-    include Policy
-    include Tyrant
+
+    def current_user
+      return options[:context][:current_user]
+    end
 
     def welcome
-      @name = tyrant.current_user.firstname
+      return "Hi, " + current_user.firstname if current_user.firstname != ""
 
-      if @name == nil
-        @name = tyrant.current_user.email
-      end
-
-      "Hi, " + @name.to_s
+      "Hi, " + current_user.email
     end
 
     def admin?
-      return tyrant.current_user.email == "admin@email.com"
+      return current_user.email == "admin@email.com"
     end
+
+    def signed_in?
+      return current_user != nil
+    end
+
   end
 
   class Navigation < Trailblazer::Cell

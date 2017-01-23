@@ -1,50 +1,50 @@
 class UsersController < ApplicationController
   
   def show
-    present User::Show
-    render User::Cell::Show
+    run User::Show
+    render cell(User::Cell::Show, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
   
   def index
-    present User::Index
-    render User::Cell::Index
+    run User::Index
+    render cell(User::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def create
-    run User::Create do |op|
-      tyrant.sign_in!(op.model)
-      flash[:notice] = "Welcome #{get_name(op.model)}!"
+    run User::Create do |result|
+      tyrant.sign_in!(result["model"])
+      flash[:notice] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/posts"
     end
-    render User::Cell::New, model: @form
+    render cell(User::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def new
-    form User::Create
-    render User::Cell::New, model: @form
+    run User::New
+    render cell(User::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def edit
-    form User::Update
-    render User::Cell::Edit, model: @form
+    run User::Edit
+    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def update
-    run User::Update do |op|
+    run User::Update do |result|
       flash[:notice] = "New details saved"
-      return redirect_to "/users/#{op.model.id}"
+      return redirect_to "/users/#{result["model"].id}"
     end
     
-    render User::Cell::Edit, model: @form
+    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def destroy
-    run User::Delete do |op|
+    run User::Delete do
       flash[:alert] = "User deleted"
       return redirect_to "/posts"
     end
 
-    render User::Cell::Edit, model: @form
+    render cell(User::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def reset_password
@@ -52,17 +52,17 @@ class UsersController < ApplicationController
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
-    render User::Cell::GetEmail
+    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_email
-    present User::GetEmail
-    render User::Cell::GetEmail
+    run User::GetEmail
+    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_new_password
-    present User::GetNewPassword
-    render User::Cell::ChangePassword
+    run User::GetNewPassword
+    render cell(User::Cell::ChangePassword, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def change_password
@@ -71,15 +71,15 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render User::Cell::ChangePassword
+    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def block
-    run User::Block do |op|
-      if op.model.block == true
-        flash[:alert] = "#{get_name(op.model)} has been blocked"
+    run User::Block do |result|
+      if result["model"]["block"] == true
+        flash[:alert] = "#{get_name(result["model"])} has been blocked"
       else
-        flash[:alert] = "#{get_name(op.model)} has been un-blocked"
+        flash[:alert] = "#{get_name(result["model"])} has been un-blocked"
       end
       redirect_to users_path
     end

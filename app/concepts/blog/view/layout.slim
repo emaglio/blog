@@ -29,7 +29,7 @@ html
       script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"
 
   body
-    = cell "blog/cell/navigation", OpenStruct.new(real_user: params[:real_user], current_user: params[:current_user], "signed_in?" => tyrant.signed_in?)
+    = cell "blog/cell/navigation"
 
     <!-- Header -->
     = cell "blog/cell/header", OpenStruct.new(show_post: show_post, show_id: show_id)

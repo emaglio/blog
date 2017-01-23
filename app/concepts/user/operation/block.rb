@@ -1,24 +1,16 @@
-class User < ActiveRecord::Base
-  class Block < Trailblazer::Operation
-    
-    include Model
-    model User, :find
-    
-    policy Session::Policy, :admin?
+require_dependency 'session/lib/throw_exception'
 
-    contract Contract::Create do
-      property :block, virtual: true
-      validation do
-        required(:block).filled
-      end
-    end
+class User::Block < Trailblazer::Operation
+  step Model(User, :find_by)
+  step Policy::Pundit( ::Session::Policy, :admin?)
+  failure Session::Lib::ThrowException
+  step Contract::Build(constant: User::Contract::Block)
+  step Contract::Validate()
+  step :model!
 
-    def process(params)
-      validate(params) do
-        model.block = params[:block]
-        model.save
-      end
-    end
-
+  def model!(options, params:, model:, **)
+    model[:block] = params[:block]
+    model.save
   end
+
 end

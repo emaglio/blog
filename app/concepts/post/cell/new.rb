@@ -1,23 +1,19 @@
 module Post::Cell
-  module Tyrant
-    def tyrant
-      context[:tyrant]
-    end
-  end
 
   class New < Trailblazer::Cell
     include ActionView::RecordIdentifier
     include ActionView::Helpers::FormOptionsHelper
     include Formular::RailsHelper
-    include Tyrant
+
+    def current_user
+      return options[:context][:current_user]
+    end
 
     def user_name
-      @name = tyrant.current_user.firstname
+      return current_user.firstname if current_user.firstname != ""
 
-      if @name == nil
-        @name = tyrant.current_user.email
-      end
-      return @name
+      current_user.email
     end
+
   end
 end

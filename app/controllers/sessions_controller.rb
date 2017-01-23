@@ -1,17 +1,17 @@
 class SessionsController < ApplicationController
 
   def new
-    form Session::SignIn
-    render Session::Cell::SignIn
+    run Session::SignIn
+    render cell(Session::Cell::SignIn, result["model"], context:{flash: flash}, layout: Blog::Cell::Layout)
   end
 
   def create
-    run Session::SignIn do |op|
-      tyrant.sign_in!(op.model)
+    run Session::SignIn do |result|
+      tyrant.sign_in!(result["model"])
       flash[:notice] = "Hey mate, welcome back!"
       return redirect_to "/posts"
     end
-    render Session::Cell::SignIn, model: @form
+    render cell(Session::Cell::SignIn, result["model"], context:{flash: flash}, layout: Blog::Cell::Layout)
   end
 
   def sign_out

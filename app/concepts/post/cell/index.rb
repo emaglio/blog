@@ -1,11 +1,4 @@
 module Post::Cell
-  
-  module Tyrant
-    def tyrant
-      context[:tyrant]
-    end
-  end
-
   class Index < Trailblazer::Cell
   private
     def total
@@ -16,7 +9,6 @@ module Post::Cell
   end
 
   class Item < Trailblazer::Cell
-    include Tyrant
 
     def title
       if model == nil
@@ -31,7 +23,7 @@ module Post::Cell
     end
 
     def author
-      if model.user_id != nil and tyrant.current_user != nil and tyrant.current_user.email == User.find(model.user_id).email
+      if model.user_id != nil and options["current_user"] != nil and options["current_user"].email == User.find(model.user_id).email
         link_to model.author, user_path(model.user_id)
       else
         return model.author

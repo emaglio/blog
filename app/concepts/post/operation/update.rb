@@ -1,9 +1,12 @@
-class Post < ActiveRecord::Base
-  class Update < Create
+require_dependency "post/operation/edit"
 
-    include Model
-    model Post, :find
+class Post::Update < Trailblazer::Operation
+  step Nested(::Post::Edit)
+  step Contract::Validate()
+  step Contract::Persist()
+  step :update!
 
-    policy Session::Policy, :update_delete_post?
+  def update!(options, model:, **)
+    model.save    
   end
 end

@@ -1,36 +1,16 @@
-require 'tyrant'
-require 'reform/form/dry'
-require 'trailblazer'
+require_dependency 'tyrant'
 
-class User < ActiveRecord::Base
-  class ResetPassword < Trailblazer::Operation
+class User::ResetPassword < Trailblazer::Operation
+  step Contract.Build(constant: ::User::Contract::ResetPassword)
+  step Contract.Validate()
+  step :reset!
 
-    contract do
-      feature Reform::Form::Dry
-      property :email, virtual: true
-      
-      validation do
-        configure do
-          config.messages_file = 'config/error_messages.yml'
-
-          def user_exists?(email)
-            User.where(email: email).size == 1
-          end
-        end
-          
-        required(:email).filled(:user_exists?)
-      end
-    end
-
-    def process(params)
-      validate(params) do
-        model = User.find_by(email: params[:email])
-        Tyrant::ResetPassword.(model: model)
-      end
-    end
-
-  end 
-
-  class GetEmail < Trailblazer::Operation
+  def reset!(options, params:, **)
+    user = User.find_by(email: params[:email])
+    Tyrant::ResetPassword.({model: user})
   end
+end
+
+
+class User::GetEmail < Trailblazer::Operation
 end

@@ -1,32 +1,12 @@
-class User < ActiveRecord::Base
-  class Update < Trailblazer::Operation
+require_dependency 'user/operation/edit'
 
-    policy Session::Policy, :current_user?
+class User::Update < Trailblazer::Operation
+  step Nested(::User::Edit)
+  step Contract::Validate()
+  step Contract::Persist()
+  step :update!
 
-    include Model
-    model User, :find    
-
-    contract Contract::Create do
-
-      property :email
-
-      validation do
-        configure do
-          option :form
-          config.messages_file = 'config/error_messages.yml'
-
-          def email?(value)
-            ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(value).nil?
-          end
-        end
-        required(:email).filled(:email?)
-      end
-    end
-
-    def process(params)
-      validate(params) do
-        contract.save
-      end
-    end
+  def update!(options, model:, **)
+    model.save
   end
 end

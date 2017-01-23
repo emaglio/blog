@@ -1,13 +1,12 @@
-class User < ActiveRecord::Base
-  class Delete < Trailblazer::Operation
-    include Model
-    model User, :find
+require_dependency 'session/lib/throw_exception'
 
-    policy Session::Policy, :current_user?
+class User::Delete < Trailblazer::Operation
+  step Model(User, :find_by)
+  step Policy::Pundit( ::Session::Policy, :current_user?)
+  failure ::Session::Lib::ThrowException
+  step :delete!
 
-    def process(params)
-      model.destroy
-    end
-
+  def delete!(options, model:, **)
+    model.destroy
   end
 end

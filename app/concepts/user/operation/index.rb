@@ -1,11 +1,11 @@
-class User < ActiveRecord::Base
-  class Index < Trailblazer::Operation
+require_dependency 'session/lib/throw_exception'
 
-    policy Session::Policy, :admin?
+class User::Index < Trailblazer::Operation
+  step Policy::Pundit( ::Session::Policy, :admin?)
+  failure ::Session::Lib::ThrowException
+  step :model!
 
-    def model!(params)
-      User.all      
-    end
-    
+  def model!(options, *)
+    options["model"] = User.all      
   end
 end
