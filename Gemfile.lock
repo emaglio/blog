@@ -12,9 +12,8 @@ GIT
       trailblazer (~> 1.0)
       warden (= 1.2.6)
 
-GIT
-  remote: https://github.com/trailblazer/formular/
-  revision: ee6fe2a18751ed56caf94ab8b8c96df44a220367
+PATH
+  remote: /home/emamaglio/projects/formular
   specs:
     formular (0.2.1)
       declarative (~> 0.0.4)
