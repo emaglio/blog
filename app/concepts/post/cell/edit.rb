@@ -12,12 +12,8 @@ module Post::Cell
     #really bad....need to change this
     def user_name_admin
       user = User.find(model.user_id)
-      @name = user.firstname
 
-      if @name == nil
-        @name = user.email
-      end
-      return @name
+      user.firstname.blank? ? user.email : user.firstname
     end
 
   end

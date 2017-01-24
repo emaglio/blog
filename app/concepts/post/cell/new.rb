@@ -10,9 +10,7 @@ module Post::Cell
     end
 
     def user_name
-      return current_user.firstname if current_user.firstname != "" and current_user.firstname != nil
-
-      current_user.email
+      current_user.firstname.blank? ? current_user.email : current_user.firstname
     end
 
   end

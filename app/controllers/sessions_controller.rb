@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 
   def new
     run Session::SignIn
-    render cell(Session::Cell::SignIn, result["model"], context:{flash: flash}, layout: Blog::Cell::Layout)
+    render cell(Session::Cell::SignIn, result["contract.default"], context:{flash: flash}, layout: Blog::Cell::Layout)
   end
 
   def create
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "Hey mate, welcome back!"
       return redirect_to "/posts"
     end
-    render cell(Session::Cell::SignIn, result["model"], context:{flash: flash}, layout: Blog::Cell::Layout)
+    render cell(Session::Cell::SignIn, result["contract.default"], context:{flash: flash}, layout: Blog::Cell::Layout)
   end
 
   def sign_out

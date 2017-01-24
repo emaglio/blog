@@ -14,7 +14,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     #new_post!(title, subtitle, body, author, user_signed_in?)
     new_post!("", "", "", "", false)
 
-    # page.must_have_content "must be filled"
+    page.must_have_content "must be filled"
 
     #create post without User as author
     new_post!

@@ -16,12 +16,12 @@ class UsersController < ApplicationController
       flash[:notice] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/posts"
     end
-    render cell(User::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::New, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def new
     run User::New
-    render cell(User::Cell::New, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::New, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def edit
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       return redirect_to "/posts"
     end
 
-    render cell(User::Cell::Edit, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def reset_password
@@ -52,17 +52,17 @@ class UsersController < ApplicationController
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
-    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::GetEmail, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_email
     run User::GetEmail
-    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::GetEmail, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_new_password
     run User::GetNewPassword
-    render cell(User::Cell::ChangePassword, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::ChangePassword, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def change_password
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render cell(User::Cell::GetEmail, result["form"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::GetEmail, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def block
