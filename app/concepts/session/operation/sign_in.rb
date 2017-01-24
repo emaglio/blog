@@ -1,5 +1,7 @@
+require_dependency 'session/operation/sign_in_form'
+
 class Session::SignIn < Trailblazer::Operation
-  step Contract::Build(constant: Session::Contract::SignIn)
+  step Nested(Session::SignInForm)
   step Contract::Validate()
   step :model!    
 

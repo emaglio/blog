@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
-    run Session::SignIn
+    run Session::SignInForm
     render cell(Session::Cell::SignIn, result["contract.default"], context:{flash: flash}, layout: Blog::Cell::Layout)
   end
 

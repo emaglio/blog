@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: 58ec8be23cf683c974ae2674ac46d6d89983f2db
+  revision: 9108072dcc48f2c2c95af28e33683bf2a95cf0ae
   branch: to_TRB2
   specs:
     tyrant (0.0.3)

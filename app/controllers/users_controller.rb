@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    run User::ResetPassword do |op| 
+    run User::ResetPassword do 
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
@@ -62,7 +62,7 @@ class UsersController < ApplicationController
 
   def get_new_password
     run User::GetNewPassword
-    render cell(User::Cell::ChangePassword, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::ChangePassword, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def change_password
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render cell(User::Cell::GetEmail, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::ChangePassword, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def block
