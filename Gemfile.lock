@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/trailblazer/formular.git
+  revision: ee6fe2a18751ed56caf94ab8b8c96df44a220367
+  specs:
+    formular (0.2.1)
+      declarative (~> 0.0.4)
+      uber (>= 0.0.11, < 0.2.0)
+
+GIT
   remote: https://github.com/emaglio/tyrant.git
   revision: eaab60f996766c1437c54218556b4ddb352d416a
   branch: to_TRB2
@@ -12,13 +20,6 @@ GIT
       reform-rails
       trailblazer (>= 2.0.1)
       warden (= 1.2.6)
-
-PATH
-  remote: /home/emamaglio/projects/formular
-  specs:
-    formular (0.2.1)
-      declarative (~> 0.0.4)
-      uber (>= 0.0.11, < 0.2.0)
 
 GEM
   remote: https://rubygems.org/
