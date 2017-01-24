@@ -4,6 +4,7 @@ module Post::Cell
     include ActionView::RecordIdentifier
     include ActionView::Helpers::FormOptionsHelper
     include Formular::RailsHelper
+    include Formular::Helper
 
     def current_user
       return options[:context][:current_user]
