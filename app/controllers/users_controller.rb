@@ -1,3 +1,5 @@
+require_dependency "tyrant/cell/reset_password"
+
 class UsersController < ApplicationController
   
   def show
@@ -26,7 +28,7 @@ class UsersController < ApplicationController
 
   def edit
     run User::Edit
-    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def update
@@ -35,7 +37,7 @@ class UsersController < ApplicationController
       return redirect_to "/users/#{result["model"].id}"
     end
     
-    render cell(User::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::Edit, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def destroy
@@ -48,16 +50,16 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    run User::ResetPassword do 
+    run Tyrant::ResetPassword do 
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
-    render cell(User::Cell::GetEmail, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(Tyrant::Cell::ResetPassword, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_email
-    run User::GetEmail
-    render cell(User::Cell::GetEmail, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    run Tyrant::GetEmail
+    render cell(Tyrant::Cell::ResetPassword, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def get_new_password

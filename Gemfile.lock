@@ -6,15 +6,14 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
-GIT
-  remote: https://github.com/emaglio/tyrant.git
-  revision: 9108072dcc48f2c2c95af28e33683bf2a95cf0ae
-  branch: to_TRB2
+PATH
+  remote: /home/emamaglio/projects/tyrant
   specs:
     tyrant (0.0.3)
       bcrypt
       disposable (>= 0.1.11)
       dry-validation
+      formular
       pony
       reform (~> 2.0)
       reform-rails
@@ -120,7 +119,7 @@ GEM
       dry-container (~> 0.2, >= 0.2.6)
       dry-core (~> 0.2)
       dry-equalizer (~> 0.2)
-    dry-types (0.9.3)
+    dry-types (0.9.4)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.1)
       dry-container (~> 0.3)
