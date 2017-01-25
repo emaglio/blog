@@ -4,6 +4,7 @@ module User::Contract
   class ChangePassword < Reform::Form 
     feature Reform::Form::Dry
 
+    property :email, virtual: true
     property :password, virtual: true
     property :new_password, virtual: true
     property :confirm_new_password, virtual: true
@@ -13,6 +14,10 @@ module User::Contract
         option :form
         config.messages_file = 'config/error_messages.yml'
 
+        def user_exists?
+          User.where(email: form.email).size == 1
+        end
+
         def new_must_match?
           return form.new_password == form.confirm_new_password
         end
@@ -21,19 +26,29 @@ module User::Contract
           return form.password != form.new_password
         end
 
-        def password_ok? #change this in order to run this only if user exists
-          return Tyrant::Authenticatable.new(form.model).digest?(form.password) == true
+        def password_ok? 
+          return Tyrant::Authenticatable.new(User.find_by(email: form.email)).digest?(form.password) == true if user_exists?
         end
 
       end
 
+      required(:email).filled(:user_exists?)
       required(:password).filled
-      required(:new_password).filled(:new_password_must_be_new?)
-      required(:confirm_new_password).filled(:new_must_match?)
+      required(:new_password).filled
+      required(:confirm_new_password).filled
 
       validate(password_ok?: :password) do
         password_ok?
       end
+
+      validate(new_password_must_be_new?: :new_password) do
+        new_password_must_be_new?
+      end
+        
+      validate(new_must_match?: :confirm_new_password) do
+        new_must_match?
+      end
+
     end
   end
 end

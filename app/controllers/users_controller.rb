@@ -62,11 +62,11 @@ class UsersController < ApplicationController
 
   def get_new_password
     run User::GetNewPassword
-    render cell(User::Cell::ChangePassword, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render cell(User::Cell::ChangePassword, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
   end
 
   def change_password
-    run User::ChangePassword do |op|
+    run User::ChangePassword do
       flash[:alert] = "The new password has been saved"
       return redirect_to user_path(tyrant.current_user)
     end

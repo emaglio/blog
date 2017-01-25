@@ -123,11 +123,13 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     click_link "Change Password"
 
+    page.must_have_css "#email"
     page.must_have_css "#password"
     page.must_have_css "#new_password"
     page.must_have_css "#confirm_new_password"
 
     within("//form[@id='change_password']") do
+      fill_in 'Email', with: user.email
       fill_in 'Password', with: "password"
       fill_in 'New Password', with: "new_password"
       fill_in 'Confirm New Password', with: "new_password"

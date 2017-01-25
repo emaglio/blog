@@ -7,10 +7,11 @@ module User::Contract
     
     validation do
       configure do
+        option :form 
         config.messages_file = 'config/error_messages.yml'
 
-        def user_exists?(email)
-          User.where(email: email).size == 1
+        def user_exists?
+          User.where(email: form.email).size == 1
         end
       end
         

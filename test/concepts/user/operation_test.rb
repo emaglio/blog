@@ -86,9 +86,9 @@ class UserOperationTest < MiniTest::Spec
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     user.success?.must_equal true
 
-    res = User::ChangePassword.({id: user["model"].id, password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
+    res = User::ChangePassword.({email: "wrong@email.com", password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
     res.failure?.must_equal true
-    res["result.contract.default"].errors.messages.inspect.must_equal "{:password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"New Password are not matching\"]}"
+    res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], :password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"The New Password is not matching\"]}"
   end
 
   it "only current_user can change password" do 
@@ -97,14 +97,14 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::ChangePassword.(
-        {id: user.id,
-        email: "password",
+        {email: user.email,
+        password: "password",
         new_password: "new_password",
         confirm_new_password: "new_password"},
         "current_user" => user2)
     end
 
-    op = User::ChangePassword.({id: user.id, password: "password", new_password: "new_password", confirm_new_password: "new_password"}, "current_user" => user)
+    op = User::ChangePassword.({email: user.email, password: "password", new_password: "new_password", confirm_new_password: "new_password"}, "current_user" => user)
     op.success?.must_equal true
 
     user_updated = User.find_by(email: user.email)
