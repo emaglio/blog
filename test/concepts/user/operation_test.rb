@@ -69,7 +69,8 @@ class UserOperationTest < MiniTest::Spec
     res = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     res.success?.must_equal true
 
-    User::ResetPassword.({email: res["model"].email})
+    new_password = -> { "NewPassword" }
+    Tyrant::ResetPassword.({email: res["model"].email}, "generator" => new_password, "via" => :test)
 
     user = User.find_by(email: res["model"].email)
 
@@ -86,7 +87,7 @@ class UserOperationTest < MiniTest::Spec
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     user.success?.must_equal true
 
-    res = User::ChangePassword.({email: "wrong@email.com", password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
+    res = Tyrant::ChangePassword.({email: "wrong@email.com", password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
     res.failure?.must_equal true
     res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], :password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"The New Password is not matching\"]}"
   end
@@ -96,7 +97,7 @@ class UserOperationTest < MiniTest::Spec
     user2.email.must_equal "test2@email.com"  
 
     assert_raises ApplicationController::NotAuthorizedError do
-      User::ChangePassword.(
+      Tyrant::ChangePassword.(
         {email: user.email,
         password: "password",
         new_password: "new_password",
@@ -104,7 +105,7 @@ class UserOperationTest < MiniTest::Spec
         "current_user" => user2)
     end
 
-    op = User::ChangePassword.({email: user.email, password: "password", new_password: "new_password", confirm_new_password: "new_password"}, "current_user" => user)
+    op = Tyrant::ChangePassword.({email: user.email, password: "password", new_password: "new_password", confirm_new_password: "new_password"}, "current_user" => user)
     op.success?.must_equal true
 
     user_updated = User.find_by(email: user.email)

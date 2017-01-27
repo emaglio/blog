@@ -23,8 +23,8 @@ module User::Contract
           User.where("email = ?", form.email).size == 0
         end
 
-        def email?(value)
-          ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(value).nil?
+        def email?
+          ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
         def must_be_equal?

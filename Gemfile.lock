@@ -10,6 +10,7 @@ PATH
   remote: /home/emamaglio/projects/tyrant
   specs:
     tyrant (0.0.3)
+      activerecord
       bcrypt
       disposable (>= 0.1.11)
       dry-validation
@@ -17,6 +18,7 @@ PATH
       pony
       reform (~> 2.0)
       reform-rails
+      sqlite3
       trailblazer (>= 2.0.1)
       warden (= 1.2.6)
 
