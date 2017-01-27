@@ -1,3 +1,6 @@
+require_dependency "tyrant/cell/reset_password"
+require_dependency "tyrant/cell/change_password"
+
 class UsersController < ApplicationController
   
   def show
@@ -26,6 +29,7 @@ class UsersController < ApplicationController
 
   def edit
     run User::Edit
+
     render User::Cell::Edit, result["model"]
   end
 
@@ -48,30 +52,31 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    run User::ResetPassword do 
+    run Tyrant::ResetPassword do 
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
-    render User::Cell::GetEmail, result["contract.default"]
+
+    render Tyrant::Cell::ResetPassword, result["contract.default"]
   end
 
   def get_email
-    run User::GetEmail
-    render User::Cell::GetEmail, result["contract.default"]
+    run Tyrant::GetEmail
+    render Tyrant::Cell::ResetPassword, result["contract.default"]
   end
 
   def get_new_password
-    run User::GetNewPassword
-    render User::Cell::ChangePassword, result["contract.default"]
+    run Tyrant::GetNewPassword
+    render Tyrant::Cell::ChangePassword, result["contract.default"]
   end
 
   def change_password
-    run User::ChangePassword do
+    run Tyrant::ChangePassword do
       flash[:alert] = "The new password has been saved"
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render User::Cell::ChangePassword, result["contract.default"]
+    render Tyrant::Cell::ChangePassword, result["contract.default"]
   end
 
   def block
