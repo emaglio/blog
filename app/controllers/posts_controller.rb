@@ -2,12 +2,12 @@ class PostsController < ApplicationController
 
   def show
     run Post::Show
-    render cell(Post::Cell::Show, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::Show, result["model"]
   end
   
   def index
     run Post::Index
-    render cell(Post::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::Index, result["model"]
   end
 
   def create
@@ -15,17 +15,17 @@ class PostsController < ApplicationController
       flash[:notice] = "#{result["model"].title} has been created"
       return redirect_to "/posts"
     end
-    render cell(Post::Cell::New, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::New, result["contract.default"]
   end
 
   def new
     run Post::New
-    render cell(Post::Cell::New, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::New, result["contract.default"]
   end
 
   def edit
     run Post::Edit
-    render cell(Post::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::Edit, result["model"]
   end
 
   def update
@@ -34,7 +34,7 @@ class PostsController < ApplicationController
       return redirect_to "/posts/#{result["model"].id}"
     end
 
-    render cell(Post::Cell::Edit, result["contract.default"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::Edit, result["contract.default"]
   end
 
   def destroy
@@ -43,17 +43,17 @@ class PostsController < ApplicationController
       return redirect_to "/posts"
     end
 
-    render cell(Post::Cell::Edit, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::Edit, result["model"]
   end
 
   def search
     run Post::Search
-    render cell(Post::Cell::Index, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::Index, result["model"]
   end
 
   def advanced_search
     run Post::AdvancedSearch
-    render cell(Post::Cell::AdvancedSearch, result["model"], context: { current_user: tyrant.current_user, flash: flash }, layout: Blog::Cell::Layout)
+    render Post::Cell::AdvancedSearch, result["model"]
   end
 
 end

@@ -16,6 +16,19 @@ class ApplicationController < ActionController::Base
     redirect_to posts_path
   end
 
+  
+  def render(cell_constant, model, options: {})
+    super(
+          html: cell(
+                cell_constant,
+                model,
+                { layout: Blog::Cell::Layout,
+                  context: {current_user: tyrant.current_user, flash: flash}
+                  }.merge(options))
+          )
+  end
+
+
 private
   def _run_options(options)
     options.merge("current_user" => tyrant.current_user )
