@@ -6,8 +6,10 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
-PATH
-  remote: /home/emamaglio/projects/tyrant
+GIT
+  remote: https://github.com/emaglio/tyrant.git
+  revision: de19e7a0b61d0b70adecedc9d2eaa084be6b8459
+  branch: to_TRB2
   specs:
     tyrant (0.0.3)
       activerecord
