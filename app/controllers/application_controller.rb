@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   class NotAuthorizedError < RuntimeError
   end
   
-  rescue_from ApplicationController::NotAuthorizedError do |exception|
+  rescue_from ApplicationController::NotAuthorizedError do
     flash[:alert] = "You are not authorized mate!"
     redirect_to posts_path
   end

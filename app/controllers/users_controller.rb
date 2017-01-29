@@ -1,6 +1,3 @@
-require_dependency "tyrant/cell/reset_password"
-require_dependency "tyrant/cell/change_password"
-
 class UsersController < ApplicationController
   
   def show
@@ -71,7 +68,7 @@ class UsersController < ApplicationController
   end
 
   def change_password
-    run Tyrant::ChangePassword do
+    run User::ChangePassword do
       flash[:alert] = "The new password has been saved"
       return redirect_to user_path(tyrant.current_user)
     end
