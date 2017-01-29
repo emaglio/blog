@@ -51,17 +51,17 @@ class UsersController < ApplicationController
     render User::Cell::Edit, result["contract.default"]
   end
 
+  def get_email
+    run Tyrant::GetEmail
+    render Tyrant::Cell::ResetPassword, result["contract.default"]
+  end
+
   def reset_password
     run Tyrant::ResetPassword do 
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
 
-    render Tyrant::Cell::ResetPassword, result["contract.default"]
-  end
-
-  def get_email
-    run Tyrant::GetEmail
     render Tyrant::Cell::ResetPassword, result["contract.default"]
   end
 
@@ -98,5 +98,6 @@ private
     end
     return name
   end
+
   
 end

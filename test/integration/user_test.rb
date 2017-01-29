@@ -111,6 +111,49 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "User not found"
   end
 
+  it "change password - not authorized" do 
+    log_in_as_user("my@email.com", "password")
+    user = User.find_by(email: "my@email.com")
+    click_link "Sign Out"
+
+    log_in_as_user("my2@email.com", "password")
+    user2 = User.find_by(email: "my2@email.com")
+
+    page.must_have_link "Hi, UserFirstname"
+
+    click_link "Hi, UserFirstname"
+
+    page.must_have_link "Change Password"
+
+    click_link "Change Password"
+
+    page.must_have_css "#email"
+    page.must_have_css "#password"
+    page.must_have_css "#new_password"
+    page.must_have_css "#confirm_new_password"
+
+    within("//form[@id='change_password']") do
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: "password"
+      fill_in 'New Password', with: "new_password"
+      fill_in 'Confirm New Password', with: "new_password"
+    end
+    click_button "Change Password"
+
+    page.must_have_content "You are not authorized mate!" #flash message
+    page.wont_have_content "The new password has been saved" #flash message
+
+    click_link "Sign Out"
+
+    visit "/sessions/new"
+
+    submit!("my@email.com", "new_password")
+    page.must_have_content "Wrong Password"
+    
+    submit!("my@email.com", "password")
+    page.must_have_link "Hi, UserFirstname"
+  end
+
   it "change password" do 
     log_in_as_user("my@email.com", "password")
     user = User.find_by(email: "my@email.com")

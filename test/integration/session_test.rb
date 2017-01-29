@@ -10,6 +10,7 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
     # page.must_have_content "must be filled"
     page.must_have_css "#email"
     page.must_have_css "#password"
+    page.must_have_content "must be filled"
     page.must_have_button "Sign In"
 
     submit!("wrong@email.com", "wrong")
@@ -18,6 +19,7 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
     page.must_have_css "#email"
     page.must_have_css "#password"
     page.must_have_button "Sign In"
+    page.must_have_content "User not found"
     page.current_path.must_equal sessions_path
   end
 
