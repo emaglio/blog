@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       post 'search'
       get 'advanced_search'
+      post 'approve'
     end
   end
   
