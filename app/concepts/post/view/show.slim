@@ -6,6 +6,12 @@
   .post-subtitle
     = body
 .row
+  - if current_user.email == "admin@email.com"
+     = form_tag controller: :posts, action: :approve  do
+      = hidden_field_tag :id, model.id
+      h6 = select_tag :status, options_for_select([ "Approved", "Declined", "Pending" ], model.status)
+      h5 = submit_tag "Update", data: {confirm: "Are you sure?"}
+.row
   .col-sm-3.text-center
     h6 = edit
   .col-sm-6.text-center

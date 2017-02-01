@@ -9,6 +9,7 @@ module Post::Contract
     property :author
     property :body
     property :user_id
+    property :status
 
     validation do
       configure do
