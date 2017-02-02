@@ -52,6 +52,10 @@ module Post::Cell
       end
     end
 
+    def admin?
+      current_user == nil ? false : current_user.email == "admin@email.com"
+    end
+
 
   end
 end

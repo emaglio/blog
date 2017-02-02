@@ -45,6 +45,10 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     visit "posts/new"
 
     new_post!("User Title", "User Subtitle", "User Body", "", true)
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been created"
     
     page.must_have_content "User Title has been created and it will publiched if it will be approved by the Administrator. Thank you!" #flash message
 
@@ -57,11 +61,74 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "UserFirstname"
     # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
     #user notification
-    Mail::TestMailer.deliveries.length.must_equal num_email+1
+    Mail::TestMailer.deliveries.length.must_equal num_email+2
     Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
-    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been created"
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Congratulation User Title has been published"
 
     Post.all.size.must_equal 2
+  end
+
+  it "show" do
+    visit "posts/new"
+
+    #create post without User as author
+    new_post!
+
+    page.must_have_content "No post"
+
+    #approve it to test the editing
+    approve_post!(::Post.last.id)
+
+    page.must_have_content "Title"
+    find('.main').click_link "Title"
+
+    page.must_have_content "Title"
+    page.must_have_content "Subtitle"
+    page.must_have_content "Body"
+    page.must_have_content "Author"
+    page.wont_have_link "Edit"
+    page.wont_have_link "Delete"
+    page.must_have_link "Back to posts list"
+
+    visit "sessions/new"
+
+    log_in_as_user
+
+    visit "posts/new"
+
+    new_post!("User Title", "User Subtitle", "User Body", "", true)
+
+    #approve it to test the editing
+    approve_post!(::Post.last.id)
+
+    page.must_have_content "User Title"
+    click_link "User Title"
+
+    page.must_have_content "User Title"
+    page.must_have_content "User Subtitle"
+    page.must_have_content "User Body"
+    page.must_have_content "UserFirstname"
+    page.must_have_link "Edit"
+    page.must_have_link "Delete"
+    page.must_have_link "Back to posts list"
+
+    click_link "Sign Out"
+
+    log_in_as_admin
+
+    click_link "User Title"
+
+    page.must_have_content "User Title"
+    page.must_have_content "User Subtitle"
+    page.must_have_content "User Body"
+    page.must_have_content "UserFirstname"
+    page.must_have_link "Edit"
+    page.must_have_link "Delete"
+    page.must_have_link "Back to posts list"
+
+    page.must_have_css "#status"
+    page.must_have_css "#message"
+    page.must_have_button "Update" 
   end
 
   it "edit (only owner and admin)" do

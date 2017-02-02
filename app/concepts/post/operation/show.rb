@@ -8,10 +8,14 @@ class Post::Show < Trailblazer::Operation
   failure ::Session::Lib::ThrowException
 
   def approved!(options, model:, current_user:, **)
-    if current_user == nil and current_user.email != "admin@email.com"
-      options["result.validate"] = (model.status == "Declined" or model.status == "Pending")  
-    else
+    if admin?(current_user)
       options["result.validate"] = true
+    else
+      options["result.validate"] = (model.status == "Approved")  
     end
+  end
+private
+  def admin?(current_user)
+    current_user == nil ? false : current_user.email == "admin@email.com"
   end
 end
