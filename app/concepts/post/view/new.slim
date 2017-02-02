@@ -2,7 +2,7 @@
   h1 New Post
 
   = trb_form_for(model, "/posts", method: :post, builder: :bootstrap4, id: :new_post) do |f|
-    = f.input :status, value: "pending", type: "hidden"
+    = f.input :status, value: "Pending", type: "hidden"
     .row
       .col-sm-12
         = f.input :title, placeholder: "Title"

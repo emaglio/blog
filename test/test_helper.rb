@@ -25,6 +25,10 @@ Cell::TestCase.class_eval do
 end
 
 Trailblazer::Test::Integration.class_eval do
+  def admin_for
+    User::Create.({email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin"})["model"] unless User.find_by(email: "admin@email.com") != nil
+  end
+
   # puts page.body
   def submit!(email, password)
     within("//form[@id='new_session']") do
@@ -57,10 +61,10 @@ Trailblazer::Test::Integration.class_eval do
   end
 
   def log_in_as_user(email = "my@email.com", password = "password")
-    user = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname")["model"] unless User.find_by(email: email) != nil
+    email = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname")["model"].email unless User.find_by(email: email) != nil
 
     visit "sessions/new"
-    submit!(user.email, "password")
+    submit!(email, "password")
   end
 
   def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
@@ -75,6 +79,17 @@ Trailblazer::Test::Integration.class_eval do
     click_button "Create Post"
   end
 
+  def approve_post!(post_id)
+    log_in_as_admin
+
+    visit "/posts/#{post_id}"
+    within("//form[@id='status_form']") do
+      select('Approved', :from => 'status')
+      click_button "Update"
+    end
+
+    click_link "Sign Out"
+  end
 end
 
 # to test that a new password "NewPassword" is actually saved 

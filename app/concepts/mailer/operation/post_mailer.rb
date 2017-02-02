@@ -34,12 +34,13 @@ module Notification
 
     def notify_user!(options, model:, type:, **)
       subjects = {
-        "create" => "TRB Blog Notification - #{model.title} has been published",
+        "create" => "TRB Blog Notification - #{model.title} has been created",
         "delete" => "TRB Blog Notification - #{model.title} has been deleted",
       }
 
       bodies = {
-        "create" => "Congratulation, your post has been published successfully. Thank you!",
+        "create" => "Congratulation, your post has been created successfully. Now the Administrator will assess it and decide to publish it or not.
+                    You will receive an email with some feedback. Thank you!",
         "delete" => "#{model.title} has been delete.",
       } 
 

@@ -7,7 +7,7 @@
     = body
 .row
   - if current_user.email == "admin@email.com"
-     = form_tag controller: :posts, action: :approve  do
+     = form_tag approve_posts_path, method: :post, id: "status_form"  do
       = hidden_field_tag :id, model.id
       h6 = select_tag :status, options_for_select([ "Approved", "Declined", "Pending" ], model.status)
       h5 = submit_tag "Update", data: {confirm: "Are you sure?"}
