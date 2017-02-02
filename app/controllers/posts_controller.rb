@@ -58,8 +58,8 @@ class PostsController < ApplicationController
 
   def approve
     run Post::UpdateStatus do |result|
-      flash[:alert] = "Post declined" if result["model"].status == "Declined"
-      flash[:notice] = "Post approved" if result["model"].status == "Approved"
+      flash[:alert] = "Post declined!" if result["model"].status == "Declined"
+      flash[:notice] = "Post approved!" if result["model"].status == "Approved"
       return redirect_to root_path
     end
     render Post::Cell::Show, result["model"]

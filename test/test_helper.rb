@@ -90,6 +90,18 @@ Trailblazer::Test::Integration.class_eval do
 
     click_link "Sign Out"
   end
+
+  def decline_post!(post_id)
+    log_in_as_admin
+
+    visit "/posts/#{post_id}"
+    within("//form[@id='status_form']") do
+      select('Declined', :from => 'status')
+      click_button "Update"
+    end
+
+    click_link "Sign Out"
+  end
 end
 
 # to test that a new password "NewPassword" is actually saved 

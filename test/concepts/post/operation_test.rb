@@ -20,7 +20,6 @@ class PostOperationTest < MiniTest::Spec
     result["result.contract.default"].errors.messages.inspect.must_equal "{:title=>[\"is missing\"], :subtitle=>[\"is missing\"], :author=>[\"is missing\"], :body=>[\"is missing\"]}"
   end
 
-
   it "only post owner and admin can modify post" do
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
     user2 = User::Create.({email: "user2@email.com", password: "password", confirm_password: "password"})["model"]
@@ -70,6 +69,28 @@ class PostOperationTest < MiniTest::Spec
     #successfully deleted by the admin
     result = Post::Delete.({id: post2["model"].id}, "current_user" => admin)
     result.success?.must_equal true
+  end
+
+  it "only admin can update status" do
+    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]  
+    post = Post::Create.({title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", status: "Pending", user_id: user.id})["model"]
+    post.status.must_equal "Pending"
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      Post::UpdateStatus.(
+        {id: user.id, status: "Approved"},
+        "current_user" => user
+        )
+    end
+    Post.find(post.id).status.must_equal "Pending"
+
+    res = Post::UpdateStatus.({id: post.id, status: "Approved"}, "current_user" => admin)
+    res.success?.must_equal true
+    Post.find(post.id).status.must_equal "Approved"
+
+    res = Post::UpdateStatus.({id: post.id, status: "Declined"}, "current_user" => admin)
+    res.success?.must_equal true
+    Post.find(post.id).status.must_equal "Declined"
   end
 
 end 

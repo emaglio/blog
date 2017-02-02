@@ -231,6 +231,54 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.wont_have_link "User Title"
   end
 
+  it "approve only admin" do
+    visit "posts/new"
+
+    new_post!
+    post1 = Post.last
+    #create post with User as author
+    log_in_as_user("user@email.com", "password")
+    click_link "New Post"
+    new_post!("User Title", "User Subtitle", "User Body", "", true)
+    post2 = Post.last
+
+
+    visit "posts"
+    #none of the Posts have been approved
+    page.must_have_content "No post"
+
+    log_in_as_admin
+    #admin can see all the Posts
+    page.must_have_content "Title"
+    page.must_have_content "User Title"
+
+    #approve the first post
+    visit "/posts/#{post1.id}"
+    within("//form[@id='status_form']") do
+      select('Approved', :from => 'status')
+      click_button "Update"
+    end
+
+    page.must_have_content "Post approved!" #flash message
+
+    #decline the second one
+    visit "/posts/#{post2.id}"
+    within("//form[@id='status_form']") do
+      select('Declined', :from => 'status')
+      click_button "Update"
+    end
+
+    page.must_have_content "Post declined!" #flash message
+
+    click_link "Sign Out"
+
+    log_in_as_user
+    visit "posts"
+
+    page.must_have_content "Title"
+    page.wont_have_content "User Title"
+  end
+
   it "search post" do
     visit "posts/new"
     new_post!("Post 1 search") 
