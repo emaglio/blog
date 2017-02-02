@@ -11,12 +11,23 @@ li
   - if admin?
     li
       = link_to "All Users", users_path
+    li.dropdown
+      a.dropdown-toggle data-toggle="dropdown" href="#"
+        | All Posts
+        span.caret
+      ul.dropdown-menu role="menu" 
+        li
+          a href="#"  Approved
+        li
+          a href="#"  Declined
+        li
+          a href="#"  Pending
 -else
   li
       = link_to "New User", new_user_path
   li
       = link_to "Sign In", new_session_path
 li
-  <a href="about.html">About</a>
+  <a href="#">About</a>
 li
-  <a href="contact.html">Contact</a>
+  <a href="#">Contact</a>
