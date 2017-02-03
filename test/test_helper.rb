@@ -63,7 +63,7 @@ Trailblazer::Test::Integration.class_eval do
   def log_in_as_user(email = "my@email.com", password = "password")
     email = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname")["model"].email unless User.find_by(email: email) != nil
 
-    visit "sessions/new"
+    visit "/sessions/new"
     submit!(email, "password")
   end
 
@@ -82,7 +82,7 @@ Trailblazer::Test::Integration.class_eval do
   def approve_post!(post_id)
     log_in_as_admin
 
-    visit "/posts/#{post_id}"
+    visit "posts/#{post_id}"
     within("//form[@id='status_form']") do
       select('Approved', :from => 'status')
       click_button "Update"

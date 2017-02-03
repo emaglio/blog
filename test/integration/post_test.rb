@@ -90,8 +90,6 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.wont_have_link "Delete"
     page.must_have_link "Back to posts list"
 
-    visit "sessions/new"
-
     log_in_as_user
 
     visit "posts/new"
@@ -100,9 +98,10 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     #approve it to test the editing
     approve_post!(::Post.last.id)
+    log_in_as_user
 
     page.must_have_content "User Title"
-    click_link "User Title"
+    find('.main').click_link "User Title"
 
     page.must_have_content "User Title"
     page.must_have_content "User Subtitle"
@@ -116,7 +115,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     log_in_as_admin
 
-    click_link "User Title"
+    find('.main').click_link "User Title"
 
     page.must_have_content "User Title"
     page.must_have_content "User Subtitle"
