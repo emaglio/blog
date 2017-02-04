@@ -40,13 +40,12 @@ module Notification
         "delete" => "TRB Blog Notification - #{model.title} has been deleted",
       }
 
-      admin_message = "Here the message from the Administrator: " + message unless message == "Message to #{model.author}...." 
+      admin_message = "Here the message from the Moderator: " + message unless message == "Message to #{model.author}...." 
 
       bodies = {
-        "create" => "Congratulation, your post has been created successfully. Now the Administrator will assess it and decide to publish it or not.
-                    You will receive an email with some feedback. Thank you!",
-        "Approved" => "Congratulation your post with title #{model.title} has been published. #{admin_message}. Thank you!",
-        "Declined" => "I'm sorry but yout post with title #{model.title} has been declined. #{admin_message}. Thank you anyway!",
+        "create" => "Congratulation, your post has been created successfully. Now the Moderator will assess it and decide to publish it or not. You will receive an email with some feedback. Thank you!",
+        "Approved" => "Congratulation your post with title #{model.title} has been published. #{admin_message} Thank you!",
+        "Declined" => "I'm sorry but yout post with title #{model.title} has been declined. #{admin_message} Thank you anyway!",
         "delete" => "#{model.title} has been delete.",
       } 
 

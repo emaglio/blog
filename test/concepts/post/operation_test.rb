@@ -84,11 +84,11 @@ class PostOperationTest < MiniTest::Spec
     end
     Post.find(post.id).status.must_equal "Pending"
 
-    res = Post::UpdateStatus.({id: post.id, status: "Approved"}, "current_user" => admin)
+    res = Post::UpdateStatus.({id: post.id, status: "Approved", message: "Admin message"}, "current_user" => admin)
     res.success?.must_equal true
     Post.find(post.id).status.must_equal "Approved"
 
-    res = Post::UpdateStatus.({id: post.id, status: "Declined"}, "current_user" => admin)
+    res = Post::UpdateStatus.({id: post.id, status: "Declined", message: "Admin message"}, "current_user" => admin)
     res.success?.must_equal true
     Post.find(post.id).status.must_equal "Declined"
   end

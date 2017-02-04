@@ -13,7 +13,6 @@ class Post::UpdateStatus < Trailblazer::Operation
   end
 
   def notify!(options, model:, params:, **)
-    
-    Notification::Post.({}, "post" => model, "message" => "params[:message]", "type" => "#{model.status}") unless model.status == "Pending"
+    Notification::Post.({}, "post" => model, "message" => params[:message], "type" => "#{model.status}") unless model.status == "Pending" and model.user_id == nil
   end
 end

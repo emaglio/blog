@@ -49,6 +49,8 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     Mail::TestMailer.deliveries.length.must_equal num_email+1
     Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
     Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been created"
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Congratulation, your post has been created successfully. Now the Moderator will assess it and decide to publish it or not. You will receive an email with some feedback. Thank you!" 
+
     
     page.must_have_content "User Title has been created and it will publiched if it will be approved by the Administrator. Thank you!" #flash message
 
@@ -307,6 +309,10 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     click_link "New Post"
     new_post!("User Title", "User Subtitle", "User Body", "", true)
     post2 = Post.last
+    log_in_as_user("user2@email.com", "password")
+    click_link "New Post"
+    new_post!("Post 2", "User Subtitle 2", "User Body 2", "", true)
+    post3 = Post.last
 
 
     visit "posts"
@@ -317,16 +323,21 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     #admin can see all the Posts
     page.must_have_content "Title"
     page.must_have_content "User Title"
+    page.must_have_content "Post 2"
 
+    num_email = Mail::TestMailer.deliveries.length
     #approve the first post
     visit "/posts/#{post1.id}"
     within("//form[@id='status_form']") do
       select('Approved', :from => 'status')
       click_button "Update"
     end
-
+    #no email becuase User owner doens't have an account
+    Mail::TestMailer.deliveries.length.must_equal num_email
+    
     page.must_have_content "Post approved!" #flash message
 
+    num_email = Mail::TestMailer.deliveries.length
     #decline the second one
     visit "/posts/#{post2.id}"
     within("//form[@id='status_form']") do
@@ -334,7 +345,37 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
       click_button "Update"
     end
 
+    Mail::TestMailer.deliveries.length.must_equal num_email + 1
+    Mail::TestMailer.deliveries.last.to.must_equal ["user@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Sorry but User Title has been declined"
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "I'm sorry but yout post with title User Title has been declined.  Thank you anyway!"
     page.must_have_content "Post declined!" #flash message
+    click_link "Sign Out"
+
+
+    log_in_as_user
+    visit "posts"
+
+    page.must_have_content "Title"
+    page.wont_have_content "User Title"
+    click_link "Sign Out"
+
+    log_in_as_admin
+    
+    num_email = Mail::TestMailer.deliveries.length
+    #approve the first post
+    visit "/posts/#{post3.id}"
+    within("//form[@id='status_form']") do
+      select('Approved', :from => 'status')
+      fill_in 'message', with: "Admin message"
+      click_button "Update"
+    end
+
+    Mail::TestMailer.deliveries.length.must_equal num_email + 1
+    Mail::TestMailer.deliveries.last.to.must_equal ["user2@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Congratulation Post 2 has been published"
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Congratulation your post with title Post 2 has been published. Here the message from the Moderator: Admin message Thank you!"
+    page.must_have_content "Post approved!" #flash message
 
     click_link "Sign Out"
 
@@ -343,6 +384,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     page.must_have_content "Title"
     page.wont_have_content "User Title"
+    page.must_have_content "Post 2"
   end
 
   it "search post" do
