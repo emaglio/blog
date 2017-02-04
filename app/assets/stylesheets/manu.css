@@ -35,3 +35,13 @@
   border-width: 2px;
   border-color: white;
 }
+
+.navbar-default .navbar-nav .dropdown-menu > .open > a, .navbar-default .navbar-nav .dropdown-menu > .open > a:hover, .navbar-default .navbar-nav .dropdown-menu > .open > a:focus {
+    background-color: #e7e7e7;
+    color: #555;
+}
+
+.dropdown-menu > .open > a{
+    background-color: #e7e7e7;
+    color: #555;
+}

@@ -15,13 +15,13 @@ li
         span.caret
       ul.dropdown-menu role="menu" 
         li
-          a href="#"  Approved (#{numApproved})
+          = link_to "Approved (#{numApproved})", root_path(status: "Approved")
         li
-          a href="#"  Declined (#{numDeclined})
+          = link_to "Declined (#{numDeclined})", root_path(status: "Declined")
         li
-          a href="#"  Pending (#{numPending})
+          = link_to "Pending (#{numPending})", root_path(status: "Pending")
   li
-    = link_to "My Posts", sign_out_sessions_path
+    = link_to "My Posts", root_path(owner: true)
   li
     = link_to "Sign Out", sign_out_sessions_path
 -else
@@ -29,7 +29,3 @@ li
       = link_to "New User", new_user_path
   li
       = link_to "Sign In", new_session_path
-li
-  <a href="#">About</a>
-li
-  <a href="#">Contact</a>

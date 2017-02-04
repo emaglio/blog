@@ -18,19 +18,27 @@ module Post::Cell
       return options[:context][:current_user]
     end
 
+    def admin?
+      current_user == nil ? false : current_user.email == "admin@email.com"
+    end
+
+    def owner?
+      current_user == nil ? false : current_user.id == model.user_id
+    end
+
+    def admim_or_owner?
+      admin? or owner?
+    end
+
     def edit
-      if current_user != nil
-        if current_user.id == model.user_id or current_user.email == "admin@email.com" #change in order to have policy
-          link_to "Edit", edit_post_path(model.id)
-        end
+      if admim_or_owner?
+        link_to "Edit", edit_post_path(model.id)
       end
     end
 
     def delete
-      if current_user != nil
-        if current_user.id == model.user_id or current_user.email == "admin@email.com" #change in order to have policy
-          link_to "Delete", post_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
-        end
+      if admim_or_owner?
+        link_to "Delete", post_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
       end
     end
 
@@ -47,14 +55,15 @@ module Post::Cell
     end
 
     def status
-      if current_user != nil and current_user.email == "admin@email.com"
-        model.status == "Approved" ? (link_to "Decline", post_approve_path(model.id)) : (link_to "Approve", post_approve_path(model.id))
-      end
+      statuses = {
+        "Approved" => "This post has been approved!",
+        "Declined" => "Unfortunately this post has not been approved",
+        "Pending" => "The status of this post is still pending",
+      }
+
+      statuses[model.status]
     end
 
-    def admin?
-      current_user == nil ? false : current_user.email == "admin@email.com"
-    end
 
 
   end
