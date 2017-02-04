@@ -6,8 +6,6 @@ li
 li
     = link_to "New Post", new_post_path
 - if signed_in?
-  li
-    = link_to "Sign Out", sign_out_sessions_path
   - if admin?
     li
       = link_to "All Users", users_path
@@ -17,11 +15,15 @@ li
         span.caret
       ul.dropdown-menu role="menu" 
         li
-          a href="#"  Approved
+          a href="#"  Approved (#{numApproved})
         li
-          a href="#"  Declined
+          a href="#"  Declined (#{numDeclined})
         li
-          a href="#"  Pending
+          a href="#"  Pending (#{numPending})
+  li
+    = link_to "My Posts", sign_out_sessions_path
+  li
+    = link_to "Sign Out", sign_out_sessions_path
 -else
   li
       = link_to "New User", new_user_path

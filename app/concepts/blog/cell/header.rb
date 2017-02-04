@@ -10,9 +10,11 @@ module Blog::Cell
     end
     
     def post
-      return Post.find(model.show_id) if show_post and post_exist?
+      return ::Post.find(model.show_id) if show_post and post_exist?
     end
     
+    #all decorations for the header in case the post is shown or
+    #any other page is shown
     def title
       if show_post and post_exist?
         return post.title
@@ -65,7 +67,7 @@ module Blog::Cell
     end
 
     def time
-      post.created_at if show_post and post_exist?
+      return post.created_at if show_post and post_exist?
     end
 
 
