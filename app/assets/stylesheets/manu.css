@@ -19,7 +19,7 @@
   background-color: #f2dede;
   border-color: #eed3d7;
   color: #b94a48;
-}
+} 
 
 .new{
   margin-left: 20px;
@@ -44,4 +44,18 @@
 .dropdown-menu > .open > a{
     background-color: #e7e7e7;
     color: #555;
+}
+
+.fa-times{
+  color: red;
+}
+
+.fa-check-circle-o{
+  color: green;
+} 
+
+.caption {
+  font-style: italic;
+  font-size: 20px;
+  text-align: center;
 }
