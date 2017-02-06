@@ -5,12 +5,12 @@ module Blog::Cell
       post_array = []
       #get the last 3 posts 
       # in case there are more than 3
-      if ::Post.all.size < 3
-        post_array = Post.all
+      if Post.where("status like ?", "Approved").size < 3
+        post_array = Post.where("status like ?", "Approved")
       else
         i = 1
         (1..3).each do
-          all_posts = ::Post.all
+          all_posts = Post.where("status like ?", "Approved")
           post_array << all_posts[-i]
           i += 1
         end
@@ -24,11 +24,7 @@ module Blog::Cell
     include MyPosts
 
     def show
-      if posts.size == 1
-        cell(Post, posts.first)
-      else
-        cell(Post, collection: posts)
-      end
+      posts.size == 1 ? cell(Post, posts.first) : cell(Post, collection: posts)
     end
   
     class Post < Trailblazer::Cell

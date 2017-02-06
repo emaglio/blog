@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
   def create
     run Post::Create do |result|
-      flash[:notice] = "#{result["model"].title} has been created"
+      flash[:notice] = "#{result["model"].title} has been created and it will publiched if it will be approved by the Administrator. Thank you!"
       return redirect_to "/posts"
     end
     render Post::Cell::New, result["contract.default"]
@@ -54,6 +54,15 @@ class PostsController < ApplicationController
   def advanced_search
     run Post::AdvancedSearch
     render Post::Cell::AdvancedSearch, result["model"]
+  end
+
+  def approve
+    run Post::UpdateStatus do |result|
+      flash[:alert] = "Post declined!" if result["model"].status == "Declined"
+      flash[:notice] = "Post approved!" if result["model"].status == "Approved"
+      return redirect_to root_path
+    end
+    render Post::Cell::Show, result["model"]
   end
 
 end

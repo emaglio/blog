@@ -11,14 +11,11 @@ module Blog::Cell
     end
 
     def show_post
-      path = request.path
-      if path[0..6] == "/posts/" and is_number?(path[-1])
-        return true
-      end
+      params["action"] == "show" and params["controller"] == "posts"
     end
 
     def show_id
-      return request.path[-1]
+      return params["id"]
     end
   end
 end

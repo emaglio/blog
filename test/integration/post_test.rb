@@ -2,6 +2,8 @@ require 'test_helper'
 
 class UsersIntegrationTest < Trailblazer::Test::Integration
 
+  let (:admin) { admin_for }
+
   it "create" do 
     visit "posts/new"
 
@@ -16,14 +18,20 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     page.must_have_content "must be filled"
 
+    #add current user here so the Welcome email is sent and
+    #I can test that the email is not sent if the post.user_id is nill
+    current_user = admin
     num_email = Mail::TestMailer.deliveries.length
     #create post without User as author
     new_post!
+    page.must_have_content "Title has been created and it will publiched if it will be approved by the Administrator. Thank you!" #flash message
+
+    #approve it to test the show
+    approve_post!(::Post.last.id)
 
     page.must_have_link "Title"
     page.must_have_link "Subtitle"
-    page.must_have_content "Author" 
-    page.must_have_content "Title has been created" #flash message
+    page.must_have_content "Author"
     #user notification
     Mail::TestMailer.deliveries.length.must_equal num_email
     
@@ -37,18 +45,91 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     visit "posts/new"
 
     new_post!("User Title", "User Subtitle", "User Body", "", true)
-
-    page.must_have_link "User Title"
-    page.must_have_link "User Subtitle"
-    page.must_have_link "UserFirstname" #as set in the test_helper
-    page.must_have_content "User Title has been created" #flash message
-    # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
     #user notification
     Mail::TestMailer.deliveries.length.must_equal num_email+1
     Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
-    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been published"
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been created"
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Congratulation, your post has been created successfully. Now the Moderator will assess it and decide to publish it or not. You will receive an email with some feedback. Thank you!" 
+
+    
+    page.must_have_content "User Title has been created and it will publiched if it will be approved by the Administrator. Thank you!" #flash message
+
+    #approve it to test the show
+    approve_post!(::Post.last.id)
+    log_in_as_user    
+
+    page.must_have_link "User Title"
+    page.must_have_link "User Subtitle"
+    page.must_have_link "UserFirstname"
+    # page.must_have_content (DateTime.now).strftime("%d %A, %Y").to_s
+    #user notification
+    Mail::TestMailer.deliveries.length.must_equal num_email+2
+    Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Congratulation User Title has been published"
 
     Post.all.size.must_equal 2
+  end
+
+  it "show" do
+    visit "posts/new"
+
+    #create post without User as author
+    new_post!
+
+    page.must_have_content "No post"
+
+    #approve it to test the editing
+    approve_post!(::Post.last.id)
+
+    page.must_have_content "Title"
+    find('.main').click_link "Title"
+
+    page.must_have_content "Title"
+    page.must_have_content "Subtitle"
+    page.must_have_content "Body"
+    page.must_have_content "Author"
+    page.wont_have_link "Edit"
+    page.wont_have_link "Delete"
+    page.must_have_link "Back to posts list"
+
+    log_in_as_user
+
+    visit "posts/new"
+
+    new_post!("User Title", "User Subtitle", "User Body", "", true)
+
+    #approve it to test the editing
+    approve_post!(::Post.last.id)
+    log_in_as_user
+
+    page.must_have_content "User Title"
+    find('.main').click_link "User Title"
+
+    page.must_have_content "User Title"
+    page.must_have_content "User Subtitle"
+    page.must_have_content "User Body"
+    page.must_have_content "UserFirstname"
+    page.must_have_link "Edit"
+    page.must_have_link "Delete"
+    page.must_have_link "Back to posts list"
+
+    click_link "Sign Out"
+
+    log_in_as_admin
+
+    find('.main').click_link "User Title"
+
+    page.must_have_content "User Title"
+    page.must_have_content "User Subtitle"
+    page.must_have_content "User Body"
+    page.must_have_content "UserFirstname"
+    page.must_have_link "Edit"
+    page.must_have_link "Delete"
+    page.must_have_link "Back to posts list"
+
+    page.must_have_css "#status"
+    page.must_have_css "#message"
+    page.must_have_button "Update" 
   end
 
   it "edit (only owner and admin)" do
@@ -56,11 +137,17 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
 
     #create post without User as author
     new_post!
+    #approve it to test the editing
+    approve_post!(::Post.last.id)
 
     #create post with User as author
     log_in_as_user("edit_user@email.com", "password")
     click_link "New Post"
     new_post!("User Title", "User Subtitle", "User Body", "", true)
+    #approve it to test the editing
+    approve_post!(::Post.last.id)
+    log_in_as_user("edit_user@email.com", "password")
+
     Post.all.size.must_equal 2
     not_user_post = Post.find_by(title: "Title")
     user_post = Post.find_by(title: "User Title")
@@ -142,13 +229,18 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
   it "delete (only owner and admin)" do 
     visit "posts/new"
 
-    #create post without User as author
     new_post!
+    #approve it to test the deleting
+    approve_post!(::Post.last.id)
 
     #create post with User as author
-    log_in_as_user("edit_user@email.com", "password")
+    log_in_as_user("delete_user@email.com", "password")
     click_link "New Post"
     new_post!("User Title", "User Subtitle", "User Body", "", true)
+    #approve it to test the deleting
+    approve_post!(::Post.last.id)
+    log_in_as_user("delete_user@email.com", "password")
+
     Post.all.size.must_equal 2
     not_user_post = Post.first
     user_post = Post.last
@@ -179,7 +271,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "Post deleted" #flash message
     #user notification
     Mail::TestMailer.deliveries.length.must_equal num_email+1
-    Mail::TestMailer.deliveries.last.to.must_equal ["edit_user@email.com"]
+    Mail::TestMailer.deliveries.last.to.must_equal ["delete_user@email.com"]
     Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - User Title has been deleted"
 
     Post.all.size.must_equal 1
@@ -207,12 +299,104 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.wont_have_link "User Title"
   end
 
+  it "approve only admin" do
+    visit "posts/new"
+
+    new_post!
+    post1 = Post.last
+    #create post with User as author
+    log_in_as_user("user@email.com", "password")
+    click_link "New Post"
+    new_post!("User Title", "User Subtitle", "User Body", "", true)
+    post2 = Post.last
+    log_in_as_user("user2@email.com", "password")
+    click_link "New Post"
+    new_post!("Post 2", "User Subtitle 2", "User Body 2", "", true)
+    post3 = Post.last
+
+
+    visit "posts"
+    #none of the Posts have been approved
+    page.must_have_content "No post"
+
+    log_in_as_admin
+    #admin can see all the Posts
+    page.must_have_content "Title"
+    page.must_have_content "User Title"
+    page.must_have_content "Post 2"
+
+    num_email = Mail::TestMailer.deliveries.length
+    #approve the first post
+    visit "/posts/#{post1.id}"
+    within("//form[@id='status_form']") do
+      select('Approved', :from => 'status')
+      click_button "Update"
+    end
+    #no email becuase User owner doens't have an account
+    Mail::TestMailer.deliveries.length.must_equal num_email
+    
+    page.must_have_content "Post approved!" #flash message
+
+    num_email = Mail::TestMailer.deliveries.length
+    #decline the second one
+    visit "/posts/#{post2.id}"
+    within("//form[@id='status_form']") do
+      select('Declined', :from => 'status')
+      click_button "Update"
+    end
+
+    Mail::TestMailer.deliveries.length.must_equal num_email + 1
+    Mail::TestMailer.deliveries.last.to.must_equal ["user@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Sorry but User Title has been declined"
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "I'm sorry but yout post with title User Title has been declined.  Thank you anyway!"
+    page.must_have_content "Post declined!" #flash message
+    click_link "Sign Out"
+
+
+    log_in_as_user
+    visit "posts"
+
+    page.must_have_content "Title"
+    page.wont_have_content "User Title"
+    click_link "Sign Out"
+
+    log_in_as_admin
+    
+    num_email = Mail::TestMailer.deliveries.length
+    #approve the first post
+    visit "/posts/#{post3.id}"
+    within("//form[@id='status_form']") do
+      select('Approved', :from => 'status')
+      fill_in 'message', with: "Admin message"
+      click_button "Update"
+    end
+
+    Mail::TestMailer.deliveries.length.must_equal num_email + 1
+    Mail::TestMailer.deliveries.last.to.must_equal ["user2@email.com"]
+    Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - Congratulation Post 2 has been published"
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Congratulation your post with title Post 2 has been published. Here the message from the Moderator: Admin message Thank you!"
+    page.must_have_content "Post approved!" #flash message
+
+    click_link "Sign Out"
+
+    log_in_as_user
+    visit "posts"
+
+    page.must_have_content "Title"
+    page.wont_have_content "User Title"
+    page.must_have_content "Post 2"
+  end
+
   it "search post" do
     visit "posts/new"
     new_post!("Post 1 search") 
+    #approve to test the searching
+    approve_post!(::Post.last.id)
 
     visit "posts/new"
     new_post!("Post 2 search")
+    #approve to test the searching
+    approve_post!(::Post.last.id)
 
     page.must_have_css "#keynote"
     page.must_have_button "Search" 
@@ -264,12 +448,18 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
   it "advanced search" do #needs to add the "when" option
     visit "posts/new"
     new_post!("Title 1", "Subtitle 1", "Body1", "User1", false)
+    #approve to test the searching  
+    approve_post!(::Post.last.id)
 
     visit "posts/new"
     new_post!("Title 2", "Subtitle 1", "Body2", "User1", false)
+    #approve to test the searching
+    approve_post!(::Post.last.id)
 
     visit "posts/new"
     new_post!("Title 3", "Subtitle 1", "Body2", "User2", false) 
+    #approve to test the searching
+    approve_post!(::Post.last.id)
 
     visit root_path
     page.must_have_link "Advanced" 
@@ -324,22 +514,30 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
   it "latest 3 posts" do
     visit "posts/new"
     new_post!("Title 1")
+    #approve to test the searching
+    approve_post!(::Post.last.id)
 
     find('.right-bar').must_have_link "Title 1"
 
     visit "posts/new"
     new_post!("Title 2")
+    #approve to test the searching
+    approve_post!(::Post.last.id)
     find('.right-bar').must_have_link "Title 1"
     find('.right-bar').must_have_link "Title 2"
 
     visit "posts/new"
     new_post!("Title 3")
+    #approve to test the searching
+    approve_post!(::Post.last.id)
     find('.right-bar').must_have_link "Title 1"
     find('.right-bar').must_have_link "Title 2"
     find('.right-bar').must_have_link "Title 3"
 
     visit "posts/new"
     new_post!("Title 4") 
+    #approve to test the searchin
+    approve_post!(::Post.last.id)
     find('.right-bar').must_have_link "Title 2"
     find('.right-bar').must_have_link "Title 3"
     find('.right-bar').must_have_link "Title 4"

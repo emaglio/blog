@@ -6,17 +6,26 @@ li
 li
     = link_to "New Post", new_post_path
 - if signed_in?
-  li
-    = link_to "Sign Out", sign_out_sessions_path
   - if admin?
     li
       = link_to "All Users", users_path
+    li.dropdown
+      a.dropdown-toggle data-toggle="dropdown" href="#"
+        | All Posts
+        span.caret
+      ul.dropdown-menu role="menu" 
+        li
+          = link_to "Approved (#{numApproved})", root_path(status: "Approved")
+        li
+          = link_to "Declined (#{numDeclined})", root_path(status: "Declined")
+        li
+          = link_to "Pending (#{numPending})", root_path(status: "Pending")
+  li
+    = link_to "My Posts", root_path(owner: true)
+  li
+    = link_to "Sign Out", sign_out_sessions_path
 -else
   li
       = link_to "New User", new_user_path
   li
       = link_to "Sign In", new_session_path
-li
-  <a href="about.html">About</a>
-li
-  <a href="contact.html">Contact</a>
