@@ -17,7 +17,7 @@ class PostOperationTest < MiniTest::Spec
   it "wrong input" do
     result = Post::Create.({})
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:title=>[\"is missing\"], :subtitle=>[\"is missing\"], :author=>[\"is missing\"], :body=>[\"is missing\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:title=>[\"must be filled\"], :subtitle=>[\"must be filled\"], :author=>[\"must be filled\"], :body=>[\"must be filled\"]}"
   end
 
   it "only post owner and admin can modify post" do

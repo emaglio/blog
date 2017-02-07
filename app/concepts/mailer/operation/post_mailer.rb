@@ -13,7 +13,7 @@ module Notification
 
     #if user doesn't exist no email notification
     def user_exist!(options, model:, **)
-      options["result.validate"] = (::User.where("id like ?", model.user_id).size == 1)
+      ::User.where("id like ?", model.user_id).size == 1
     end
 
     def email_options!(options, via: :test, **)

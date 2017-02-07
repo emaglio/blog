@@ -15,7 +15,7 @@ class UserOperationTest < MiniTest::Spec
   it "wrong input" do
     result = User::Create.({})
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"is missing\", \"Wrong format\"], :password=>[\"is missing\"], :confirm_password=>[\"is missing\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"must be filled\", \"Wrong format\"], :password=>[\"must be filled\"], :confirm_password=>[\"must be filled\"]}"
   end
 
   it "passwords not matching" do

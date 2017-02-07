@@ -9,9 +9,9 @@ class Post::Show < Trailblazer::Operation
 
   def approved!(options, model:, current_user:, **)
     if admin_or_owner?(current_user, model)
-      options["result.validate"] = true
+      true
     else
-      options["result.validate"] = (model.status == "Approved")  
+      model.status == "Approved"
     end
   end
 private
