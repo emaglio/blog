@@ -18,6 +18,12 @@ class PostOperationTest < MiniTest::Spec
     result = Post::Create.({})
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:title=>[\"must be filled\"], :subtitle=>[\"must be filled\"], :author=>[\"must be filled\"], :body=>[\"must be filled\"]}"
+    
+    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
+    post = Post::Create.({title: "Test", subtitle: "Subtitle", author: "Nick", body: "whatever", user_id: user.id})
+    post.success?.must_equal true
+    result = Post::Update.({id: post["model"].id, title: "", subtitle: "", body: ""}, "current_user" => user)
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:title=>[\"must be filled\"], :subtitle=>[\"must be filled\"], :body=>[\"must be filled\"]}"
   end
 
   it "only post owner and admin can modify post" do
