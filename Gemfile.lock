@@ -6,10 +6,17 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
-GIT
-  remote: https://github.com/emaglio/tyrant.git
-  revision: 6fbcb789154ad96922865da8ea8d6873a736a3b7
-  branch: to_TRB2
+PATH
+  remote: ../cells
+  specs:
+    cells (4.1.6)
+      declarative-builder (< 0.2.0)
+      declarative-option (< 0.2.0)
+      tilt (>= 1.4, < 3)
+      uber (< 0.2.0)
+
+PATH
+  remote: ../tyrant
   specs:
     tyrant (0.0.3)
       activerecord
@@ -21,7 +28,6 @@ GIT
       formular
       pony
       reform (~> 2.0)
-      reform-rails
       sqlite3
       trailblazer (>= 2.0.1)
       trailblazer-cells
@@ -89,11 +95,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    cells (4.1.6)
-      declarative-builder (< 0.2.0)
-      declarative-option (< 0.2.0)
-      tilt (>= 1.4, < 3)
-      uber (< 0.2.0)
     cells-rails (0.0.7)
       actionpack (>= 3.0)
       cells (>= 4.1.6, < 5.0.0)
@@ -308,6 +309,7 @@ DEPENDENCIES
   better_errors
   bootstrap-sass
   byebug
+  cells!
   cells-rails
   cells-slim
   coffee-rails (~> 4.1.0)
