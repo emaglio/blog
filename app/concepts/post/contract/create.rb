@@ -10,6 +10,18 @@ module Post::Contract
     property :body
     property :user_id
     property :status
+    property :content
+
+    collection :items, populate_if_empty: Item do
+      property :position
+      property :body
+      property :subtitle
+      property :type
+
+      validation do
+        required(:position).maybe(:int?)
+      end
+    end
 
     validation do
       configure do
