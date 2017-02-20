@@ -26,20 +26,12 @@ module Post::Cell
       current_user == nil ? false : current_user.id == model.user_id
     end
 
-    def admim_or_owner?
-      admin? or owner?
-    end
-
     def edit
-      if admim_or_owner?
-        link_to "Edit", edit_post_path(model.id)
-      end
+      link_to "Edit", edit_post_path(model.id) if admin? or owner?
     end
 
     def delete
-      if admim_or_owner?
-        link_to "Delete", post_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
-      end
+      link_to "Delete", post_path(model.id), method: :delete, data: {confirm: 'Are you sure?'} if admin? or owner?
     end
 
     def author
@@ -63,8 +55,5 @@ module Post::Cell
 
       statuses[model.status]
     end
-
-
-
   end
 end
