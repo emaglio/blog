@@ -10,7 +10,6 @@ module Session::Contract
     property :password, virtual: true
 
     validation do
-
       configure do
         option :form
         config.messages_file = 'config/error_messages.yml'
@@ -18,7 +17,7 @@ module Session::Contract
         # change this in order to have variable (@user) in order to have it available in the contract and
         # run just @model = contract.user instead of another find_by
         def user 
-          return User.find_by(email: form.email)
+          return ::User.find_by(email: form.email)
         end
 
         def user_exists?

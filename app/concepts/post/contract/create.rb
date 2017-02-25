@@ -12,7 +12,8 @@ module Post::Contract
     property :status
     property :content
 
-    collection :items, populate_if_empty: Item do
+    collection :items, prepopulator: :prepopulate_items!,
+                       populate_if_empty: ->(*) { Item.new } do
       property :position
       property :body
       property :subtitle
@@ -31,6 +32,14 @@ module Post::Contract
       required(:subtitle).filled
       required(:author).filled
       required(:body).filled
+    end
+  private
+    def prepopulate_items!(options)
+      if items == nil
+        self.items = [Item.new]
+      else
+        items << Item.new # full Twin::Collection API available.
+      end
     end
   end
 end

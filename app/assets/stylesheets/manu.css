@@ -59,3 +59,57 @@
   font-size: 20px;
   text-align: center;
 }
+
+.my-button {
+  /* 1 */
+  -webkit-appearance: none;
+  /* 2 */
+  margin: 0;
+  /* 3 */
+  border: none;
+  /* 4 */
+  overflow: visible;
+  /* 5 */
+  font: inherit;
+  color: #444;
+  /* 6 */
+  text-transform: none;
+  /* 7 */
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 12px;
+  background: #eee;
+  vertical-align: middle;
+  /* 8 */
+  line-height: 30px;
+  /* 9 */
+  min-height: 30px;
+  /* 10 */
+  font-size: 1rem;
+  /* 11 */
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.my-button:not(:disabled) {
+  cursor: pointer;
+}
+/*
+ * Modifier: `uk-button-success`
+ */
+.my-button-success {
+  background-color: #8cc14c;
+  color: #fff;
+}
+/* Hover */
+.my-button-success:hover,
+.my-button-success:focus {
+  background-color: #8ec73b;
+  color: #fff;
+}
+/* Active */
+.my-button-success:active,
+.my-button-success.my-active {
+  background-color: #72ae41;
+  color: #fff;
+}

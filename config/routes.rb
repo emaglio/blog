@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       post 'approve'
     end
   end
+
+  resources :items
   
   resources :users do
     collection do

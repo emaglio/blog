@@ -10,7 +10,11 @@ class Post::Create < Trailblazer::Operation
   def update_items!(options, model:, **)
     model[:content] = []
     for i in 0..(options["contract.default"].items.size)-1 do 
-      model[:content] << options["contract.default"].items[i].model
+      if options["contract.default"].items[i].model.subtitle != nil or options["contract.default"].items[i].model.body != nil
+        model[:content] << options["contract.default"].items[i].model if options["contract.default"].items[i].model.subtitle != nil 
+      else
+        options["contract.default"].items[i].model.destroy
+      end
     end
     model.save
   end
