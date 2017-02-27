@@ -14,5 +14,9 @@ module Post::Cell
       current_user.firstname.blank? ? current_user.email : current_user.firstname
     end
 
+    def append
+      %{ $("#next").replaceWith("#{j(show)}") }
+    end
+
   end
 end

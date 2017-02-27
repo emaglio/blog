@@ -13,12 +13,17 @@
       .col-sm-12
         = f.textarea :body, placeholder: "What do you wanna say?"
     .row
-      .col-sm-6
-        a.my-button.my-button-success class = "popup" onclick="addSubtitle()"
-          h6 Add Subtitle
-      .col-sm-6
-        a.my-button.my-button-success class = "popup" onclick="addBody()"
-          h6 Add Body
+      .next
+        .col-sm-6
+          .my-button.my-button-success
+            h6 = link_to( "Add Subtitle", new_item_path(type: "subtitle"), :remote => true)
+
+        .col-sm-6
+          a.my-button.my-button-success class = "popup" onclick="addBody()"
+            h6 Add Body
+    .row
+      .col-sm-12
+        = cell("post/cell/row", nil, nested_form: f, type: :subtitle)
     .row
       .col-sm-12
         - if current_user != nil
@@ -30,12 +35,3 @@
       .col-sm-12  
         .row
           = f.submit(value: "Create Post")
-
-javascript:
-  function addSubtitle() {
-    return cell("post/cell/row", nil, nested_form: f, type: :subtitle)
-  }
-
-  function addBody() {
-    var type = alert("Body")
-  }
