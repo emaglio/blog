@@ -9,10 +9,8 @@ module Session::Contract
     property :email,    virtual: true
     property :password, virtual: true
 
-    validation do
-
+    validation with: { form: true } do
       configure do
-        option :form
         config.messages_file = 'config/error_messages.yml'
 
         # change this in order to have variable (@user) in order to have it available in the contract and

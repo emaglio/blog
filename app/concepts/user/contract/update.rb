@@ -12,9 +12,8 @@ module User::Contract
     property :age
     property :id
 
-    validation do
+    validation with: { form: true } do
       configure do
-        option :form
         config.messages_file = 'config/error_messages.yml'
         
         def unique_email?
