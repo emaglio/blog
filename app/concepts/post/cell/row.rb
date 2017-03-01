@@ -19,11 +19,6 @@ module Post::Cell
 
       labels[options[:type]]
     end
-
-    def append
-      %{ $("#next").replaceWith("#{j(show)}") }
-    end
-
   end
 
 end

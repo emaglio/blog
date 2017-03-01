@@ -13,17 +13,12 @@
       .col-sm-12
         = f.textarea :body, placeholder: "What do you wanna say?"
     .row
-      .next
-        .col-sm-6
-          .my-button.my-button-success
-            h6 = link_to( "Add Subtitle", new_item_path(type: "subtitle"), :remote => true)
-
-        .col-sm-6
-          a.my-button.my-button-success class = "popup" onclick="addBody()"
-            h6 Add Body
-    .row
-      .col-sm-12
-        = cell("post/cell/row", nil, nested_form: f, type: :subtitle)
+      .col-sm-6 id = "next"
+        .my-button.my-button-success
+          h6 = link_to( "Add Subtitle", new_item_path(type: "subtitle"), :remote => true)
+      .col-sm-6
+        a.my-button.my-button-success class = "popup" onclick="addBody()"
+          h6 Add Body
     .row
       .col-sm-12
         - if current_user != nil

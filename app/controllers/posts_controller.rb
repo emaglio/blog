@@ -21,7 +21,7 @@ class PostsController < ApplicationController
   def new
     run Post::New
     result["contract.default"].prepopulate!
-    render Post::Cell::New, result["contract.default"]
+    render(cell(Post::Cell::New, result["contract.default"],{ layout: Blog::Cell::Layout, context: {current_user: tyrant.current_user, flash: flash}}))
   end
 
   def edit
