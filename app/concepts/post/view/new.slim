@@ -13,6 +13,8 @@
       .col-sm-12
         = f.textarea :body, placeholder: "What do you wanna say?"
     .row
+      .col-sm-12
+      = f.collection :items do |item|
       .col-sm-6 id = "next"
         .my-button.my-button-success
           h6 = link_to( "Add Subtitle", new_item_path(type: "subtitle"), :remote => true)

@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
     run Item::New
 
     render js:
-      concept("post/cell/new", result["contract.default"]).(:append)
+      concept("post/cell/row", result["contract.default"]).(:append)
   end
 
 end
