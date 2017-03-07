@@ -14,12 +14,14 @@
         = f.textarea :body, placeholder: "What do you wanna say?"
     .row
       .col-sm-12
-      = f.collection :items do |item|
+        = f.field_for :item, collection do |item|
+          = item.input :type, placeholder: "label" 
+    .row
       .col-sm-6 id = "next"
         .my-button.my-button-success
           h6 = link_to( "Add Subtitle", new_item_path(type: "subtitle"), :remote => true)
       .col-sm-6
-        a.my-button.my-button-success class = "popup" onclick="addBody()"
+        a.my-button.my-button-success onclick="addRow();"
           h6 Add Body
     .row
       .col-sm-12
@@ -32,3 +34,8 @@
       .col-sm-12  
         .row
           = f.submit(value: "Create Post")
+
+javascript:
+  function addRow(form){
+    
+  }

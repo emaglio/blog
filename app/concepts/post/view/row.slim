@@ -1,3 +1,2 @@
-= item.input type, placeholder: label
-
-/ look at this: https://github.com/trailblazer/reform/wiki/How-to:-create-dynamic-nested-forms-like-Cocoon-gem-using-Cells
+/= f.collection :items do |item|
+/  = item.input :type, placeholder: "label"
